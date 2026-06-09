@@ -1,0 +1,23 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { HUBS } from "@config/site";
+---
+
+<BaseLayout title="Page not found" description="That page could not be found." noindex={true}>
+  <section class="editorial-container py-20 text-center">
+    <p class="editorial-kicker">404</p>
+    <h1 class="mt-2 text-4xl font-bold tracking-tight text-ink-900 md:text-5xl">This page cooled off</h1>
+    <p class="mx-auto mt-4 max-w-xl text-lg text-ink-700">
+      We could not find that page. It may have moved, or the link may be wrong. Try one of these
+      instead:
+    </p>
+    <div class="mx-auto mt-8 flex max-w-2xl flex-wrap justify-center gap-3">
+      <a href="/" class="page-chip no-underline">Home</a>
+      <a href="/home-sauna/" class="page-chip no-underline">Best home sauna</a>
+      <a href="/tools/sauna-cost-calculator/" class="page-chip no-underline">Cost calculator</a>
+      {HUBS.map((h) => (
+        <a href={h.href} class="page-chip no-underline">{h.title}</a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

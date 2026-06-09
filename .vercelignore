@@ -1,0 +1,8 @@
+# Keep root-level research and SEO source material out of the deployment.
+# Anchored to the repo root so src/data and src/research-style folders are
+# never stripped.
+/data/
+/research/
+/briefs/
+*.md
+!README.md

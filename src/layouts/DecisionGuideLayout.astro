@@ -1,0 +1,279 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import HubHero from "@components/HubHero.astro";
+import Breadcrumbs from "@components/Breadcrumbs.astro";
+import FAQ from "@components/FAQ.astro";
+import AuthorBio from "@components/AuthorBio.astro";
+import LastUpdated from "@components/LastUpdated.astro";
+import { HUBS, type HubSlug } from "@config/site";
+import {
+  absUrl,
+  articleNode,
+  breadcrumbNode,
+  buildGraph,
+  faqNode,
+  itemListNode,
+  organizationNode,
+  websiteNode,
+} from "@components/schema/helpers";
+
+export interface Props {
+  title: string;
+  description: string;
+  hubSlug: HubSlug;
+  heroSubtitle: string;
+  pubDate: Date;
+  updatedDate: Date;
+  lastReviewed: Date;
+  methodologyNote: string;
+  sources: { name: string; url: string; accessed: Date; note?: string }[];
+  faq?: { q: string; a: string }[];
+  ogImage?: string;
+  image?: string;
+  imageAlt?: string;
+  /** Optional hero CTAs / further-reading bubbles. */
+  heroGuides?: {
+    heading?: string;
+    items: { award: string; title: string; href: string }[];
+  };
+}
+
+const {
+  title,
+  description,
+  hubSlug,
+  heroSubtitle,
+  pubDate,
+  updatedDate,
+  lastReviewed,
+  methodologyNote,
+  sources,
+  faq = [],
+  ogImage,
+  image,
+  imageAlt,
+  heroGuides,
+} = Astro.props;
+
+const hub = HUBS.find((h) => h.slug === hubSlug);
+if (!hub) throw new Error(`Unknown hub slug: ${hubSlug}`);
+
+const pageUrl = absUrl(Astro.url.pathname);
+// When the page IS the category landing (e.g. /home-sauna/ is both the Home
+// Saunas hub and the best-home-sauna buyer guide), collapse the breadcrumb so
+// the trail never points a crumb at the current URL.
+const isHubPage = hub.href === Astro.url.pathname;
+
+const crumbItems = isHubPage
+  ? [
+      { label: "Home", url: "/" },
+      { label: title, url: Astro.url.pathname },
+    ]
+  : [
+      { label: "Home", url: "/" },
+      { label: hub.title, url: hub.href },
+      { label: title, url: Astro.url.pathname },
+    ];
+
+// Buyer guides intentionally restrict structured data to:
+// Article, BreadcrumbList, FAQPage, ItemList (sources rendered as a list).
+// No Review / Product / AggregateRating until first-hand testing happens.
+const nodes: object[] = [
+  organizationNode(),
+  websiteNode(),
+  articleNode({
+    url: pageUrl,
+    headline: title,
+    description,
+    datePublished: pubDate.toISOString(),
+    dateModified: updatedDate.toISOString(),
+    image: ogImage ?? image,
+  }),
+  breadcrumbNode(crumbItems),
+  itemListNode({
+    name: `Sources cited in ${title}`,
+    items: sources.map((s) => ({ name: s.name, url: s.url })),
+  }),
+];
+if (faq.length > 0) nodes.push(faqNode(faq));
+
+const jsonLd = buildGraph(nodes);
+
+const reviewedFmt = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  year: "numeric",
+}).format(lastReviewed);
+
+const dateFmt = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+});
+
+const breadcrumbCrumbs = crumbItems.map((c, i) =>
+  i < crumbItems.length - 1 ? { label: c.label, href: c.url } : { label: c.label }
+);
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  type="article"
+  ogImage={ogImage ?? image}
+  jsonLd={jsonLd}
+>
+  <HubHero
+    eyebrow={`${hub.title} · Buyer guide`}
+    title={title}
+    subtitle={heroSubtitle}
+    image={image}
+    imageAlt={imageAlt}
+    heroGuides={heroGuides}
+  />
+
+  <article class="editorial-container grid gap-10 py-10 lg:grid-cols-[minmax(0,44rem)_minmax(280px,320px)] lg:items-stretch">
+    <div>
+      <Breadcrumbs items={breadcrumbCrumbs} />
+
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="award-badge award-badge--brand">Buyer guide</span>
+        <LastUpdated date={updatedDate} />
+        <span class="text-xs text-ink-500">Reviewed {dateFmt.format(lastReviewed)}</span>
+      </div>
+
+      <div class="prose prose-lg mt-8 max-w-none">
+        <slot />
+      </div>
+
+      {faq.length > 0 && <FAQ items={faq} />}
+
+      <section
+        id="how-we-wrote-this"
+        class="mt-10 scroll-mt-24 rounded-2xl border border-brand-200 bg-brand-50/50 p-5 md:p-6"
+        aria-labelledby="how-we-wrote-this-heading"
+      >
+        <p class="editorial-kicker">How we wrote this</p>
+        <h2 id="how-we-wrote-this-heading" class="mt-1 text-lg font-semibold text-ink-900">
+          A synthesis guide, not a hands-on review
+        </h2>
+        <p class="mt-3 text-[15px] leading-7 text-ink-800">{methodologyNote}</p>
+        <p class="mt-3 text-sm text-ink-700">
+          We have not personally tested every product mentioned. Where we describe a product we are
+          synthesizing manufacturer specifications, independent expert reviews, building-code and
+          electrical references, and verified owner feedback. Health information is kept conservative
+          and sourced. <a href="/methodology/" class="underline hover:text-brand-700">Read our full methodology</a>.
+        </p>
+      </section>
+
+      <section id="references" class="mt-10 scroll-mt-24 border-t border-ink-100 pt-8" aria-labelledby="references-heading">
+        <h2 id="references-heading" class="text-2xl font-semibold tracking-tight text-ink-900">
+          References
+        </h2>
+        <p class="mt-2 text-sm text-ink-600">
+          Sources synthesized to write this guide. Manufacturer pages cite specifications;
+          independent publications, clinics, and code references cite real-world performance,
+          safety, and evidence.
+        </p>
+        <ol class="mt-5 space-y-4">
+          {sources.map((source, i) => (
+            <li class="rounded-xl border border-ink-100 bg-white p-4">
+              <div class="flex flex-wrap items-baseline gap-x-3">
+                <span class="text-xs font-semibold tracking-wide text-ink-500">
+                  [{i + 1}]
+                </span>
+                <a
+                  href={source.url}
+                  class="text-[15px] font-semibold text-ink-900 no-underline hover:text-brand-700"
+                  rel="noopener nofollow"
+                  target="_blank"
+                >
+                  {source.name}
+                </a>
+                <span class="text-xs text-ink-500">accessed {dateFmt.format(source.accessed)}</span>
+              </div>
+              {source.note && (
+                <p class="mt-1 text-sm text-ink-700">{source.note}</p>
+              )}
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <p class="decision-disclosure-band decision-disclosure-band--foot">
+        <strong>Disclosure:</strong> Some links on this page are affiliate links. Commissions never change our recommendations.
+        <a class="decision-disclosure-band__link" href="/disclosure/">Read the full disclosure</a>.
+      </p>
+    </div>
+
+    <aside class="space-y-4 lg:sticky lg:top-24 lg:self-start">
+      <a
+        href="/tools/sauna-cost-calculator/"
+        class="flex items-center justify-between gap-2 rounded-2xl bg-brand-700 px-4 py-3 text-sm font-semibold text-white no-underline shadow-sm hover:bg-brand-800"
+      >
+        <span>Estimate your build cost</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+
+      <div class="rounded-2xl border border-ink-100 bg-white p-4 shadow-sm">
+        <h2 class="text-sm font-semibold text-ink-900">Guide snapshot</h2>
+        <dl class="mt-3 grid grid-cols-2 gap-2">
+          <div class="metric-card">
+            <dt><span>Category</span></dt>
+            <dd>
+              <strong>
+                <a href={hub.href} class="text-ink-900 no-underline hover:text-brand-700">
+                  {hub.title}
+                </a>
+              </strong>
+            </dd>
+          </div>
+          <div class="metric-card">
+            <dt><span>Type</span></dt>
+            <dd><strong>Buyer guide</strong></dd>
+          </div>
+          <div class="metric-card">
+            <dt><span>Sources</span></dt>
+            <dd><strong>{sources.length}</strong></dd>
+          </div>
+          <div class="metric-card">
+            <dt><span>Reviewed</span></dt>
+            <dd><strong>{reviewedFmt}</strong></dd>
+          </div>
+        </dl>
+        <p class="mt-3 border-t border-ink-100 pt-3 text-xs leading-relaxed text-ink-600">
+          Written from specs, independent reviews, and code references - not first-hand testing. No star ratings; health claims kept conservative.
+          <a href="/methodology/" class="font-medium text-brand-700 no-underline hover:text-brand-800">How we research</a>.
+        </p>
+      </div>
+
+      <AuthorBio compact />
+    </aside>
+  </article>
+
+  <style is:global>
+    .decision-disclosure-band--foot {
+      margin: 2rem 0 0 !important;
+    }
+    .decision-disclosure-band {
+      margin: 0 0 1rem;
+      padding: 0.6rem 0.95rem;
+      border-left: 3px solid var(--color-brand-300);
+      background: var(--color-brand-50);
+      color: var(--color-brand-900);
+      border-radius: 0.5rem;
+      font-size: 0.85rem;
+      line-height: 1.55;
+    }
+    .decision-disclosure-band strong {
+      margin-right: 0.25rem;
+    }
+    .decision-disclosure-band__link {
+      margin-left: 0.25rem;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .decision-disclosure-band__link:hover {
+      color: var(--color-brand-700);
+    }
+  </style>
+</BaseLayout>

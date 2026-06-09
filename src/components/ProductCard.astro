@@ -1,0 +1,386 @@
+---
+import AffiliateButton from "./AffiliateButton.astro";
+import SaunaFormatIcon, { type SaunaVariant } from "./SaunaFormatIcon.astro";
+
+export interface Props {
+  /** Anchor id for the quick-comparison table to jump to. */
+  id: string;
+  /** Product / category name. */
+  name: string;
+  /** Short label like "Best infrared sauna for most homes". */
+  bestFor: string;
+  /** Sauna illustration variant - keeps cards filled with no hot-linked photos. */
+  saunaIcon?: SaunaVariant;
+  /** Product photo. Falls back to the sauna illustration. */
+  image?: string;
+  imageAlt?: string;
+  /** Format display label, e.g. "Infrared cabin, seats 1-2". */
+  formatLabel: string;
+  /** Approximate price range in USD shown next to the name. */
+  price: string;
+  /** Quick spec rows shown above the prose. */
+  specs: { label: string; value: string }[];
+  /** Editorial summary, plain text paragraphs. */
+  summary: string[];
+  pros: string[];
+  cons: string[];
+  /** Optional one-line "skip if" warning. */
+  skipIf?: string;
+  /** Amazon search query used for the affiliate button URL. */
+  amazonSearch?: string;
+  /** Optional manufacturer page (rendered as a small secondary link, not affiliate). */
+  manufacturerUrl?: string;
+}
+
+const {
+  id,
+  name,
+  bestFor,
+  saunaIcon,
+  image,
+  imageAlt,
+  formatLabel,
+  price,
+  specs,
+  summary,
+  pros,
+  cons,
+  skipIf,
+  amazonSearch,
+  manufacturerUrl,
+} = Astro.props;
+---
+
+<article id={id} class="product-card not-prose scroll-mt-28">
+  <header class="product-card__head">
+    <div class="product-card__head-text">
+      <p class="product-card__best-for">{bestFor}</p>
+      <h3 class="product-card__name">{name}</h3>
+      <p class="product-card__meta">
+        <span>{formatLabel}</span>
+        <span aria-hidden="true">&middot;</span>
+        <span>{price}</span>
+      </p>
+    </div>
+    <div class="product-card__icon" aria-hidden={image ? undefined : "true"}>
+      {image ? (
+        <figure class="product-card__photo">
+          <img
+            src={image}
+            alt={imageAlt ?? `Illustrative ${formatLabel.toLowerCase()}`}
+            loading="lazy"
+            decoding="async"
+            width="640"
+            height="480"
+          />
+          <figcaption class="product-card__illustrative">Illustrative</figcaption>
+        </figure>
+      ) : saunaIcon ? (
+        <SaunaFormatIcon variant={saunaIcon} width={180} />
+      ) : null}
+    </div>
+  </header>
+
+  <ul class="product-card__specs">
+    {
+      specs.map((s) => (
+        <li>
+          <span class="product-card__spec-label">{s.label}</span>
+          <span class="product-card__spec-value">{s.value}</span>
+        </li>
+      ))
+    }
+  </ul>
+
+  <div class="product-card__body">
+    {summary.map((paragraph) => <p>{paragraph}</p>)}
+  </div>
+
+  <div class="product-card__pc-grid">
+    <div>
+      <p class="product-card__pc-heading product-card__pc-heading--pros">What works</p>
+      <ul class="product-card__pc-list">
+        {pros.map((p) => <li>{p}</li>)}
+      </ul>
+    </div>
+    <div>
+      <p class="product-card__pc-heading product-card__pc-heading--cons">What to weigh</p>
+      <ul class="product-card__pc-list">
+        {cons.map((c) => <li>{c}</li>)}
+      </ul>
+    </div>
+  </div>
+
+  {
+    skipIf && (
+      <p class="product-card__skip-if">
+        <strong>Skip if:</strong> {skipIf}
+      </p>
+    )
+  }
+
+  {
+    (amazonSearch || manufacturerUrl) && (
+      <div class="product-card__cta">
+        {amazonSearch && (
+          <AffiliateButton amazonSearch={amazonSearch} productName={name} variant="primary" />
+        )}
+        {manufacturerUrl && (
+          <a
+            href={manufacturerUrl}
+            rel="nofollow noopener"
+            target="_blank"
+            class="product-card__mfg-link"
+            aria-label={`Open the official ${name} product page (opens in a new tab)`}
+          >
+            See the maker's spec sheet <span aria-hidden="true">&rarr;</span>
+          </a>
+        )}
+      </div>
+    )
+  }
+</article>
+
+<style>
+  .product-card {
+    border: 1px solid var(--color-ink-100);
+    border-radius: 1.5rem;
+    background: white;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    box-shadow:
+      0 18px 36px rgba(40, 25, 16, 0.05),
+      0 1px 2px rgba(40, 25, 16, 0.04);
+  }
+
+  .product-card__head {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .product-card__head-text {
+    min-width: 0;
+  }
+
+  @media (min-width: 600px) {
+    .product-card__head {
+      grid-template-columns: 1fr auto;
+    }
+    .product-card__icon {
+      max-width: 45%;
+    }
+    .product-card__icon svg,
+    .product-card__icon img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .product-card__best-for {
+    color: var(--color-brand-700);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .product-card__name {
+    margin: 0.25rem 0 0.35rem;
+    color: var(--color-ink-900);
+    font-size: 1.5rem;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    font-weight: 700;
+  }
+
+  .product-card__meta {
+    margin: 0;
+    color: var(--color-ink-600);
+    font-size: 0.88rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .product-card__icon {
+    background: var(--color-sand-50);
+    border: 1px solid var(--color-ink-100);
+    border-radius: 1rem;
+    padding: 0.5rem 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 110px;
+  }
+
+  .product-card__icon img {
+    max-width: 240px;
+    max-height: 160px;
+    object-fit: cover;
+    border-radius: 0.6rem;
+    display: block;
+  }
+
+  .product-card__photo {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .product-card__illustrative {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-ink-500);
+  }
+
+  @media (min-width: 600px) {
+    .product-card__photo,
+    .product-card__photo img {
+      width: 100%;
+    }
+    .product-card__icon img {
+      max-width: 100%;
+      max-height: none;
+    }
+  }
+
+  .product-card__specs {
+    list-style: none;
+    margin: 1.25rem 0 0;
+    padding: 0.75rem 1rem;
+    display: grid;
+    gap: 0.5rem 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    background: var(--color-sand-50);
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-ink-100);
+  }
+
+  .product-card__specs li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    font-size: 0.85rem;
+    line-height: 1.3;
+  }
+
+  .product-card__spec-label {
+    color: var(--color-ink-500);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .product-card__spec-value {
+    color: var(--color-ink-900);
+    font-weight: 600;
+  }
+
+  .product-card__body {
+    margin-top: 1.25rem;
+    color: var(--color-ink-800);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .product-card__body p {
+    margin: 0.85rem 0;
+  }
+
+  .product-card__pc-grid {
+    margin-top: 1.25rem;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 600px) {
+    .product-card__pc-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .product-card__pc-heading {
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin: 0 0 0.5rem;
+  }
+
+  .product-card__pc-heading--pros {
+    color: var(--color-brand-700);
+  }
+
+  .product-card__pc-heading--cons {
+    color: var(--color-ember-700);
+  }
+
+  .product-card__pc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .product-card__pc-list li {
+    position: relative;
+    padding-left: 1.1rem;
+    color: var(--color-ink-800);
+    font-size: 0.92rem;
+    line-height: 1.45;
+  }
+
+  .product-card__pc-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 999px;
+    background: var(--color-brand-300);
+  }
+
+  .product-card__pc-heading--cons + .product-card__pc-list li::before {
+    background: var(--color-ember-400);
+  }
+
+  .product-card__skip-if {
+    margin: 1.25rem 0 0;
+    padding: 0.75rem 1rem;
+    background: #fffaeb;
+    color: #78350f;
+    border-left: 3px solid #fde68a;
+    border-radius: 0.5rem;
+    font-size: 0.92rem;
+  }
+
+  .product-card__cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.85rem 1.25rem;
+    margin-top: 1.5rem;
+  }
+
+  .product-card__mfg-link {
+    color: var(--color-ink-700);
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .product-card__mfg-link:hover {
+    color: var(--color-brand-700);
+  }
+</style>

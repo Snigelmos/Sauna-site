@@ -1,0 +1,7 @@
+topic,source_file,monthly_volume,kd_avg,cpc_avg,serp_openness,verdict,notes
+best red light therapy panel,discoveries-sauna-expanded.csv,2900,0.0,4.55,1.0,GO,VOLUME_BELOW_FLOOR but strong CPC and commercial intent
+red light therapy at home,sauna-expanded-seeds.txt,,,,,,Captured seed and editorial concept; needs fresh validation before full silo
+contrast therapy,discoveries-sauna-superexpanded.csv,8100,20.0,2.97,1.0,GO,Bridge between sauna and cold plunge
+sauna for muscle recovery,discoveries-sauna-superexpanded.csv,9900,2.0,4.03,1.0,GO,Falling trend; support page not first priority
+cold plunge tub,sauna-superexpanded-seeds.txt,,,,,,Appears in portable-sauna cluster; treat as adjacency contamination until expanded
+best cold plunge,sauna-expanded-seeds.txt,,,,,,Preserve for later recovery expansion

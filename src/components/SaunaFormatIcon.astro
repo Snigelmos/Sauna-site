@@ -1,0 +1,246 @@
+---
+/*
+ * SaunaFormatIcon
+ *
+ * Brand-neutral inline SVG illustrations for each home-sauna format. Same role
+ * as the reference site's format icons: keeps product/format cards visually
+ * filled with a recognisable picture and no hot-linked manufacturer photos.
+ * All shapes use currentColor so the warm palette flows through from CSS.
+ */
+export type SaunaVariant = "infrared-cabin" | "traditional-cabin" | "barrel-outdoor" | "portable" | "blanket" | "heater" | "kit";
+
+export interface Props {
+  variant: SaunaVariant;
+  /** Width in px. Height auto from viewBox. Defaults to 240. */
+  width?: number;
+  label?: string;
+}
+
+const { variant, width = 240, label } = Astro.props;
+
+const labels: Record<SaunaVariant, string> = {
+  "infrared-cabin": "Illustration of an indoor infrared sauna cabin with a glass door and radiant panels",
+  "traditional-cabin": "Illustration of a traditional indoor sauna cabin with a heater and steam",
+  "barrel-outdoor": "Illustration of an outdoor barrel sauna on stands",
+  portable: "Illustration of a portable sauna pod with the user's head above the zip top",
+  blanket: "Illustration of an infrared sauna blanket with a controller",
+  heater: "Illustration of an electric sauna heater topped with stones and heat rising",
+  kit: "Illustration of a flat-pack DIY sauna kit of pre-cut wood panels",
+};
+
+const titleId = `sauna-icon-${variant}-${Math.random().toString(36).slice(2, 8)}`;
+const ariaLabel = label ?? labels[variant];
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 320 180"
+  role="img"
+  aria-labelledby={titleId}
+  width={width}
+  height={Math.round((width * 180) / 320)}
+  class="sauna-format-icon"
+>
+  <title id={titleId}>{ariaLabel}</title>
+
+  {/* --- Infrared cabin: box with glass door + vertical radiant panels --- */}
+  {variant === "infrared-cabin" && (
+    <>
+      <ellipse cx="160" cy="155" rx="92" ry="7" fill="currentColor" fill-opacity="0.08" />
+      {/* cabinet body */}
+      <rect x="80" y="26" width="160" height="126" rx="12" fill="currentColor" fill-opacity="0.9" />
+      {/* top trim */}
+      <rect x="80" y="26" width="160" height="16" rx="12" fill="currentColor" fill-opacity="0.55" />
+      {/* glass door */}
+      <rect x="156" y="50" width="76" height="94" rx="5" fill="white" fill-opacity="0.16" stroke="white" stroke-opacity="0.4" stroke-width="1.5" />
+      <line x1="164" y1="90" x2="164" y2="104" stroke="white" stroke-opacity="0.5" stroke-width="2.5" stroke-linecap="round" />
+      {/* bench behind glass */}
+      <rect x="156" y="120" width="76" height="12" rx="2" fill="white" fill-opacity="0.28" />
+      {/* radiant panels glowing inside (left wall) */}
+      <ellipse cx="116" cy="96" rx="30" ry="46" fill="var(--color-ember-400)" fill-opacity="0.1" />
+      <g fill="var(--color-ember-400)" fill-opacity="0.92">
+        <rect x="100" y="56" width="12" height="82" rx="3" />
+        <rect x="120" y="56" width="12" height="82" rx="3" />
+      </g>
+      {/* plank line */}
+      <line x1="80" y1="92" x2="148" y2="92" stroke="white" stroke-opacity="0.12" stroke-width="1.5" />
+      {/* feet */}
+      <rect x="92" y="152" width="16" height="7" rx="2" fill="currentColor" fill-opacity="0.5" />
+      <rect x="212" y="152" width="16" height="7" rx="2" fill="currentColor" fill-opacity="0.5" />
+    </>
+  )}
+
+  {/* --- Traditional cabin: cabin + heater + steam --- */}
+  {variant === "traditional-cabin" && (
+    <>
+      <ellipse cx="160" cy="155" rx="94" ry="7" fill="currentColor" fill-opacity="0.08" />
+      {/* steam / loyly rising */}
+      <g stroke="var(--color-ember-300)" stroke-width="3.5" stroke-linecap="round" fill="none" opacity="0.85">
+        <path d="M116 30 q7 -11 0 -24" />
+        <path d="M132 26 q7 -11 0 -24" />
+      </g>
+      {/* cabin body */}
+      <rect x="74" y="32" width="172" height="120" rx="12" fill="currentColor" fill-opacity="0.9" />
+      <rect x="74" y="32" width="172" height="14" rx="12" fill="currentColor" fill-opacity="0.55" />
+      {/* plank lines */}
+      <g stroke="white" stroke-opacity="0.16" stroke-width="1.5">
+        <line x1="74" y1="74" x2="246" y2="74" />
+        <line x1="74" y1="104" x2="246" y2="104" />
+      </g>
+      {/* window / door on the right */}
+      <rect x="168" y="56" width="64" height="88" rx="5" fill="white" fill-opacity="0.14" stroke="white" stroke-opacity="0.36" stroke-width="1.5" />
+      {/* benches (two tiers) */}
+      <rect x="168" y="116" width="64" height="10" rx="2" fill="white" fill-opacity="0.3" />
+      <rect x="168" y="132" width="64" height="9" rx="2" fill="white" fill-opacity="0.22" />
+      {/* heater with stones + glow */}
+      <rect x="92" y="98" width="44" height="46" rx="4" fill="currentColor" fill-opacity="0.6" />
+      <ellipse cx="114" cy="98" rx="24" ry="10" fill="var(--color-ember-400)" fill-opacity="0.18" />
+      <g fill="var(--color-ember-400)" fill-opacity="0.95">
+        <circle cx="103" cy="100" r="5" />
+        <circle cx="114" cy="97" r="5.5" />
+        <circle cx="125" cy="100" r="5" />
+      </g>
+      {/* feet */}
+      <rect x="86" y="152" width="16" height="7" rx="2" fill="currentColor" fill-opacity="0.5" />
+      <rect x="218" y="152" width="16" height="7" rx="2" fill="currentColor" fill-opacity="0.5" />
+    </>
+  )}
+
+  {/* --- Barrel outdoor sauna --- */}
+  {variant === "barrel-outdoor" && (
+    <>
+      <ellipse cx="160" cy="158" rx="122" ry="8" fill="currentColor" fill-opacity="0.08" />
+      {/* barrel body */}
+      <rect x="28" y="42" width="264" height="104" rx="52" fill="currentColor" fill-opacity="0.9" />
+      <rect x="28" y="42" width="264" height="18" rx="52" fill="white" fill-opacity="0.06" />
+      {/* barrel staves */}
+      <g stroke="white" stroke-opacity="0.14" stroke-width="2">
+        <line x1="44" y1="70" x2="276" y2="70" />
+        <line x1="32" y1="94" x2="288" y2="94" />
+        <line x1="44" y1="118" x2="276" y2="118" />
+      </g>
+      {/* metal bands */}
+      <g stroke="currentColor" stroke-opacity="0.45" stroke-width="5">
+        <line x1="86" y1="44" x2="86" y2="144" />
+        <line x1="234" y1="44" x2="234" y2="144" />
+      </g>
+      {/* front door + window */}
+      <rect x="132" y="56" width="56" height="78" rx="6" fill="currentColor" fill-opacity="0.5" />
+      <rect x="144" y="68" width="32" height="26" rx="3" fill="var(--color-ember-300)" fill-opacity="0.85" />
+      {/* stands */}
+      <path d="M70 146 L58 162 M104 146 L116 162" stroke="currentColor" stroke-opacity="0.6" stroke-width="6" stroke-linecap="round" />
+      <path d="M216 146 L204 162 M250 146 L262 162" stroke="currentColor" stroke-opacity="0.6" stroke-width="6" stroke-linecap="round" />
+    </>
+  )}
+
+  {/* --- Portable sauna pod --- */}
+  {variant === "portable" && (
+    <>
+      <ellipse cx="160" cy="156" rx="80" ry="7" fill="currentColor" fill-opacity="0.08" />
+      {/* head above the zip top */}
+      <circle cx="160" cy="44" r="18" fill="currentColor" fill-opacity="0.85" />
+      {/* pod body */}
+      <path d="M88 150 Q88 74 160 64 Q232 74 232 150 Z" fill="currentColor" fill-opacity="0.9" />
+      {/* zip line */}
+      <line x1="160" y1="66" x2="160" y2="150" stroke="white" stroke-opacity="0.4" stroke-width="2.5" stroke-dasharray="5 5" />
+      {/* arm hole */}
+      <circle cx="124" cy="112" r="12" fill="white" fill-opacity="0.16" stroke="white" stroke-opacity="0.38" stroke-width="1.5" />
+      {/* controller box + cable */}
+      <rect x="232" y="118" width="34" height="26" rx="4" fill="currentColor" fill-opacity="0.7" />
+      <rect x="238" y="125" width="22" height="6" rx="1.5" fill="var(--color-ember-300)" fill-opacity="0.9" />
+      <path d="M228 134 q8 0 8 -3" stroke="currentColor" stroke-opacity="0.5" stroke-width="2.5" fill="none" />
+    </>
+  )}
+
+  {/* --- Sauna blanket --- */}
+  {variant === "blanket" && (
+    <>
+      <ellipse cx="160" cy="154" rx="106" ry="7" fill="currentColor" fill-opacity="0.08" />
+      {/* controller above */}
+      <rect x="138" y="30" width="44" height="26" rx="5" fill="currentColor" fill-opacity="0.7" />
+      <rect x="145" y="37" width="30" height="7" rx="1.5" fill="var(--color-ember-300)" fill-opacity="0.9" />
+      <path d="M160 56 L160 66" stroke="currentColor" stroke-opacity="0.5" stroke-width="2.5" />
+      {/* laid-flat blanket with quilted channels */}
+      <rect x="52" y="66" width="216" height="82" rx="16" fill="currentColor" fill-opacity="0.9" />
+      <rect x="52" y="66" width="216" height="82" rx="16" fill="none" stroke="white" stroke-opacity="0.22" stroke-width="2" />
+      {/* quilt lines */}
+      <g stroke="white" stroke-opacity="0.18" stroke-width="2">
+        <line x1="98" y1="70" x2="98" y2="144" />
+        <line x1="144" y1="70" x2="144" y2="144" />
+        <line x1="190" y1="70" x2="190" y2="144" />
+        <line x1="232" y1="70" x2="232" y2="144" />
+      </g>
+      {/* folded top corner */}
+      <path d="M52 84 Q52 66 70 66 L116 66 Q84 84 52 114 Z" fill="white" fill-opacity="0.12" />
+    </>
+  )}
+
+  {/* --- Sauna heater --- */}
+  {variant === "heater" && (
+    <>
+      <ellipse cx="160" cy="154" rx="66" ry="7" fill="currentColor" fill-opacity="0.08" />
+      {/* heat rising */}
+      <g stroke="var(--color-ember-400)" stroke-width="3.5" stroke-linecap="round" fill="none" opacity="0.9">
+        <path d="M132 36 q8 -13 0 -28" />
+        <path d="M160 32 q8 -13 0 -28" />
+        <path d="M188 36 q8 -13 0 -28" />
+      </g>
+      {/* heater body (tapered) */}
+      <path d="M112 150 L122 60 L198 60 L208 150 Z" fill="currentColor" fill-opacity="0.9" />
+      {/* seam highlights */}
+      <g stroke="white" stroke-opacity="0.12" stroke-width="1.5">
+        <line x1="140" y1="64" x2="136" y2="148" />
+        <line x1="180" y1="64" x2="184" y2="148" />
+      </g>
+      {/* control dial */}
+      <circle cx="160" cy="128" r="11" fill="white" fill-opacity="0.22" stroke="white" stroke-opacity="0.4" stroke-width="1.5" />
+      <line x1="160" y1="128" x2="166" y2="122" stroke="white" stroke-opacity="0.85" stroke-width="2.5" stroke-linecap="round" />
+      {/* stones on top + glow */}
+      <ellipse cx="160" cy="60" rx="44" ry="10" fill="var(--color-ember-400)" fill-opacity="0.15" />
+      <g fill="var(--color-ember-400)" fill-opacity="0.95">
+        <circle cx="130" cy="60" r="8" />
+        <circle cx="148" cy="55" r="9" />
+        <circle cx="168" cy="57" r="9" />
+        <circle cx="188" cy="60" r="8" />
+        <circle cx="158" cy="64" r="8" />
+      </g>
+    </>
+  )}
+
+  {/* --- DIY kit (flat-pack pre-cut panels) --- */}
+  {variant === "kit" && (
+    <>
+      <ellipse cx="160" cy="150" rx="106" ry="7" fill="currentColor" fill-opacity="0.08" />
+      {/* stacked panels in perspective */}
+      <g>
+        <polygon points="64,122 214,122 256,100 106,100" fill="currentColor" fill-opacity="0.9" />
+        <polygon points="64,122 214,122 214,136 64,136" fill="currentColor" fill-opacity="0.62" />
+        <polygon points="214,122 256,100 256,114 214,136" fill="currentColor" fill-opacity="0.46" />
+
+        <polygon points="72,98 222,98 264,76 114,76" fill="currentColor" fill-opacity="0.82" />
+        <polygon points="72,98 222,98 222,112 72,112" fill="currentColor" fill-opacity="0.56" />
+        <polygon points="222,98 264,76 264,90 222,112" fill="currentColor" fill-opacity="0.4" />
+
+        <polygon points="80,74 230,74 272,52 122,52" fill="currentColor" fill-opacity="0.76" />
+        <polygon points="80,74 230,74 230,88 80,88" fill="currentColor" fill-opacity="0.5" />
+        <polygon points="230,74 272,52 272,66 230,88" fill="currentColor" fill-opacity="0.36" />
+      </g>
+      {/* plank grain on top panel */}
+      <g stroke="white" stroke-opacity="0.18" stroke-width="1.5">
+        <line x1="98" y1="63" x2="248" y2="63" />
+        <line x1="90" y1="68" x2="240" y2="68" />
+      </g>
+      {/* strap around the bundle */}
+      <line x1="152" y1="50" x2="134" y2="138" stroke="var(--color-ember-400)" stroke-opacity="0.85" stroke-width="3.5" />
+    </>
+  )}
+</svg>
+
+<style>
+  .sauna-format-icon {
+    color: var(--color-brand-700);
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+</style>

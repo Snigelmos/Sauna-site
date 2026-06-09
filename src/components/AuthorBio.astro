@@ -1,0 +1,48 @@
+---
+import { SITE } from "@config/site";
+export interface Props {
+  authorName?: string;
+  bio?: string;
+  image?: string;
+  url?: string;
+  compact?: boolean;
+}
+const {
+  authorName = SITE.author.name,
+  bio = SITE.author.bio,
+  image = SITE.author.image,
+  url = SITE.author.url,
+  compact = false,
+} = Astro.props;
+---
+
+<aside
+  class:list={[
+    "rounded-lg border border-ink-100 bg-ink-50/40",
+    compact ? "p-4" : "p-5 md:p-6",
+  ]}
+>
+  <div class="flex items-start gap-4">
+    <img
+      src={image}
+      alt=""
+      width="48"
+      height="48"
+      loading="lazy"
+      class="h-12 w-12 flex-shrink-0 rounded-full bg-ink-200 object-contain p-1.5"
+    />
+    <div>
+      <p class="text-sm font-semibold text-ink-900">
+        <a href={url} class="text-ink-900 no-underline hover:text-brand-700">{authorName}</a>
+      </p>
+      <p class="mt-1 text-sm text-ink-700">{bio}</p>
+      {!compact && (
+        <p class="mt-2 text-xs text-ink-500">
+          <a href="/methodology/" class="underline hover:text-brand-700">
+            How we research &amp; what we don't claim
+          </a>
+        </p>
+      )}
+    </div>
+  </div>
+</aside>

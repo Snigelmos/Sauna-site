@@ -1,0 +1,700 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import SwedenMapCard from "@components/finder/SwedenMapCard.astro";
+import SaunaCard from "@components/finder/SaunaCard.astro";
+import { SAUNAS, TYPE_LABELS, cities, cityHubs, typeHubs, type SaunaType } from "@data/saunas";
+import {
+  buildGraph,
+  organizationNode,
+  websiteNode,
+  itemListNode,
+  breadcrumbNode,
+} from "@components/schema/helpers";
+
+const title = "Sauna finder: find and book a sauna in Sweden";
+const description =
+  "Find saunas near you on the map - public saunas, cold bath houses, spas and private rentals across Sweden. See prices, opening hours and book directly with each venue.";
+
+const count = SAUNAS.length;
+const cityList = cities();
+const typeEntries = Object.entries(TYPE_LABELS) as [SaunaType, string][];
+
+// Featured listings float to the top of the list; then by city/name.
+const ordered = [...SAUNAS].sort(
+  (a, b) =>
+    Number(!!b.featured) - Number(!!a.featured) ||
+    a.city.localeCompare(b.city, "sv") ||
+    a.name.localeCompare(b.name, "sv")
+);
+
+// Amenity filter chips (data key -> English label).
+const amenityFilters: { key: string; label: string }[] = [
+  { key: "coldPlunge", label: "Cold plunge" },
+  { key: "seaAccess", label: "Sea bathing" },
+  { key: "lakeAccess", label: "Lake bathing" },
+  { key: "bathing", label: "Swimming" },
+  { key: "woodFired", label: "Wood-fired" },
+  { key: "cafe", label: "Café" },
+  { key: "parking", label: "Parking" },
+];
+
+const topCities = cityHubs(1).slice(0, 16);
+const allTypeHubs = typeHubs();
+
+// Lightweight payload for the client map (no heavy fields).
+const mapData = ordered.map((s) => ({
+  slug: s.slug,
+  name: s.name,
+  city: s.city,
+  type: s.type,
+  typeLabel: TYPE_LABELS[s.type],
+  bookable: s.bookable,
+  featured: !!s.featured,
+  lat: s.lat,
+  lng: s.lng,
+  priceFrom: s.priceFrom ?? null,
+  tagline: s.tagline,
+}));
+
+const jsonLd = buildGraph([
+  organizationNode(),
+  websiteNode(),
+  breadcrumbNode([
+    { label: "Home", url: "/" },
+    { label: "Sauna finder", url: "/sauna-finder/" },
+  ]),
+  itemListNode({
+    name: "Saunas in Sweden",
+    items: SAUNAS.map((s) => ({ name: s.name, url: `/sauna-finder/${s.slug}/` })),
+  }),
+]);
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+
+  <!-- HERO -->
+  <section class="relative overflow-hidden border-b border-ink-100 bg-sand-50">
+    <div aria-hidden="true" class="absolute -left-24 -top-24 -z-0 h-96 w-96 rounded-full bg-ember-200/30 blur-3xl"></div>
+    <div class="editorial-container relative grid items-center gap-10 py-12 md:grid-cols-[1.05fr_0.95fr] md:py-20">
+      <div>
+        <span class="page-chip">
+          <span class="mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-ember-500"></span>
+          {count} saunas right now
+        </span>
+        <h1 class="mt-5 text-4xl font-bold leading-[1.02] tracking-[-0.03em] text-ink-900 md:text-6xl">
+          Every sauna in Sweden,<br /><span class="text-brand-600">in one place.</span>
+        </h1>
+        <p class="mt-5 max-w-xl text-lg leading-8 text-ink-600">
+          Public saunas, cold bath houses, spas and private rentals. Find the ones
+          near you, check prices and opening hours, and book directly with the venue.
+        </p>
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <a
+            href="#karta"
+            class="inline-flex items-center justify-center gap-2 rounded-full bg-ink-900 px-6 py-3 text-sm font-semibold text-white no-underline shadow-sm transition-colors hover:bg-ink-800"
+          >
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z" /><circle cx="12" cy="10" r="3" />
+            </svg>
+            Show the map
+          </a>
+          <a
+            href="#lista"
+            class="inline-flex items-center justify-center gap-2 rounded-full border border-ink-200 bg-white px-6 py-3 text-sm font-semibold text-ink-800 no-underline transition-colors hover:bg-ink-50"
+          >
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="8" y1="6" x2="21" y2="6" /><line x1="8" y1="12" x2="21" y2="12" /><line x1="8" y1="18" x2="21" y2="18" /><line x1="3" y1="6" x2="3.01" y2="6" /><line x1="3" y1="12" x2="3.01" y2="12" /><line x1="3" y1="18" x2="3.01" y2="18" />
+            </svg>
+            Browse all
+          </a>
+          <a
+            href="/sauna-finder/add/"
+            class="inline-flex items-center justify-center gap-1.5 px-3 py-3 text-sm font-medium text-ink-600 no-underline transition-colors hover:text-ink-900"
+          >
+            <span class="text-lg leading-none">+</span> Add your sauna
+          </a>
+        </div>
+      </div>
+      <SwedenMapCard count={count} />
+    </div>
+  </section>
+
+  <!-- pilot notice -->
+  <div class="border-b border-ink-100 bg-ember-50/60">
+    <div class="editorial-container flex items-start gap-2 py-2.5 text-xs text-ember-800">
+      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0" aria-hidden="true">
+        <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
+      </svg>
+      <p>
+        Pilot version. We're starting with a curated selection - prices and opening hours can change, so always confirm with the venue before you visit.
+      </p>
+    </div>
+  </div>
+
+  <!-- FILTER + MAP + LIST -->
+  <section id="karta" class="editorial-container scroll-mt-20 py-10 md:py-14">
+    <!-- filter bar -->
+    <div class="sticky top-[64px] z-20 -mx-2 mb-6 rounded-2xl border border-ink-100 bg-white/85 p-3 shadow-sm backdrop-blur-md md:mx-0">
+      <div class="flex flex-wrap items-center gap-2.5">
+        <div class="relative min-w-[180px] flex-1">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-400" aria-hidden="true">
+            <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input
+            id="f-search"
+            type="search"
+            placeholder="Search sauna or city..."
+            class="w-full rounded-xl border border-ink-200 bg-white py-2.5 pl-9 pr-3 text-sm text-ink-900 placeholder:text-ink-400 focus:border-brand-400 focus:outline-none"
+            aria-label="Search sauna or city"
+          />
+        </div>
+        <select id="f-city" class="rounded-xl border border-ink-200 bg-white px-3 py-2.5 text-sm text-ink-800 focus:border-brand-400 focus:outline-none" aria-label="Filter by city">
+          <option value="">All cities</option>
+          {cityList.map((c) => <option value={c}>{c}</option>)}
+        </select>
+        <select id="f-type" class="rounded-xl border border-ink-200 bg-white px-3 py-2.5 text-sm text-ink-800 focus:border-brand-400 focus:outline-none" aria-label="Filter by type">
+          <option value="">All types</option>
+          {typeEntries.map(([val, label]) => <option value={val}>{label}</option>)}
+        </select>
+        <label class="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-ink-200 bg-white px-3 py-2.5 text-sm text-ink-800 select-none">
+          <input id="f-bookable" type="checkbox" class="h-4 w-4 rounded accent-brand-600" />
+          Bookable
+        </label>
+        <label class="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-ink-200 bg-white px-3 py-2.5 text-sm text-ink-800 select-none">
+          <input id="f-open" type="checkbox" class="h-4 w-4 rounded accent-brand-600" />
+          Open now
+        </label>
+        <select id="f-price" class="rounded-xl border border-ink-200 bg-white px-3 py-2.5 text-sm text-ink-800 focus:border-brand-400 focus:outline-none" aria-label="Filter by price">
+          <option value="">All prices</option>
+          <option value="0-150">Under 150 kr</option>
+          <option value="150-300">150-300 kr</option>
+          <option value="300-99999">Over 300 kr</option>
+        </select>
+        <button
+          id="f-near"
+          type="button"
+          class="inline-flex items-center gap-1.5 rounded-xl bg-brand-700 px-3.5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-800"
+        >
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="3" /><path d="M12 2v3M12 19v3M2 12h3M19 12h3" />
+          </svg>
+          Near me
+        </button>
+        <select id="f-radius" class="hidden rounded-xl border border-brand-200 bg-brand-50 px-3 py-2.5 text-sm font-medium text-brand-800 focus:border-brand-400 focus:outline-none" aria-label="Search radius">
+          <option value="0">Any distance</option>
+          <option value="5">Within 5 km</option>
+          <option value="10">Within 10 km</option>
+          <option value="25">Within 25 km</option>
+          <option value="50">Within 50 km</option>
+        </select>
+      </div>
+      <!-- amenity chips -->
+      <div class="mt-2.5 flex flex-wrap items-center gap-2 border-t border-ink-100 pt-2.5">
+        <span class="text-xs font-semibold tracking-wide text-ink-400 uppercase">Amenities</span>
+        {amenityFilters.map((a) => (
+          <button
+            type="button"
+            class="amenity-chip rounded-full border border-ink-200 bg-white px-3 py-1 text-xs font-medium text-ink-700 transition-colors hover:border-brand-300 aria-pressed:border-brand-500 aria-pressed:bg-brand-50 aria-pressed:text-brand-800"
+            data-amenity={a.key}
+            aria-pressed="false"
+          >
+            {a.label}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <!-- mobile karta/lista toggle -->
+    <div class="mb-4 flex rounded-full border border-ink-200 bg-white p-1 text-sm font-semibold lg:hidden" role="tablist" aria-label="Show map or list">
+      <button id="view-list" type="button" class="flex-1 rounded-full px-4 py-2 text-ink-600 transition-colors" role="tab" aria-selected="true">List</button>
+      <button id="view-map" type="button" class="flex-1 rounded-full px-4 py-2 text-ink-600 transition-colors" role="tab" aria-selected="false">Map</button>
+    </div>
+
+    <div id="finder-grid" data-view="list" class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_1.15fr]">
+      <!-- list -->
+      <div id="lista" class="finder-pane finder-pane--list order-2 scroll-mt-28 lg:order-1">
+        <div class="mb-3 flex items-baseline justify-between">
+          <h2 class="text-sm font-semibold tracking-wide text-ink-500 uppercase">
+            <span id="result-count">{count}</span> saunas
+          </h2>
+          <button id="f-reset" type="button" class="text-xs font-medium text-brand-700 hover:text-brand-800">Clear filters</button>
+        </div>
+        <div id="sauna-list" class="flex max-h-none flex-col gap-3 lg:max-h-[70vh] lg:overflow-y-auto lg:pr-1">
+          {ordered.map((s) => <SaunaCard sauna={s} />)}
+        </div>
+        <p id="empty-state" class="hidden rounded-2xl border border-dashed border-ink-200 bg-white p-8 text-center text-sm text-ink-500">
+          No saunas match your filters. <button id="empty-reset" class="font-semibold text-brand-700">Clear filters</button>
+        </p>
+      </div>
+
+      <!-- map -->
+      <div class="finder-pane finder-pane--map order-1 lg:order-2">
+        <div class="overflow-hidden rounded-2xl border border-ink-100 shadow-md lg:sticky lg:top-[140px]">
+          <div id="finder-map" class="finder-map h-[52vh] w-full lg:h-[70vh]"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- browse by city / type (internal links for SEO + discovery) -->
+    <div class="mt-12 grid gap-8 border-t border-ink-100 pt-10 md:grid-cols-2">
+      <div>
+        <h2 class="text-lg font-bold text-ink-900">Browse by city</h2>
+        <div class="mt-3 flex flex-wrap gap-2">
+          {topCities.map((c) => (
+            <a href={`/sauna-finder/city/${c.slug}/`} class="rounded-full border border-ink-200 bg-white px-3.5 py-1.5 text-sm font-medium text-ink-700 no-underline transition-colors hover:border-brand-300 hover:text-brand-700">
+              {c.city} <span class="text-ink-400">({c.count})</span>
+            </a>
+          ))}
+        </div>
+      </div>
+      <div>
+        <h2 class="text-lg font-bold text-ink-900">Browse by type</h2>
+        <div class="mt-3 flex flex-wrap gap-2">
+          {allTypeHubs.map((t) => (
+            <a href={`/sauna-finder/type/${t.type}/`} class="rounded-full border border-ink-200 bg-white px-3.5 py-1.5 text-sm font-medium text-ink-700 no-underline transition-colors hover:border-brand-300 hover:text-brand-700">
+              {TYPE_LABELS[t.type]} <span class="text-ink-400">({t.count})</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- data sources / attribution -->
+    <p class="mt-8 text-xs leading-relaxed text-ink-400">
+      Map data &copy; <a class="underline hover:text-brand-700" href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors (ODbL),
+      map rendering &copy; <a class="underline hover:text-brand-700" href="https://carto.com/attributions" target="_blank" rel="noopener noreferrer">CARTO</a>.
+      Sauna details are compiled from OpenStreetMap, public sauna directories and each venue's own website. Information may be out of date - always confirm with the venue and
+      <a class="underline hover:text-brand-700" href="/sauna-finder/add/">report errors</a>.
+    </p>
+  </section>
+
+  <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script is:inline src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
+  <script is:inline define:vars={{ saunas: mapData }}>
+    (function () {
+      const L = window.L;
+      if (!L) return;
+
+      const map = L.map("finder-map", {
+        scrollWheelZoom: false,
+        zoomControl: true,
+        attributionControl: true,
+      }).setView([62.5, 16.5], 4);
+
+      L.tileLayer(
+        "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+        {
+          subdomains: "abcd",
+          maxZoom: 20,
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        }
+      ).addTo(map);
+
+      map.on("focus", () => map.scrollWheelZoom.enable());
+      map.on("blur", () => map.scrollWheelZoom.disable());
+
+      function pinIcon(active) {
+        return L.divIcon({
+          className: "sauna-pin-wrap",
+          html:
+            '<span class="sauna-pin' +
+            (active ? " is-active" : "") +
+            '"><span class="sauna-pin__dot"></span></span>',
+          iconSize: [30, 38],
+          iconAnchor: [15, 36],
+          popupAnchor: [0, -34],
+        });
+      }
+
+      const cluster = L.markerClusterGroup({
+        showCoverageOnHover: false,
+        maxClusterRadius: 48,
+        iconCreateFunction: function (c) {
+          return L.divIcon({
+            html: '<div class="sauna-cluster">' + c.getChildCount() + "</div>",
+            className: "sauna-cluster-wrap",
+            iconSize: [40, 40],
+          });
+        },
+      });
+
+      const markers = {};
+      const cards = Array.from(document.querySelectorAll(".sauna-card"));
+
+      saunas.forEach((s) => {
+        const m = L.marker([s.lat, s.lng], { icon: pinIcon(false) });
+        const price = s.priceFrom != null ? "from " + s.priceFrom + " kr" : "Price varies";
+        m.bindPopup(
+          '<div class="sauna-popup">' +
+            '<span class="sauna-popup__type">' + s.typeLabel + (s.bookable ? " · Bookable" : " · Drop-in") + "</span>" +
+            '<strong class="sauna-popup__name">' + s.name + "</strong>" +
+            '<span class="sauna-popup__meta">' + s.city + " · " + price + "</span>" +
+            '<a class="sauna-popup__link" href="/sauna-finder/' + s.slug + '/">View sauna &rarr;</a>' +
+          "</div>",
+          { closeButton: false, minWidth: 200 }
+        );
+        markers[s.slug] = m;
+      });
+
+      function refresh(visibleSlugs) {
+        cluster.clearLayers();
+        const bounds = [];
+        visibleSlugs.forEach((slug) => {
+          const m = markers[slug];
+          if (m) {
+            cluster.addLayer(m);
+            bounds.push(m.getLatLng());
+          }
+        });
+        if (!map.hasLayer(cluster)) map.addLayer(cluster);
+        if (bounds.length) {
+          map.fitBounds(bounds, { padding: [50, 50], maxZoom: 12 });
+        }
+      }
+
+      // ---- filtering ----
+      const fSearch = document.getElementById("f-search");
+      const fCity = document.getElementById("f-city");
+      const fType = document.getElementById("f-type");
+      const fBookable = document.getElementById("f-bookable");
+      const fOpen = document.getElementById("f-open");
+      const fPrice = document.getElementById("f-price");
+      const fNear = document.getElementById("f-near");
+      const fRadius = document.getElementById("f-radius");
+      const fReset = document.getElementById("f-reset");
+      const amenityChips = Array.from(document.querySelectorAll(".amenity-chip"));
+      const emptyReset = document.getElementById("empty-reset");
+      const countEl = document.getElementById("result-count");
+      const emptyEl = document.getElementById("empty-state");
+      const listEl = document.getElementById("sauna-list");
+
+      let userPos = null; // { lat, lng }
+      let userMarker = null;
+
+      function haversineKm(aLat, aLng, bLat, bLng) {
+        const R = 6371;
+        const dLat = ((bLat - aLat) * Math.PI) / 180;
+        const dLng = ((bLng - aLng) * Math.PI) / 180;
+        const la1 = (aLat * Math.PI) / 180;
+        const la2 = (bLat * Math.PI) / 180;
+        const x =
+          Math.sin(dLat / 2) ** 2 + Math.cos(la1) * Math.cos(la2) * Math.sin(dLng / 2) ** 2;
+        return 2 * R * Math.asin(Math.sqrt(x));
+      }
+
+      function openNow(card) {
+        const raw = card.dataset.hours;
+        if (!raw) return null;
+        let spec;
+        try {
+          spec = JSON.parse(raw);
+        } catch (e) {
+          return null;
+        }
+        if (!Array.isArray(spec) || !spec.length) return null;
+        const now = new Date();
+        const dow = now.getDay();
+        const mins = now.getHours() * 60 + now.getMinutes();
+        const toMin = (t) => {
+          const p = String(t).split(":");
+          return parseInt(p[0], 10) * 60 + (parseInt(p[1], 10) || 0);
+        };
+        return spec.some((h) => {
+          if (h.dow !== dow) return false;
+          let open = toMin(h.open);
+          let close = toMin(h.close);
+          if (close <= open) close += 1440;
+          return mins >= open && mins <= close;
+        });
+      }
+
+      function activeAmenities() {
+        return amenityChips
+          .filter((b) => b.getAttribute("aria-pressed") === "true")
+          .map((b) => b.dataset.amenity);
+      }
+
+      function applyFilters() {
+        const q = (fSearch.value || "").trim().toLowerCase();
+        const city = fCity.value;
+        const type = fType.value;
+        const bookableOnly = fBookable.checked;
+        const openOnly = fOpen.checked;
+        const wantAmenities = activeAmenities();
+        const radius = userPos ? Number(fRadius.value || 0) : 0;
+        let priceLo = -Infinity, priceHi = Infinity;
+        if (fPrice.value) {
+          const parts = fPrice.value.split("-");
+          priceLo = Number(parts[0]);
+          priceHi = Number(parts[1]);
+        }
+        const visible = [];
+
+        cards.forEach((card) => {
+          const name = (card.dataset.name || "").toLowerCase();
+          const c = card.dataset.city || "";
+          const t = card.dataset.type || "";
+          const bookable = card.dataset.bookable === "true";
+          const ams = (card.dataset.amenities || "").split(" ").filter(Boolean);
+          const price = card.dataset.price ? Number(card.dataset.price) : null;
+          let ok = true;
+          if (q && !(name.includes(q) || c.toLowerCase().includes(q))) ok = false;
+          if (city && c !== city) ok = false;
+          if (type && t !== type) ok = false;
+          if (bookableOnly && !bookable) ok = false;
+          if (openOnly && openNow(card) !== true) ok = false;
+          if (fPrice.value && (price == null || price < priceLo || price > priceHi)) ok = false;
+          if (wantAmenities.length && !wantAmenities.every((a) => ams.includes(a))) ok = false;
+          if (radius > 0 && userPos) {
+            const d = haversineKm(userPos.lat, userPos.lng, parseFloat(card.dataset.lat), parseFloat(card.dataset.lng));
+            if (d > radius) ok = false;
+          }
+          card.style.display = ok ? "" : "none";
+          if (ok) visible.push(card.dataset.slug);
+        });
+
+        countEl.textContent = String(visible.length);
+        emptyEl.classList.toggle("hidden", visible.length !== 0);
+        refresh(visible);
+      }
+
+      ["input", "change"].forEach((evt) => {
+        fSearch.addEventListener(evt, () => applyFilters());
+      });
+      [fCity, fType, fBookable, fOpen, fPrice, fRadius].forEach((el) =>
+        el.addEventListener("change", () => applyFilters())
+      );
+      amenityChips.forEach((b) =>
+        b.addEventListener("click", () => {
+          b.setAttribute(
+            "aria-pressed",
+            b.getAttribute("aria-pressed") === "true" ? "false" : "true"
+          );
+          applyFilters();
+        })
+      );
+      function reset() {
+        fSearch.value = "";
+        fCity.value = "";
+        fType.value = "";
+        fBookable.checked = false;
+        fOpen.checked = false;
+        fPrice.value = "";
+        fRadius.value = "0";
+        amenityChips.forEach((b) => b.setAttribute("aria-pressed", "false"));
+        applyFilters();
+      }
+      fReset.addEventListener("click", reset);
+      if (emptyReset) emptyReset.addEventListener("click", reset);
+
+      // ---- card <-> marker interaction ----
+      cards.forEach((card) => {
+        const slug = card.dataset.slug;
+        card.addEventListener("mouseenter", () => {
+          const m = markers[slug];
+          if (m) m.setIcon(pinIcon(true));
+        });
+        card.addEventListener("mouseleave", () => {
+          const m = markers[slug];
+          if (m) m.setIcon(pinIcon(false));
+        });
+      });
+
+      // ---- geolocation: distance badges + sort + radius ----
+      function applyDistances() {
+        if (!userPos) return;
+        const withD = cards.map((c) => ({
+          c,
+          d: haversineKm(userPos.lat, userPos.lng, parseFloat(c.dataset.lat), parseFloat(c.dataset.lng)),
+        }));
+        withD.forEach(({ c, d }) => {
+          const badge = c.querySelector(".distance-badge");
+          if (badge) {
+            badge.textContent = "· " + (d < 10 ? d.toFixed(1) : Math.round(d)) + " km";
+            badge.classList.remove("hidden");
+          }
+        });
+        withD.sort((a, b) => a.d - b.d).forEach(({ c }) => listEl.appendChild(c));
+      }
+
+      fNear.addEventListener("click", () => {
+        if (!navigator.geolocation) return;
+        fNear.disabled = true;
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            userPos = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+            if (userMarker) map.removeLayer(userMarker);
+            userMarker = L.marker([userPos.lat, userPos.lng], {
+              icon: L.divIcon({ className: "user-dot-wrap", html: '<span class="user-dot"></span>', iconSize: [18, 18] }),
+            }).addTo(map);
+            fRadius.classList.remove("hidden");
+            applyDistances();
+            applyFilters();
+            map.setView([userPos.lat, userPos.lng], 9);
+            fNear.disabled = false;
+          },
+          () => {
+            fNear.disabled = false;
+          },
+          { enableHighAccuracy: false, timeout: 8000 }
+        );
+      });
+
+      // ---- mobile karta/lista toggle ----
+      const grid = document.getElementById("finder-grid");
+      const viewList = document.getElementById("view-list");
+      const viewMap = document.getElementById("view-map");
+      function setView(view) {
+        grid.dataset.view = view;
+        viewList.setAttribute("aria-selected", String(view === "list"));
+        viewMap.setAttribute("aria-selected", String(view === "map"));
+        if (view === "map") {
+          setTimeout(() => {
+            map.invalidateSize();
+            applyFilters();
+          }, 60);
+        }
+      }
+      if (viewList && viewMap) {
+        viewList.addEventListener("click", () => setView("list"));
+        viewMap.addEventListener("click", () => setView("map"));
+      }
+
+      applyFilters();
+    })();
+  </script>
+
+  <style is:global>
+    .finder-map .leaflet-tile {
+      filter: saturate(0.94) contrast(0.98) brightness(1.02);
+    }
+    .finder-map .leaflet-container {
+      background: #cfe0ea;
+      font-family: inherit;
+    }
+    /* teardrop pin */
+    .sauna-pin {
+      position: relative;
+      display: block;
+      width: 30px;
+      height: 38px;
+      filter: drop-shadow(0 3px 3px rgba(28, 19, 13, 0.35));
+      transition: transform 0.12s ease;
+    }
+    .sauna-pin::before {
+      content: "";
+      position: absolute;
+      left: 3px;
+      top: 0;
+      width: 24px;
+      height: 24px;
+      background: #c64f15;
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+    }
+    .sauna-pin__dot {
+      position: absolute;
+      left: 11px;
+      top: 8px;
+      width: 8px;
+      height: 8px;
+      background: #fff;
+      border-radius: 50%;
+      z-index: 1;
+    }
+    .sauna-pin.is-active {
+      transform: scale(1.18);
+      z-index: 1000;
+    }
+    .sauna-pin.is-active::before {
+      background: #9e3d13;
+    }
+    /* cluster bubble */
+    .sauna-cluster-wrap {
+      background: transparent;
+    }
+    .sauna-cluster {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(198, 79, 21, 0.92);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.85rem;
+      border: 3px solid #fff;
+      box-shadow: 0 4px 10px rgba(28, 19, 13, 0.3);
+    }
+    .user-dot {
+      display: block;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #2563eb;
+      border: 3px solid #fff;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.3);
+    }
+    /* popup */
+    .leaflet-popup-content-wrapper {
+      border-radius: 14px;
+      box-shadow: 0 12px 32px rgba(28, 19, 13, 0.22);
+    }
+    .leaflet-popup-content {
+      margin: 12px 14px;
+    }
+    .sauna-popup {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .sauna-popup__type {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #c64f15;
+    }
+    .sauna-popup__name {
+      font-size: 1rem;
+      color: #1d1d1c;
+    }
+    .sauna-popup__meta {
+      font-size: 0.8rem;
+      color: #65655f;
+    }
+    .sauna-popup__link {
+      margin-top: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #6c4124;
+      text-decoration: none;
+    }
+    /* mobile karta/lista toggle */
+    @media (max-width: 1023px) {
+      #finder-grid[data-view="list"] .finder-pane--map {
+        display: none;
+      }
+      #finder-grid[data-view="map"] .finder-pane--list {
+        display: none;
+      }
+    }
+    #view-list[aria-selected="true"],
+    #view-map[aria-selected="true"] {
+      background: #1d1d1c;
+      color: #fff;
+    }
+  </style>
+</BaseLayout>

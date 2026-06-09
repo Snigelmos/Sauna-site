@@ -1,0 +1,243 @@
+---
+import EditorsNote from "./EditorsNote.astro";
+
+export interface Props {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  image?: string;
+  imageAlt?: string;
+  metrics?: string[];
+  editorsNote?: string;
+  editorsNoteDate?: Date | string;
+  primaryCta?: { href: string; label: string };
+  secondaryCta?: { href: string; label: string };
+  award?: string;
+  heroGuides?: {
+    heading?: string;
+    items: { award: string; title: string; href: string }[];
+  };
+}
+
+const {
+  eyebrow,
+  title,
+  subtitle,
+  image,
+  imageAlt = "",
+  metrics = [],
+  editorsNote,
+  editorsNoteDate,
+  primaryCta,
+  secondaryCta,
+  award,
+  heroGuides,
+} = Astro.props;
+
+const guideItems = heroGuides?.items ?? [];
+const guideHeading = heroGuides?.heading ?? "Further reading";
+---
+
+<section class="relative isolate overflow-hidden border-b border-ink-100 bg-night-950 text-white">
+  {
+    image && (
+      <img
+        src={image}
+        alt={imageAlt}
+        width="1920"
+        height="1080"
+        fetchpriority="high"
+        class="hub-hero__image absolute inset-0 -z-10 h-full w-full object-cover opacity-90"
+      />
+    )
+  }
+  <div
+    aria-hidden="true"
+    class="absolute inset-0 -z-10 bg-gradient-to-br from-night-950/80 via-night-950/45 to-night-950/15"
+  ></div>
+  <div
+    aria-hidden="true"
+    class="absolute inset-0 -z-10 bg-gradient-to-t from-night-950/85 via-night-950/20 to-transparent"
+  ></div>
+
+  <div class="editorial-container py-10 md:py-24">
+    <div class="max-w-3xl">
+      <div class="flex flex-wrap items-center gap-3">
+        <p class="text-[0.7rem] font-semibold tracking-[0.14em] text-sand-200 uppercase md:text-xs md:tracking-[0.18em]">
+          {eyebrow}
+        </p>
+        {
+          award && (
+            <span class="award-badge award-badge--solid">{award}</span>
+          )
+        }
+      </div>
+      <h1 class="hub-hero__title mt-3 text-[2rem] font-bold leading-[1.05] tracking-[-0.035em] text-white md:mt-4 md:text-6xl md:leading-[0.95] md:tracking-[-0.05em] lg:text-7xl">
+        {title}
+      </h1>
+      <p class="mt-4 max-w-2xl text-base leading-7 text-white/85 md:mt-6 md:text-xl md:leading-8">{subtitle}</p>
+
+      {
+        editorsNote && (
+          <div class="hub-hero__editors-note mt-6 max-w-2xl rounded-xl bg-white/10 p-4 backdrop-blur-sm">
+            <EditorsNote body={editorsNote} date={editorsNoteDate} />
+          </div>
+        )
+      }
+
+      {
+        (primaryCta || secondaryCta) && (
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            {primaryCta && (
+              <a
+                href={primaryCta.href}
+                class="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand-800 no-underline hover:bg-sand-50"
+              >
+                {primaryCta.label}
+                <span aria-hidden="true">&rarr;</span>
+              </a>
+            )}
+            {secondaryCta && (
+              <a
+                href={secondaryCta.href}
+                class="inline-flex items-center justify-center rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white no-underline hover:bg-white/10"
+              >
+                {secondaryCta.label}
+              </a>
+            )}
+          </div>
+        )
+      }
+
+      {
+        guideItems.length > 0 && (
+          <div class="hub-hero__guides mt-8">
+            <p class="hub-hero__guides-kicker">{guideHeading}</p>
+            <ul
+              class="hub-hero__guides-grid"
+              data-count={guideItems.length}
+            >
+              {guideItems.map((g) => (
+                <li>
+                  <a
+                    href={g.href}
+                    aria-label={`${g.award}: ${g.title}`}
+                    class="hub-hero__guide-bubble"
+                  >
+                    <span class="hub-hero__guide-eyebrow">{g.award}</span>
+                    <span class="hub-hero__guide-title">{g.title}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
+
+      {
+        metrics.length > 0 && (
+          <ul class="mt-8 flex flex-wrap gap-2">
+            {metrics.map((metric) => (
+              <li>
+                <span class="hero-chip">{metric}</span>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .hub-hero__image {
+    object-position: center 38%;
+  }
+  .hub-hero__title {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  .hub-hero__editors-note .editor-note {
+    color: rgba(255, 255, 255, 0.92);
+    border-left-color: var(--color-ember-300);
+  }
+  .hub-hero__editors-note .editor-note strong {
+    color: #ffffff;
+  }
+
+  .hub-hero__guides {
+    max-width: 44rem;
+  }
+  .hub-hero__guides-kicker {
+    margin: 0 0 0.65rem;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-sand-200, #f3e1c7);
+  }
+  .hub-hero__guides-grid {
+    display: grid;
+    gap: 0.6rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  @media (min-width: 768px) {
+    .hub-hero__guides-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .hub-hero__guides-grid[data-count="3"] {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .hub-hero__guides-grid[data-count="2"] {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .hub-hero__guides-grid[data-count="1"] {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  .hub-hero__guide-bubble {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.25rem;
+    min-height: 4.5rem;
+    height: 100%;
+    padding: 0.7rem 0.9rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    text-decoration: none;
+    backdrop-filter: blur(4px);
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.2s ease;
+  }
+  .hub-hero__guide-bubble:hover,
+  .hub-hero__guide-bubble:focus-visible {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.42);
+    transform: translateY(-1px);
+  }
+  .hub-hero__guide-eyebrow {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-sand-200, #f3e1c7);
+  }
+  .hub-hero__guide-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: #ffffff;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

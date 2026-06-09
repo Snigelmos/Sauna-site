@@ -1,0 +1,140 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Breadcrumbs from "@components/Breadcrumbs.astro";
+import { SITE } from "@config/site";
+
+const title = "Add your sauna or report an error";
+const description =
+  "Run a sauna, cold bath house or spa in Sweden? Add it to the Sauna finder - free. Or report incorrect details about a venue.";
+
+const endpoint = SITE.forms.saunaSubmissionEndpoint;
+const mailto = `mailto:${SITE.contactEmail}?subject=${encodeURIComponent("Sauna finder: add / correct a sauna")}`;
+const inputClass =
+  "w-full rounded-xl border border-ink-200 bg-white px-3.5 py-2.5 text-sm text-ink-900 placeholder:text-ink-400 focus:border-brand-400 focus:outline-none";
+---
+
+<BaseLayout title={title} description={description} noindex={true}>
+  <div class="border-b border-ink-100 bg-sand-50">
+    <div class="editorial-container py-8 md:py-12">
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/" },
+          { label: "Sauna finder", href: "/sauna-finder/" },
+          { label: "Add / report" },
+        ]}
+      />
+      <h1 class="text-3xl font-bold tracking-tight text-ink-900 md:text-5xl">Add your sauna</h1>
+      <p class="mt-3 max-w-2xl text-lg leading-8 text-ink-600">
+        Run a sauna, cold bath house or spa? Send it in and we'll add it to the map - free of charge.
+        Every submission is reviewed manually before it goes live.
+      </p>
+    </div>
+  </div>
+
+  <div class="editorial-container grid gap-10 py-10 md:grid-cols-2 md:py-14">
+    <!-- Add a sauna -->
+    <section>
+      <h2 class="text-xl font-bold text-ink-900">Submit a new sauna</h2>
+      {endpoint ? (
+        <form action={endpoint} method="POST" class="mt-5 space-y-4" data-netlify="true" name="sauna-submission">
+          <input type="hidden" name="form-type" value="new-sauna" />
+          <input type="hidden" name="_subject" value="Sauna finder: new sauna" />
+          <div>
+            <label class="mb-1 block text-sm font-medium text-ink-700" for="s-name">Sauna name *</label>
+            <input id="s-name" name="name" required class={inputClass} placeholder="e.g. Hellasgården sauna" />
+          </div>
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label class="mb-1 block text-sm font-medium text-ink-700" for="s-city">City *</label>
+              <input id="s-city" name="city" required class={inputClass} placeholder="Stockholm" />
+            </div>
+            <div>
+              <label class="mb-1 block text-sm font-medium text-ink-700" for="s-type">Type</label>
+              <select id="s-type" name="type" class={inputClass}>
+                <option value="allman">Public sauna</option>
+                <option value="kallbadhus">Cold bath house</option>
+                <option value="spa">Spa & bath</option>
+                <option value="uthyrning">Private rental</option>
+                <option value="flytande">Floating sauna</option>
+                <option value="hotell">Hotel sauna</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="mb-1 block text-sm font-medium text-ink-700" for="s-address">Address</label>
+            <input id="s-address" name="address" class={inputClass} placeholder="Street address, town" />
+          </div>
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label class="mb-1 block text-sm font-medium text-ink-700" for="s-web">Website / booking link</label>
+              <input id="s-web" name="website" type="url" class={inputClass} placeholder="https://" />
+            </div>
+            <div>
+              <label class="mb-1 block text-sm font-medium text-ink-700" for="s-phone">Phone</label>
+              <input id="s-phone" name="phone" class={inputClass} placeholder="+46 ..." />
+            </div>
+          </div>
+          <div>
+            <label class="mb-1 block text-sm font-medium text-ink-700" for="s-info">Other (price, opening hours, etc.)</label>
+            <textarea id="s-info" name="info" rows="4" class={inputClass} placeholder="Tell us briefly about the sauna..."></textarea>
+          </div>
+          <button type="submit" class="inline-flex items-center justify-center gap-2 rounded-xl bg-ink-900 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-ink-800">
+            Submit sauna
+          </button>
+        </form>
+      ) : (
+        <div class="mt-5 rounded-2xl border border-dashed border-ink-200 bg-white p-6 text-sm text-ink-600">
+          <p>Email the details (name, city, address, website, phone and price) and we'll add the sauna:</p>
+          <a href={mailto} class="mt-3 inline-flex items-center gap-2 rounded-xl bg-ink-900 px-5 py-3 font-semibold text-white no-underline transition-colors hover:bg-ink-800">
+            Email your sauna
+          </a>
+        </div>
+      )}
+    </section>
+
+    <!-- Report an error -->
+    <section>
+      <h2 class="text-xl font-bold text-ink-900">Report an error</h2>
+      <p class="mt-2 text-sm text-ink-600">Something not right on a sauna page? Tell us what - and we'll fix it.</p>
+      {endpoint ? (
+        <form action={endpoint} method="POST" class="mt-5 space-y-4" data-netlify="true" name="sauna-report">
+          <input type="hidden" name="form-type" value="report" />
+          <input type="hidden" name="_subject" value="Sauna finder: error report" />
+          <div>
+            <label class="mb-1 block text-sm font-medium text-ink-700" for="r-ref">Sauna (page / name)</label>
+            <input id="r-ref" name="reference" class={inputClass} placeholder="Which sauna is this about?" />
+          </div>
+          <div>
+            <label class="mb-1 block text-sm font-medium text-ink-700" for="r-msg">What's wrong? *</label>
+            <textarea id="r-msg" name="message" rows="5" required class={inputClass} placeholder="Describe the issue, e.g. wrong price, closed, broken link..."></textarea>
+          </div>
+          <div>
+            <label class="mb-1 block text-sm font-medium text-ink-700" for="r-email">Your email (optional)</label>
+            <input id="r-email" name="email" type="email" class={inputClass} placeholder="in case we have follow-up questions" />
+          </div>
+          <button type="submit" class="inline-flex items-center justify-center gap-2 rounded-xl border border-ink-300 bg-white px-5 py-3 text-sm font-semibold text-ink-800 transition-colors hover:bg-ink-50">
+            Send report
+          </button>
+        </form>
+      ) : (
+        <div class="mt-5 rounded-2xl border border-dashed border-ink-200 bg-white p-6 text-sm text-ink-600">
+          <p>Email us what's wrong and which sauna it concerns:</p>
+          <a href={mailto} class="mt-3 inline-flex items-center gap-2 rounded-xl border border-ink-300 bg-white px-5 py-3 font-semibold text-ink-800 no-underline transition-colors hover:bg-ink-50">
+            Report by email
+          </a>
+        </div>
+      )}
+    </section>
+  </div>
+
+  <script is:inline>
+    // Prefill the report form's reference from ?ref= on the URL.
+    (function () {
+      const ref = new URLSearchParams(location.search).get("ref");
+      if (!ref) return;
+      const el = document.getElementById("r-ref");
+      if (el) el.value = ref;
+      document.getElementById("r-msg")?.focus();
+    })();
+  </script>
+</BaseLayout>

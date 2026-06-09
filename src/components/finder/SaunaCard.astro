@@ -1,0 +1,119 @@
+---
+import {
+  type Sauna,
+  TYPE_LABELS,
+  formatPrice,
+  amenityLabels,
+} from "@data/saunas";
+
+export interface Props {
+  sauna: Sauna;
+}
+const { sauna } = Astro.props;
+const amenities = amenityLabels(sauna).slice(0, 3);
+
+// amenity keys for client-side filtering
+const amenityKeys = Object.entries(sauna.amenities ?? {})
+  .filter(([, v]) => v)
+  .map(([k]) => k)
+  .join(" ");
+const hoursAttr = sauna.hours && sauna.hours.length ? JSON.stringify(sauna.hours) : null;
+const rating = sauna.googleRating;
+---
+
+<article
+  class:list={[
+    "sauna-card group relative flex flex-col gap-3 rounded-2xl border bg-white p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md",
+    sauna.featured ? "border-ember-300 ring-1 ring-ember-200" : "border-ink-100 hover:border-brand-200",
+  ]}
+  data-slug={sauna.slug}
+  data-city={sauna.city}
+  data-type={sauna.type}
+  data-bookable={String(sauna.bookable)}
+  data-amenities={amenityKeys}
+  data-price={sauna.priceFrom ?? ""}
+  data-featured={String(!!sauna.featured)}
+  data-lat={sauna.lat}
+  data-lng={sauna.lng}
+  data-name={sauna.name}
+  data-hours={hoursAttr}
+>
+  {sauna.photo ? (
+    <div class="-mx-4 -mt-4 mb-1 overflow-hidden rounded-t-2xl">
+      <img
+        src={sauna.photo}
+        alt={`Photo of ${sauna.name}`}
+        loading="lazy"
+        decoding="async"
+        width="640"
+        height="240"
+        class="h-32 w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+      />
+    </div>
+  ) : (
+    <div class="-mx-4 -mt-4 mb-1 flex h-20 items-center justify-center overflow-hidden rounded-t-2xl bg-gradient-to-br from-clay-100 via-sand-100 to-brand-100">
+      <span class="text-xs font-semibold tracking-wide text-clay-500 uppercase">{TYPE_LABELS[sauna.type]}</span>
+    </div>
+  )}
+
+  <div class="flex items-start justify-between gap-3">
+    <div class="min-w-0">
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="spec-chip">{TYPE_LABELS[sauna.type]}</span>
+        {sauna.featured && (
+          <span class="inline-flex items-center gap-1 rounded-full bg-ember-500 px-2 py-0.5 text-[0.7rem] font-semibold text-white">
+            Featured
+          </span>
+        )}
+        {sauna.bookable ? (
+          <span class="inline-flex items-center gap-1 rounded-full bg-ember-50 px-2 py-0.5 text-[0.7rem] font-semibold text-ember-700 ring-1 ring-ember-200 ring-inset">
+            Bookable
+          </span>
+        ) : (
+          <span class="inline-flex items-center gap-1 rounded-full bg-ink-50 px-2 py-0.5 text-[0.7rem] font-semibold text-ink-600 ring-1 ring-ink-200 ring-inset">
+            Drop-in
+          </span>
+        )}
+      </div>
+      <h3 class="mt-2 truncate text-lg font-semibold text-ink-900">
+        <a href={`/sauna-finder/${sauna.slug}/`} class="no-underline after:absolute after:inset-0">
+          {sauna.name}
+        </a>
+      </h3>
+      <p class="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-sm text-ink-500">
+        <span class="flex items-center gap-1">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z" /><circle cx="12" cy="10" r="3" />
+          </svg>
+          {sauna.city}
+        </span>
+        {rating != null && (
+          <span class="flex items-center gap-0.5 font-medium text-ink-600">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="#f0a020" stroke="none" aria-hidden="true">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg>
+            {rating.toFixed(1)}
+            {sauna.googleReviewsCount != null && (
+              <span class="text-ink-400">({sauna.googleReviewsCount})</span>
+            )}
+          </span>
+        )}
+        <span class="distance-badge hidden font-medium text-brand-700"></span>
+      </p>
+    </div>
+    <div class="shrink-0 text-right">
+      <p class="text-sm font-bold text-ink-900">{sauna.priceFrom != null ? `${sauna.priceFrom} kr` : "—"}</p>
+    </div>
+  </div>
+
+  <p class="line-clamp-2 text-sm leading-relaxed text-ink-600">{sauna.tagline}</p>
+
+  <div class="flex flex-wrap items-center gap-1.5">
+    {amenities.map((a) => (
+      <span class="rounded-md bg-sand-50 px-2 py-0.5 text-[0.7rem] font-medium text-clay-600 ring-1 ring-sand-200 ring-inset">
+        {a}
+      </span>
+    ))}
+    <span class="ml-auto text-xs font-medium text-brand-700">{formatPrice(sauna)}</span>
+  </div>
+</article>

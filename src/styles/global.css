@@ -1,0 +1,505 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-sans:
+    "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --font-display:
+    "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* Brand = warm cedar/wood. Used for links, nav, accents. */
+  --color-brand-50: #f8f3ee;
+  --color-brand-100: #ece0d3;
+  --color-brand-200: #dcc3a9;
+  --color-brand-300: #c79f76;
+  --color-brand-400: #b27e4f;
+  --color-brand-500: #9c6233;
+  --color-brand-600: #84502a;
+  --color-brand-700: #6c4124;
+  --color-brand-800: #573621;
+  --color-brand-900: #482e1e;
+  --color-brand-950: #281910;
+
+  --color-sand-50: #fbf7ef;
+  --color-sand-100: #f4ecdd;
+  --color-sand-200: #e7d8bd;
+  --color-sand-300: #d8c5a4;
+  --color-sand-400: #c2a271;
+  --color-brass-500: #a97938;
+  /* Warm charcoal for hero strips (heated-cabin feel). */
+  --color-night-950: #1c130d;
+
+  /* Ember = the heat glow. Used for CTAs and "featured" accents. */
+  --color-ember-50: #fff4ec;
+  --color-ember-100: #ffe3cc;
+  --color-ember-200: #fdc296;
+  --color-ember-300: #f59f6a;
+  --color-ember-400: #ed7f44;
+  --color-ember-500: #e26321;
+  --color-ember-600: #c64f15;
+  --color-ember-700: #9e3d13;
+  --color-ember-800: #762f14;
+  --color-ember-900: #4f2210;
+
+  --color-clay-50: #faf4ec;
+  --color-clay-100: #f1e6d2;
+  --color-clay-200: #e1cca8;
+  --color-clay-300: #cdad7d;
+  --color-clay-400: #b08758;
+  --color-clay-500: #8c6739;
+  --color-clay-600: #6c4f2c;
+  --color-clay-700: #543d22;
+  --color-clay-800: #3e2d19;
+  --color-clay-900: #2a1f12;
+
+  --color-ink-50: #f7f7f6;
+  --color-ink-100: #e8e8e6;
+  --color-ink-200: #d2d2cf;
+  --color-ink-300: #aeaeaa;
+  --color-ink-400: #82827d;
+  --color-ink-500: #65655f;
+  --color-ink-600: #50504c;
+  --color-ink-700: #41413e;
+  --color-ink-800: #2e2e2c;
+  --color-ink-900: #1d1d1c;
+}
+
+html {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  overflow-x: hidden;
+  overflow-x: clip;
+  color: var(--color-ink-900);
+  background-color: var(--color-sand-50);
+}
+
+body {
+  min-height: 100vh;
+  width: 100%;
+  max-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  overflow-x: hidden;
+  overflow-x: clip;
+  overflow-wrap: break-word;
+}
+
+main {
+  width: 100%;
+  max-width: 100vw;
+  min-width: 0;
+}
+
+@layer base {
+  a {
+    color: var(--color-brand-600);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+
+  a:hover {
+    color: var(--color-brand-700);
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brand-500);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.prose {
+  --tw-prose-links: var(--color-brand-700);
+  --tw-prose-headings: var(--color-ink-900);
+  --tw-prose-body: var(--color-ink-800);
+  --tw-prose-bold: var(--color-ink-900);
+  line-height: 1.8;
+}
+
+.prose,
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose p,
+.prose li,
+.prose a {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+.prose h1,
+.prose h2,
+.prose h3 {
+  text-wrap: balance;
+}
+
+.prose p,
+.prose li {
+  text-wrap: pretty;
+}
+
+.editorial-container {
+  width: min(100% - 2rem, 72rem);
+  max-width: calc(100vw - 2rem);
+  margin-inline: auto;
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+  min-width: 0;
+}
+
+@layer base {
+  .editorial-container > *,
+  .prose,
+  .not-prose,
+  article,
+  section,
+  aside {
+    min-width: 0;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 767px) {
+  .editorial-container {
+    width: min(100% - 2rem, 72rem);
+    max-width: calc(100vw - 2rem);
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+  }
+
+  .editorial-container .prose,
+  .editorial-container .not-prose,
+  .editorial-container article,
+  .editorial-container section,
+  .editorial-container aside,
+  .editorial-container div {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .editorial-container p,
+  .editorial-container li,
+  .editorial-container dd,
+  .editorial-container td,
+  .editorial-container th,
+  .editorial-container a,
+  .editorial-container h1,
+  .editorial-container h2,
+  .editorial-container h3,
+  .editorial-container h4 {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+}
+
+.editorial-kicker {
+  color: var(--color-brand-700);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.editorial-shadow {
+  box-shadow:
+    0 24px 70px rgba(40, 25, 16, 0.12),
+    0 2px 8px rgba(40, 25, 16, 0.05);
+}
+
+.image-frame {
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  background: var(--color-brand-950);
+  box-shadow: 0 24px 70px rgba(40, 25, 16, 0.16);
+}
+
+.image-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.metric-card {
+  border: 1px solid var(--color-ink-100);
+  border-radius: 1rem;
+  background: rgba(255, 253, 248, 0.82);
+  padding: 1rem;
+}
+
+.metric-card span {
+  display: block;
+  color: var(--color-ink-500);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.metric-card strong {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--color-ink-900);
+  font-size: 1rem;
+}
+
+.spec-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 999px;
+  background: var(--color-brand-50);
+  color: var(--color-brand-800);
+  border: 1px solid var(--color-brand-100);
+  padding: 0.3rem 0.7rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.hero-chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  padding: 0.4rem 0.85rem;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.page-chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  background: var(--color-brand-50);
+  color: var(--color-brand-800);
+  border: 1px solid var(--color-brand-100);
+  padding: 0.4rem 0.85rem;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.award-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 999px;
+  background: var(--color-ember-50);
+  color: var(--color-ember-800);
+  box-shadow: inset 0 0 0 1px var(--color-ember-300);
+  padding: 0.35rem 0.75rem;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.award-badge--solid {
+  background: var(--color-ember-600);
+  color: white;
+  box-shadow: inset 0 0 0 1px var(--color-ember-700);
+}
+
+.award-badge--brand {
+  background: var(--color-brand-50);
+  color: var(--color-brand-800);
+  box-shadow: inset 0 0 0 1px var(--color-brand-200);
+}
+
+.verdict-card {
+  position: relative;
+  border-radius: 1.25rem;
+  background: white;
+  border: 1px solid var(--color-ink-100);
+  padding: 1.25rem;
+  box-shadow:
+    0 18px 48px rgba(40, 25, 16, 0.08),
+    0 1px 2px rgba(40, 25, 16, 0.04);
+}
+
+.verdict-card--featured {
+  border-color: var(--color-ember-300);
+  box-shadow:
+    0 22px 60px rgba(198, 79, 21, 0.18),
+    0 1px 2px rgba(40, 25, 16, 0.05);
+  background: linear-gradient(180deg, #fff 0%, var(--color-ember-50) 100%);
+}
+
+.compare-table-wrap {
+  container-type: inline-size;
+  margin-block: 1.5rem;
+}
+
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  border: 1px solid var(--color-ink-100);
+  background: white;
+  box-shadow:
+    0 18px 48px rgba(40, 25, 16, 0.06),
+    0 1px 2px rgba(40, 25, 16, 0.04);
+}
+
+.compare-table thead th {
+  background: var(--color-night-950);
+  color: white;
+  text-align: left;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.compare-table tbody td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--color-ink-100);
+  color: var(--color-ink-800);
+  vertical-align: middle;
+}
+
+.compare-table tbody tr:nth-child(even) td {
+  background: rgba(241, 230, 210, 0.35);
+}
+
+.compare-table tbody tr:hover td {
+  background: var(--color-clay-50);
+}
+
+.compare-table .col-product {
+  font-weight: 700;
+  color: var(--color-ink-900);
+}
+
+/* Stacked cards used when the container is too narrow for a clean table. */
+.compare-cards {
+  display: none;
+}
+
+.compare-card {
+  border: 1px solid var(--color-ink-100);
+  border-radius: 1rem;
+  background: white;
+  box-shadow:
+    0 10px 28px rgba(40, 25, 16, 0.05),
+    0 1px 2px rgba(40, 25, 16, 0.04);
+  padding: 0.9rem 1.05rem;
+}
+
+.compare-card__title {
+  margin: 0 0 0.6rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid var(--color-ink-100);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-ink-900);
+  line-height: 1.25;
+}
+
+.compare-card__list {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+}
+
+.compare-card__row {
+  display: grid;
+  grid-template-columns: minmax(6.5rem, 38%) 1fr;
+  gap: 0.85rem;
+  align-items: baseline;
+}
+
+.compare-card__row dt {
+  margin: 0;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-ink-500);
+}
+
+.compare-card__row dd {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-ink-800);
+}
+
+/* Winner highlight authors can drop into any cell value. */
+.cmp-win {
+  font-weight: 700;
+  color: var(--color-brand-800);
+}
+
+.cmp-win::before {
+  content: "\2713\00a0";
+  color: var(--color-brand-600);
+  font-weight: 700;
+}
+
+/* Switch to cards whenever the available column is too tight for the table
+   (the guide content column is ~44rem, so dense tables become cards there). */
+@container (max-width: 760px) {
+  .compare-table {
+    display: none;
+  }
+  .compare-cards {
+    display: grid;
+    gap: 0.85rem;
+  }
+}
+
+.editor-note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--color-ink-700);
+  font-style: italic;
+  border-left: 3px solid var(--color-ember-400);
+  padding-left: 0.85rem;
+}
+
+.editor-note strong {
+  font-style: normal;
+  color: var(--color-ink-900);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

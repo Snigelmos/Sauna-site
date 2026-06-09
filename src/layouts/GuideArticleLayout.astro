@@ -1,0 +1,146 @@
+---
+/*
+ * GuideArticleLayout - shared shell for the informational Sauna Guide articles
+ * (/sauna-guide/*). Lighter than the buyer-guide DecisionGuideLayout: a compact
+ * header, prose slot, optional FAQ and Sources, and Article + Breadcrumb (+ FAQ)
+ * structured data. Health content stays conservative and cited.
+ */
+import BaseLayout from "./BaseLayout.astro";
+import Breadcrumbs from "@components/Breadcrumbs.astro";
+import FAQ from "@components/FAQ.astro";
+import LastUpdated from "@components/LastUpdated.astro";
+import {
+  absUrl,
+  articleNode,
+  breadcrumbNode,
+  buildGraph,
+  faqNode,
+  organizationNode,
+  websiteNode,
+} from "@components/schema/helpers";
+
+export interface Props {
+  title: string;
+  description: string;
+  eyebrow?: string;
+  intro?: string;
+  updatedDate: Date;
+  pubDate?: Date;
+  faq?: { q: string; a: string }[];
+  sources?: { name: string; url: string }[];
+  heroImage?: string;
+  heroImageAlt?: string;
+}
+
+const {
+  title,
+  description,
+  eyebrow = "Sauna guide",
+  intro,
+  updatedDate,
+  pubDate = updatedDate,
+  faq = [],
+  sources = [],
+  heroImage,
+  heroImageAlt = "",
+} = Astro.props;
+
+const pageUrl = absUrl(Astro.url.pathname);
+const crumbItems = [
+  { label: "Home", url: "/" },
+  { label: "Sauna guide", url: "/sauna-guide/" },
+  { label: title, url: Astro.url.pathname },
+];
+
+const nodes: object[] = [
+  organizationNode(),
+  websiteNode(),
+  articleNode({
+    url: pageUrl,
+    headline: title,
+    description,
+    datePublished: pubDate.toISOString(),
+    dateModified: updatedDate.toISOString(),
+    image: heroImage,
+  }),
+  breadcrumbNode(crumbItems),
+];
+if (faq.length > 0) nodes.push(faqNode(faq));
+const jsonLd = buildGraph(nodes);
+
+const breadcrumbCrumbs = crumbItems.map((c, i) =>
+  i < crumbItems.length - 1 ? { label: c.label, href: c.url } : { label: c.label }
+);
+---
+
+<BaseLayout title={title} description={description} type="article" ogImage={heroImage} jsonLd={jsonLd}>
+  <section class="relative isolate overflow-hidden border-b border-ink-100 bg-night-950 text-white">
+    {
+      heroImage && (
+        <>
+          <img
+            src={heroImage}
+            alt={heroImageAlt}
+            width="1920"
+            height="1080"
+            fetchpriority="high"
+            class="absolute inset-0 -z-10 h-full w-full object-cover object-[center_40%] opacity-90"
+          />
+          <div aria-hidden="true" class="absolute inset-0 -z-10 bg-gradient-to-br from-night-950/95 via-night-950/70 to-night-950/35" />
+          <div aria-hidden="true" class="absolute inset-0 -z-10 bg-gradient-to-t from-night-950/85 via-night-950/20 to-transparent" />
+        </>
+      )
+    }
+    <div class="editorial-container py-12 md:py-16">
+      <a href="/sauna-guide/" class="text-sm font-semibold text-sand-100 no-underline hover:text-white">
+        &larr; Sauna guide
+      </a>
+      <p class="mt-5 text-xs font-semibold tracking-[0.18em] text-sand-200 uppercase">{eyebrow}</p>
+      <h1 class="mt-3 max-w-3xl text-3xl font-bold leading-[1.08] tracking-tight md:text-5xl">
+        {title}
+      </h1>
+      {intro && <p class="mt-4 max-w-2xl text-lg leading-8 text-white/85">{intro}</p>}
+    </div>
+  </section>
+
+  <article class="editorial-container py-10">
+    <Breadcrumbs items={breadcrumbCrumbs} />
+
+    <div class="prose prose-lg mt-6 max-w-3xl">
+      <slot />
+    </div>
+
+    {
+      faq.length > 0 && (
+        <div class="mt-10 max-w-3xl">
+          <FAQ items={faq} />
+        </div>
+      )
+    }
+
+    {
+      sources.length > 0 && (
+        <div class="prose mt-10 max-w-3xl">
+          <h2>Sources</h2>
+          <ol>
+            {sources.map((s) => (
+              <li>
+                <a href={s.url} rel="noopener nofollow" target="_blank">
+                  {s.name}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </div>
+      )
+    }
+
+    <div class="mt-8 max-w-3xl border-t border-ink-100 pt-5">
+      <LastUpdated date={updatedDate} />
+      <p class="mt-2 text-xs text-ink-500">
+        Health information here is general and educational, kept conservative and cited - not medical
+        advice. Check with a doctor before starting sauna use if you have a health condition.
+      </p>
+    </div>
+  </article>
+</BaseLayout>

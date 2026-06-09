@@ -1,0 +1,140 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Breadcrumbs from "@components/Breadcrumbs.astro";
+import {
+  breadcrumbNode,
+  buildGraph,
+  itemListNode,
+  organizationNode,
+  websiteNode,
+} from "@components/schema/helpers";
+
+const title = "Sauna Guide: Everything You Need to Know About Using a Sauna";
+const description =
+  "A plain-English guide to saunas: the real health benefits, how to use one step by step, how hot it should be, how often and how long, and how to stay safe. Conservative, cited, no hype.";
+
+const articles = [
+  {
+    title: "Sauna benefits",
+    blurb:
+      "What the research actually shows on heart health, recovery, and stress - cited, measured, and free of detox or weight-loss hype.",
+    href: "/sauna-guide/benefits/",
+    tag: "Evidence",
+  },
+  {
+    title: "How to use a sauna",
+    blurb:
+      "The ritual, step by step: prepare, warm up, add loyly, cool down, rest, repeat - plus simple etiquette.",
+    href: "/sauna-guide/how-to-use/",
+    tag: "Ritual",
+  },
+  {
+    title: "Temperature & humidity",
+    blurb:
+      "How hot a sauna should be - traditional 70-90C vs gentler infrared - and how steam changes the feel.",
+    href: "/sauna-guide/temperature-and-humidity/",
+    tag: "Set-up",
+  },
+  {
+    title: "How often & how long",
+    blurb:
+      "Sensible session length and weekly frequency for traditional and infrared, plus hydration and building up safely.",
+    href: "/sauna-guide/frequency-and-duration/",
+    tag: "Routine",
+  },
+  {
+    title: "Sauna safety",
+    blurb:
+      "Who should check with a doctor first, sensible limits, alcohol, children and older adults, and equipment safety.",
+    href: "/sauna-guide/safety/",
+    tag: "Safety",
+  },
+];
+
+const crumbItems = [
+  { label: "Home", url: "/" },
+  { label: "Sauna guide", url: "/sauna-guide/" },
+];
+
+const jsonLd = buildGraph([
+  organizationNode(),
+  websiteNode(),
+  breadcrumbNode(crumbItems),
+  itemListNode({
+    name: "Sauna guide articles",
+    items: articles.map((a) => ({ name: a.title, url: a.href })),
+  }),
+]);
+---
+
+<BaseLayout title={title} description={description} type="website" ogImage="/images/heroes/sauna-guide.webp" jsonLd={jsonLd}>
+  <section class="relative isolate overflow-hidden border-b border-ink-100 bg-night-950 text-white">
+    <img
+      src="/images/heroes/sauna-guide.webp"
+      alt=""
+      aria-hidden="true"
+      width="1920"
+      height="1080"
+      fetchpriority="high"
+      class="absolute inset-0 -z-10 h-full w-full object-cover object-[center_40%] opacity-90"
+    />
+    <div aria-hidden="true" class="absolute inset-0 -z-10 bg-gradient-to-br from-night-950/95 via-night-950/70 to-night-950/35"></div>
+    <div aria-hidden="true" class="absolute inset-0 -z-10 bg-gradient-to-t from-night-950/85 via-night-950/20 to-transparent"></div>
+    <div class="editorial-container py-14 md:py-20">
+      <p class="text-xs font-semibold tracking-[0.18em] text-sand-200 uppercase">Sauna guide</p>
+      <h1 class="mt-3 max-w-3xl text-4xl font-bold leading-[1.05] tracking-tight md:text-6xl">
+        Everything you need to know about using a sauna
+      </h1>
+      <p class="mt-5 max-w-2xl text-lg leading-8 text-white/85">
+        Before you compare products, the basics worth getting right: what saunas actually do for you,
+        how to use one well, how hot it should be, and how often is sensible. We keep the health
+        information conservative and cited - no detox or miracle claims.
+      </p>
+    </div>
+  </section>
+
+  <section class="editorial-container py-10 md:py-14">
+    <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Sauna guide" }]} />
+
+    <div class="mt-8 grid gap-6 sm:grid-cols-2">
+      {
+        articles.map((a) => (
+          <a
+            href={a.href}
+            class="group flex flex-col rounded-2xl border border-ink-100 bg-white p-6 no-underline shadow-sm transition-shadow hover:shadow-md"
+          >
+            <span class="text-xs font-semibold uppercase tracking-[0.12em] text-brand-700">{a.tag}</span>
+            <h2 class="mt-2 text-xl font-bold text-ink-900 group-hover:text-brand-700">{a.title}</h2>
+            <p class="mt-2 text-sm leading-relaxed text-ink-700">{a.blurb}</p>
+            <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-700">
+              Read more <span aria-hidden="true">&rarr;</span>
+            </span>
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="mt-10 rounded-2xl border border-ink-100 bg-sand-50 p-6 md:flex md:items-center md:justify-between md:gap-6">
+      <div>
+        <h2 class="text-lg font-semibold text-ink-900">Ready to choose a sauna?</h2>
+        <p class="mt-1 text-sm text-ink-700">
+          Once you know how you want to use it, compare formats and estimate what a build will cost.
+        </p>
+      </div>
+      <div class="mt-4 flex flex-wrap gap-3 md:mt-0">
+        <a
+          href="/home-sauna/"
+          class="inline-flex items-center rounded-full bg-brand-700 px-5 py-2.5 text-sm font-semibold text-white no-underline hover:bg-brand-800"
+        >
+          Compare home saunas
+        </a>
+        <a
+          href="/tools/sauna-cost-calculator/"
+          class="inline-flex items-center rounded-full border border-ink-200 px-5 py-2.5 text-sm font-semibold text-ink-800 no-underline hover:border-brand-300 hover:bg-white"
+        >
+          Cost calculator
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

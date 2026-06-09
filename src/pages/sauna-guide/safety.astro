@@ -1,0 +1,105 @@
+---
+import GuideArticleLayout from "@layouts/GuideArticleLayout.astro";
+
+const title = "Sauna Safety: Who Should Be Cautious, and How to Stay Safe";
+const description =
+  "Sauna safety basics: who should check with a doctor first, sensible session limits, hydration, alcohol, children and older adults, and how to use a sauna without putting yourself at risk.";
+const intro =
+  "Saunas are safe for most healthy adults when used sensibly. This page covers who should be cautious and the simple habits that keep heat exposure safe.";
+
+const updatedDate = new Date("2026-06-09");
+const pubDate = new Date("2026-06-09");
+
+const sources = [
+  {
+    name: "Cleveland Clinic - Sauna benefits (and cautions)",
+    url: "https://health.clevelandclinic.org/sauna-benefits",
+  },
+  {
+    name: "Harvard Health - Hot baths and saunas: beneficial for your heart?",
+    url: "https://www.health.harvard.edu/heart-health/hot-baths-and-saunas-beneficial-for-your-heart",
+  },
+];
+
+const faq = [
+  {
+    q: "Who should not use a sauna?",
+    a: "Use caution and talk to a doctor first if you are pregnant or trying to conceive, have a heart condition such as unstable angina, recent heart attack, severe aortic stenosis, or heart failure, have uncontrolled high or low blood pressure, are under 16 or over 65, have a neurological condition such as epilepsy, or take medication that affects how you handle heat. This is general information, not medical advice.",
+  },
+  {
+    q: "Is it safe to use a sauna after drinking alcohol?",
+    a: "No. Alcohol combined with sauna heat raises the risk of dehydration, low blood pressure, fainting, and irregular heart rhythms. Avoid alcohol before and during sauna use.",
+  },
+  {
+    q: "Are saunas safe for your heart?",
+    a: "For most healthy adults, moderate sauna use is well tolerated and may even be associated with cardiovascular benefits. But heat raises your heart rate like light exercise, so anyone with a heart condition or uncontrolled blood pressure should get medical clearance first and be cautious with sudden cold plunges.",
+  },
+];
+---
+
+<GuideArticleLayout
+  title={title}
+  description={description}
+  eyebrow="Safety"
+  intro={intro}
+  heroImage="/images/guide/safety.webp"
+  heroImageAlt="A glass of water, towel and sand timer on a cedar sauna bench near a guarded heater."
+  updatedDate={updatedDate}
+  pubDate={pubDate}
+  faq={faq}
+  sources={sources}
+>
+  <p>
+    A sauna applies real heat stress to your body - that is part of why it may be beneficial, and
+    also why it deserves a little respect. For healthy adults, sensible use is very safe. The points
+    below help you keep it that way. This is general, educational information, not medical advice.
+  </p>
+
+  <h2>Check with a doctor first if you...</h2>
+  <p>
+    Major clinics including the
+    <a href="https://health.clevelandclinic.org/sauna-benefits" rel="noopener nofollow" target="_blank">Cleveland Clinic</a>
+    and <a href="https://www.health.harvard.edu/heart-health/hot-baths-and-saunas-beneficial-for-your-heart" rel="noopener nofollow" target="_blank">Harvard Health</a>
+    advise caution and a conversation with your physician if you:
+  </p>
+  <ul>
+    <li>Are <strong>pregnant</strong> or trying to conceive.</li>
+    <li>Have a <strong>heart condition</strong> - unstable angina, a recent heart attack, severe aortic stenosis, or heart failure.</li>
+    <li>Have <strong>uncontrolled high or low blood pressure</strong>.</li>
+    <li>Are <strong>over 65 or under 16</strong>.</li>
+    <li>Have a <strong>neurological condition</strong> such as epilepsy.</li>
+    <li>Take <strong>medication</strong> that affects blood pressure, hydration, or heat tolerance.</li>
+  </ul>
+  <p>
+    Heat can also temporarily affect male fertility, which is worth knowing if you are trying to
+    conceive.
+  </p>
+
+  <h2>Habits that keep it safe</h2>
+  <ul>
+    <li><strong>Hydrate</strong> before and after; have water nearby.</li>
+    <li><strong>Limit your time</strong> - around 15-20 minutes per round in a hot traditional sauna, less if you are new.</li>
+    <li><strong>Cool down gradually</strong> and be cautious with sudden cold plunges if you have any heart concern.</li>
+    <li><strong>Avoid alcohol</strong> before and during sauna use.</li>
+    <li><strong>Get out</strong> if you feel dizzy, nauseous, faint, or get a headache.</li>
+    <li><strong>Do not sauna alone</strong> if you are unwell or unsure how you will react.</li>
+  </ul>
+
+  <h2>Children and older adults</h2>
+  <p>
+    Young children overheat faster and should only use a sauna briefly, at lower temperatures, and
+    with an adult - many guidelines suggest waiting until the teens for regular use. Older adults can
+    sauna safely but should favor shorter, cooler sessions and check with a doctor if they have any
+    cardiovascular condition.
+  </p>
+
+  <h2>Equipment safety</h2>
+  <p>
+    Electric and infrared saunas have no combustion, so there is no carbon monoxide risk. A
+    wood-burning stove does involve fire - it needs a code-compliant chimney, heat shielding, and
+    proper clearances, and the area should have a working smoke and CO alarm. Never block a heater's
+    guard or place items on the stones or stove. Our
+    <a href="/sauna-kits/">DIY build guide</a> covers ventilation and heater installation in more
+    detail.
+  </p>
+</GuideArticleLayout>

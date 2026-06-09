@@ -1,0 +1,31 @@
+# build output
+dist/
+.astro/
+
+# vercel
+.vercel/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+*.log
+
+# environment
+.env
+.env.production
+
+# editor / OS
+.DS_Store
+.vscode/
+Thumbs.db
+
+# astro build error log
+astro-build.err
+
+# raw harvest output + cache (only src/data/saunas.json is committed)
+data/raw/
+
+# raw AI-image originals (only the optimized files in public/images/ are committed)
+assets/generated/

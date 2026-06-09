@@ -1,0 +1,43 @@
+---
+export interface Props {
+  size?: number;
+  title?: string;
+}
+
+const { size = 36, title = "Home Sauna Guide" } = Astro.props;
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 64 64"
+  width={size}
+  height={size}
+  role="img"
+  aria-label={title}
+  class="block shrink-0"
+>
+  <title>{title}</title>
+  <defs>
+    <linearGradient id="saunaLogoBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#84502a" />
+      <stop offset="1" stop-color="#482e1e" />
+    </linearGradient>
+    <linearGradient id="saunaLogoGlow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f59f6a" />
+      <stop offset="1" stop-color="#e26321" />
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="64" height="64" rx="14" fill="url(#saunaLogoBg)" />
+  {/* Cabin roof + body */}
+  <path d="M14 30 L32 17 L50 30 Z" fill="#e7d8bd" />
+  <rect x="18" y="30" width="28" height="20" rx="1.5" fill="#d8c5a4" />
+  {/* Glowing stove window */}
+  <rect x="27" y="36" width="10" height="11" rx="1.5" fill="url(#saunaLogoGlow)" />
+  {/* Heat / loyly waves rising from the cabin */}
+  <g stroke="#f59f6a" stroke-width="2.4" stroke-linecap="round" fill="none" opacity="0.95">
+    <path d="M25 14 q3 -4 0 -8" />
+    <path d="M32 13 q3 -4 0 -8" />
+    <path d="M39 14 q3 -4 0 -8" />
+  </g>
+  <rect x="14" y="49.5" width="36" height="1.8" fill="#281910" opacity="0.3" />
+</svg>

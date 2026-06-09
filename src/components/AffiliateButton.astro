@@ -1,0 +1,65 @@
+---
+import { amazonSearchUrl, decorateAmazonUrl } from "@config/affiliate";
+
+export interface Props {
+  /** Direct product URL. Required unless `amazonSearch` is provided. */
+  href?: string;
+  /** Convenience: build an Amazon search URL for this query. Used when we
+   *  don't have a stable single-product ASIN yet. Implies store="amazon". */
+  amazonSearch?: string;
+  store?: "amazon" | "manufacturer" | "other";
+  label?: string;
+  variant?: "primary" | "secondary";
+  /** Optional product name used for accessibility labelling. */
+  productName?: string;
+}
+
+const {
+  href,
+  amazonSearch,
+  store: storeProp,
+  label,
+  variant = "primary",
+  productName,
+} = Astro.props;
+
+const store: NonNullable<Props["store"]> = amazonSearch ? "amazon" : (storeProp ?? "amazon");
+let finalHref: string;
+if (amazonSearch) {
+  finalHref = amazonSearchUrl(amazonSearch);
+} else if (store === "amazon" && href) {
+  finalHref = decorateAmazonUrl(href);
+} else {
+  finalHref = href ?? "#";
+}
+
+const storeLabels: Record<NonNullable<Props["store"]>, string> = {
+  amazon: "Check price on Amazon",
+  manufacturer: "Buy direct from the maker",
+  other: "Check current price",
+};
+
+const visibleLabel = label ?? storeLabels[store];
+const ariaLabel = productName
+  ? `${visibleLabel} for ${productName} (opens in a new tab)`
+  : `${visibleLabel} (opens in a new tab)`;
+
+const base =
+  "inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-semibold no-underline transition-colors";
+const styles =
+  variant === "primary"
+    ? "bg-ember-600 text-white hover:bg-ember-700"
+    : "border border-brand-600 text-brand-700 hover:bg-brand-50";
+---
+
+<a
+  href={finalHref}
+  rel="nofollow sponsored noopener"
+  target="_blank"
+  aria-label={ariaLabel}
+  data-affiliate-store={store}
+  class:list={[base, styles]}
+>
+  {visibleLabel}
+  <span aria-hidden="true">&rarr;</span>
+</a>

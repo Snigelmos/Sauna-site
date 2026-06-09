@@ -1,0 +1,111 @@
+---
+import GuideArticleLayout from "@layouts/GuideArticleLayout.astro";
+
+const title = "How to Use a Sauna: The Ritual, Step by Step";
+const description =
+  "A simple, beginner-friendly guide to using a sauna well: the warm-up, loyly (water on the stones), the cold plunge, the cool-down, how many rounds, and the etiquette that makes it better.";
+const intro =
+  "There is no single 'right' way to sauna, but there is a rhythm that makes it feel great and keeps it safe. Here is the ritual, broken into simple steps.";
+
+const updatedDate = new Date("2026-06-09");
+const pubDate = new Date("2026-06-09");
+
+const sources = [
+  {
+    name: "Harvard Health - Hot baths and saunas: beneficial for your heart?",
+    url: "https://www.health.harvard.edu/heart-health/hot-baths-and-saunas-beneficial-for-your-heart",
+  },
+  {
+    name: "Cleveland Clinic - Sauna benefits",
+    url: "https://health.clevelandclinic.org/sauna-benefits",
+  },
+];
+
+const faq = [
+  {
+    q: "How long should you stay in a sauna?",
+    a: "For a traditional hot sauna, most people do 10-20 minutes per round and leave sooner if they feel lightheaded. Infrared sessions run cooler so they tend to last 30-45 minutes. Beginners should start at the short end and build up.",
+  },
+  {
+    q: "What is loyly?",
+    a: "Loyly is the Finnish word for the burst of steam created when you ladle water onto the hot stones of a traditional sauna heater. It briefly raises the humidity and the feeling of heat on your skin. Add a little water at a time - you can always add more.",
+  },
+  {
+    q: "Do you have to do the cold plunge?",
+    a: "No. The hot-cold contrast is invigorating and popular, but it is optional. A cool shower or simply sitting in fresh air to cool down works perfectly well. If you have a heart condition, be cautious with sudden cold exposure and check with your doctor first.",
+  },
+];
+---
+
+<GuideArticleLayout
+  title={title}
+  description={description}
+  eyebrow="How to use a sauna"
+  intro={intro}
+  heroImage="/images/guide/how-to-use.webp"
+  heroImageAlt="A wooden bucket and ladle beside a sauna heater with rising steam."
+  updatedDate={updatedDate}
+  pubDate={pubDate}
+  faq={faq}
+  sources={sources}
+>
+  <p>
+    The classic sauna ritual is a few cycles of heating up, cooling down, and resting. You do not
+    need special skills - just a sense of your own limits and a bit of water. Here is a sensible
+    routine you can adapt.
+  </p>
+
+  <h2>1. Prepare</h2>
+  <ul>
+    <li><strong>Hydrate first.</strong> Drink a glass of water before you go in, and have water on hand for after.</li>
+    <li><strong>Shower and dry off.</strong> A quick rinse is good etiquette and dry skin sweats more comfortably.</li>
+    <li><strong>Bring a towel to sit on.</strong> It is hygienic and protects the wood. Sit or lie on the towel, not bare wood.</li>
+    <li><strong>Skip alcohol.</strong> Alcohol plus heat raises the risk of dehydration and fainting.</li>
+  </ul>
+
+  <h2>2. Warm up (first round)</h2>
+  <p>
+    Get in and settle on a bench. Heat rises, so the higher benches are hotter and the lower ones
+    gentler - start lower if you are new. Give your body 10-20 minutes in a traditional sauna (less
+    if you feel it), or 30-45 minutes in a cooler infrared cabin. Breathe slowly and relax.
+  </p>
+
+  <h2>3. Add loyly (traditional saunas only)</h2>
+  <p>
+    On a traditional heater with stones, ladle a small amount of water over the rocks to create a
+    burst of steam called <em>loyly</em>. It spikes the humidity and makes the heat feel more
+    intense on your skin. Add a little at a time. (Infrared cabins are dry - there are no stones to
+    pour water on.)
+  </p>
+
+  <h2>4. Cool down</h2>
+  <p>
+    When you have had enough heat, step out and cool off. Options, from gentle to bracing:
+  </p>
+  <ul>
+    <li>Sit or stand in fresh air.</li>
+    <li>Take a cool shower.</li>
+    <li>Do a cold plunge or cold shower for the classic hot-cold contrast.</li>
+  </ul>
+  <p>
+    <a href="https://www.health.harvard.edu/heart-health/hot-baths-and-saunas-beneficial-for-your-heart" rel="noopener nofollow" target="_blank">Harvard Health</a>
+    advises cooling down gradually and rehydrating. If you have any heart condition, be careful with
+    sudden cold and check with your doctor first.
+  </p>
+
+  <h2>5. Rest, then repeat</h2>
+  <p>
+    Rest for a few minutes, sip water, and let your heart rate settle. Most people do
+    <strong>two to three rounds</strong> of heat-then-cool, finishing with a final cool-down. There
+    is no prize for more rounds - stop when you have had enough.
+  </p>
+
+  <h2>Listen to your body</h2>
+  <p>
+    Get out promptly if you feel dizzy, nauseous, or have a headache. Heat is a genuine stress on the
+    body, which is part of why it may be beneficial - but it also means moderation matters. See
+    <a href="/sauna-guide/temperature-and-humidity/">temperature and humidity</a> for how hot it
+    should be, <a href="/sauna-guide/frequency-and-duration/">how often and how long</a> for a
+    weekly rhythm, and <a href="/sauna-guide/safety/">safety</a> for who should be cautious.
+  </p>
+</GuideArticleLayout>

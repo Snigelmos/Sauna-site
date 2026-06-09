@@ -1,0 +1,24 @@
+{
+  "_comment": "Existing Swedish sauna/bath directory sources for harvest-directories.mjs. Add a source, set 'enabled': true once you have verified its robots.txt allows crawling and confirmed the URL pattern. The harvester prefers each page's embedded schema.org JSON-LD (factual business data) and respects robots.txt. Entries below are starting points to verify - do not assume selectors are correct until a --dry test passes.",
+  "sources": [
+    {
+      "id": "badkartan",
+      "name": "Badkartan.se",
+      "enabled": false,
+      "strategy": "sitemap",
+      "sitemap": "https://www.badkartan.se/sitemap.xml",
+      "urlPattern": "/badplats/|/bad/|/anlaggning/",
+      "keywordFilter": "bastu|kallbad|badhus|sauna",
+      "note": "Large Swedish bath directory. Verify sitemap location + that listing pages embed JSON-LD before enabling."
+    },
+    {
+      "id": "example-listing",
+      "name": "Example listing-page directory",
+      "enabled": false,
+      "strategy": "listing",
+      "listingUrls": ["https://example.com/bastu/"],
+      "linkPattern": "/bastu/[a-z0-9-]+/?$",
+      "note": "Template for a directory that paginates HTML listing pages of venues. Set linkPattern to match individual venue page hrefs."
+    }
+  ]
+}

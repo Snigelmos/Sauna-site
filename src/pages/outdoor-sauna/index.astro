@@ -1,0 +1,382 @@
+---
+import DecisionGuideLayout from "@layouts/DecisionGuideLayout.astro";
+import ComparisonTable from "@components/ComparisonTable.astro";
+import ProductCard from "@components/ProductCard.astro";
+import Callout from "@components/Callout.astro";
+
+const title = "Best Outdoor Sauna: Barrel vs Cabin, Electric vs Wood-Burning";
+const description =
+  "An honest decision guide to the best outdoor sauna for your backyard. Compare barrel and cabin shapes, electric vs wood-burning heat, foundations, trenching, and clearances - with the install costs most lists skip.";
+const heroSubtitle =
+  "An outdoor sauna gets the heat (and the cold plunge after) out of the house. The real decision is barrel vs cabin, electric vs wood, and what your foundation and electrical run will cost - not which brand tops a list.";
+
+const pubDate = new Date("2026-06-08");
+const updatedDate = new Date("2026-06-08");
+const lastReviewed = new Date("2026-06-08");
+
+const methodologyNote =
+  "This guide synthesizes manufacturer specifications, independent expert reviews, building-code and electrical references, and verified owner feedback from sauna communities. We have not heat-tested every product, so we recommend by shape, heat source, and use-case rather than inventing star ratings. Where we name brands, we link to the maker's spec sheet so you can verify claims yourself.";
+
+const sources = [
+  {
+    name: "Sauna Guide - Infrared vs traditional sauna",
+    url: "https://sauna.guide/guides/infrared-vs-traditional-sauna",
+    accessed: new Date("2026-06-08"),
+    note: "Operating temperatures and heat mechanism for traditional heat used in outdoor builds.",
+  },
+  {
+    name: "Haven of Heat - How much does a sauna cost (2026 pricing)",
+    url: "https://havenofheat.com/blogs/sauna-guides/how-much-does-a-sauna-cost-the-complete-2026-pricing-guide",
+    accessed: new Date("2026-06-08"),
+    note: "2026 price bands for barrel, cabin, and custom outdoor saunas, plus running costs.",
+  },
+  {
+    name: "Haven of Heat - Sauna electrical requirements (240V vs 120V, breaker & wire gauge)",
+    url: "https://havenofheat.com/blogs/sauna-guides/sauna-electrical-requirements-complete-wiring-guide-240v-vs-120v-breaker-sizing-wire-gauge",
+    accessed: new Date("2026-06-08"),
+    note: "Circuit, breaker, and wire-gauge sizing by heater kW for an outdoor 240V run.",
+  },
+  {
+    name: "Haven of Heat - How to size a sauna (why person capacity is misleading)",
+    url: "https://havenofheat.com/blogs/sauna-guides/how-to-size-a-sauna-why-person-capacity-is-misleading",
+    accessed: new Date("2026-06-08"),
+    note: "Bench-length and volume math; why advertised barrel capacity runs optimistic.",
+  },
+  {
+    name: "ThermalFinn - Sauna build guide (wood species & sizing)",
+    url: "https://thermalfinn.com/sauna-builds/",
+    accessed: new Date("2026-06-08"),
+    note: "Wood thermal-conductivity table and why thermowood and clear cedar weather best outdoors.",
+  },
+  {
+    name: "Cleveland Clinic - Sauna benefits",
+    url: "https://health.clevelandclinic.org/sauna-benefits",
+    accessed: new Date("2026-06-08"),
+    note: "Clinic summary of benefits and the contraindications worth knowing before you start.",
+  },
+];
+
+const faq = [
+  {
+    q: "Is a barrel or cabin sauna better for outdoors?",
+    a: "Barrels heat faster and cost less because the round shape has less dead air above your head, so the heater works a smaller volume - they are the better value for two to four people. Cabin (cube) saunas give you full headroom, easier tiered benches, and more usable bench length for groups, but they heat slower and cost more. Choose a barrel for fast, efficient, lower-cost heat; choose a cabin for comfort, headroom, and larger gatherings.",
+  },
+  {
+    q: "Electric or wood-burning for an outdoor sauna?",
+    a: "Electric is the low-maintenance default: flip a switch, heat in 40-60 minutes, no fire to tend - but it needs a dedicated 240V circuit run to the sauna, often trenched, installed by a licensed electrician. Wood-burning needs no heater circuit and gives the most authentic loyly and an off-grid option, but requires a code-compliant chimney, heat shielding, fire-rated clearances, 60-90 minute heat-up, and ongoing maintenance (roughly 15-30 hours a year vs 2-4 for electric). Pick electric for convenience; pick wood for atmosphere and off-grid use.",
+  },
+  {
+    q: "What foundation does an outdoor sauna need?",
+    a: "A level, well-drained base is non-negotiable. The common options are a compacted gravel pad (cheapest, good drainage), concrete pavers on gravel, or a poured concrete slab (most durable, best for heavy cabins). The pad must be level so the door seals and the structure does not rack over time. Budget a few hundred dollars for gravel up to a couple thousand for a poured slab.",
+  },
+  {
+    q: "How much does an outdoor sauna cost installed?",
+    a: "Roughly: barrel saunas $4,000-$10,000; outdoor cabin saunas $5,000-$15,000; custom or luxury builds $12,000-$25,000+. On top of the kit, budget the foundation ($300-$2,000), the electrical run for an electric heater ($800-$2,500 since outdoor runs are often trenched), or chimney and clearances for wood ($1,000-$2,500). Trenching for the electrical run is frequently the biggest single surprise. Use our sauna cost calculator for an itemized estimate.",
+  },
+  {
+    q: "Do outdoor saunas need a permit?",
+    a: "Often yes, especially for the electrical work and sometimes for the structure or its setback from property lines. A licensed electrician will pull the electrical permit; a wood-burning chimney usually needs its own sign-off. Always check local building codes and HOA rules before you buy - requirements vary widely by jurisdiction.",
+  },
+];
+
+const heroGuides = {
+  heading: "Jump to",
+  items: [
+    { award: "Compare", title: "Barrel vs cabin", href: "#shapes" },
+    { award: "Decide", title: "Electric vs wood", href: "#heat" },
+    { award: "Plan", title: "Foundation & electrical", href: "#install" },
+    { award: "Tool", title: "Estimate your build", href: "/tools/sauna-cost-calculator/" },
+  ],
+};
+
+const shapeRows = [
+  [
+    "Barrel (round)",
+    "2-6 (realistic 2-4)",
+    '<span class="cmp-win">40-55 min</span>',
+    "Less air to heat; efficient",
+    '<span class="cmp-win">$4,000-$10,000</span>',
+    "Value, faster heat, classic backyard look",
+  ],
+  [
+    "Cabin / cube",
+    "2-8 (realistic 2-6)",
+    "45-65 min",
+    "Full headroom, tiered benches",
+    "$5,000-$15,000",
+    "Groups, comfort, easier to insulate",
+  ],
+  [
+    "Pod / cube (modern)",
+    "2-4",
+    "40-60 min",
+    "Large glass front, design-led",
+    "$6,000-$18,000",
+    "Views and aesthetics; budget for glass heat loss",
+  ],
+];
+
+const heatRows = [
+  [
+    "Electric (240V)",
+    "150-195F",
+    '<span class="cmp-win">40-60 min</span>',
+    "Dedicated 240V circuit + electrician",
+    '<span class="cmp-win">Low (2-4 hrs/yr)</span>',
+    "Convenience, set-and-forget daily use",
+  ],
+  [
+    "Wood-burning",
+    "150-195F+",
+    "60-90 min",
+    "Chimney, clearances, no heater circuit",
+    "Higher (15-30 hrs/yr)",
+    "Authentic loyly, off-grid, atmosphere",
+  ],
+];
+---
+
+<DecisionGuideLayout
+  title={title}
+  description={description}
+  hubSlug="outdoor-sauna"
+  heroSubtitle={heroSubtitle}
+  image="/images/heroes/outdoor-sauna.webp"
+  imageAlt="A cedar barrel and cabin sauna in a backyard at dusk with warm window light."
+  pubDate={pubDate}
+  updatedDate={updatedDate}
+  lastReviewed={lastReviewed}
+  methodologyNote={methodologyNote}
+  sources={sources}
+  faq={faq}
+  heroGuides={heroGuides}
+>
+  <p>
+    An outdoor sauna solves the two biggest problems with an indoor one: it keeps the heat and
+    moisture out of your house, and it puts the whole ritual - hot session, cold plunge, cool-down -
+    in the backyard where it belongs. But "best outdoor sauna" is not a brand question. It is three
+    decisions stacked together: <strong>barrel or cabin</strong>, <strong>electric or wood-burning</strong>,
+    and what your <strong>foundation and electrical run</strong> will actually cost. Get those right and
+    the specific kit almost picks itself.
+  </p>
+  <p>
+    Below we compare the shapes and heat sources honestly, then walk through the install realities
+    that quietly decide your budget. When you want hard numbers for your own yard, the
+    <a href="/tools/sauna-cost-calculator/">sauna cost calculator</a> turns your choices into an
+    itemized cost range.
+  </p>
+
+  <h2 id="shapes">Barrel vs cabin: the shape decision</h2>
+  <p>
+    Outdoor saunas come in two main shapes, plus modern glass-fronted pods. The shape changes how
+    fast it heats, how many people fit comfortably, and what it costs.
+  </p>
+
+  <ComparisonTable
+    caption="Outdoor sauna shapes compared by capacity, heat-up time, layout, price, and best use"
+    headers={["Shape", "Capacity", "Heat-up", "Layout", "Typical price", "Best for"]}
+    rows={shapeRows}
+  />
+
+  <p>
+    The efficiency argument for barrels is real: a round profile has less dead air above your head,
+    so a given heater works a smaller volume and reaches temperature faster. Cabins win on headroom,
+    tiered "sit high to feel hotter" benches, and group capacity - but they cost more and heat
+    slower. As with indoor saunas, treat advertised person capacity as optimistic: allow about 20
+    inches of bench length per seated adult and knock roughly a quarter to a third off the brochure
+    number for real comfort.
+  </p>
+
+  <h2 id="heat">Electric vs wood-burning heat</h2>
+  <p>
+    This is the decision that shapes both your daily experience and your install. There is no wrong
+    answer - just a trade between convenience and atmosphere.
+  </p>
+
+  <ComparisonTable
+    caption="Outdoor sauna heat sources compared by temperature, heat-up, install, maintenance, and best use"
+    headers={["Heat source", "Temp", "Heat-up", "Install needs", "Maintenance", "Best for"]}
+    rows={heatRows}
+  />
+
+  <Callout variant="note" title="Why the heat source drives your budget">
+    <p>
+      An electric heater's biggest hidden cost is getting 240V power to a structure in the middle of
+      the yard - frequently a trenched run, which can be the single largest line item in the whole
+      project. A wood stove skips the circuit entirely but adds a code-compliant chimney, heat
+      shielding, and fire-rated clearances. Price both before you fall in love with a heater.
+    </p>
+  </Callout>
+
+  <h2 id="picks">Which outdoor sauna fits your yard?</h2>
+  <p>
+    Use these as format-level starting points, not star-rated winners. Where we mention brands, treat
+    them as well-regarded examples to compare, and check the maker's spec sheet before buying.
+  </p>
+
+  <ProductCard
+    id="electric-barrel"
+    name="Electric barrel sauna"
+    bestFor="Best for most backyards"
+    saunaIcon="barrel-outdoor"
+    image="/images/formats/barrel-outdoor.webp"
+    imageAlt="A cedar barrel sauna with a chimney on a wooden deck surrounded by greenery."
+    formatLabel="Barrel, electric, seats 2-4"
+    price="$4,000-$10,000 + electrical"
+    specs={[
+      { label: "Temp", value: "150-195F" },
+      { label: "Heat-up", value: "40-55 min" },
+      { label: "Power", value: "240V circuit" },
+      { label: "Install", value: "Pad + electrician" },
+    ]}
+    summary={[
+      "The default outdoor choice: a barrel heats faster and costs less than a cabin, and an electric heater means you flip a switch instead of tending a fire. You need a level gravel pad or pavers and a dedicated 240V circuit run to the sauna - budget for trenching if it sits away from the house.",
+      "Almost Heaven, Redwood Outdoors, and SaunaLife are common barrel makers. Thermowood or clear cedar shells weather best; pair with a Harvia or HUUM heater sized to the volume.",
+    ]}
+    pros={[
+      "Fast, efficient heat for the price",
+      "Set-and-forget electric operation",
+      "Classic backyard look; quick to assemble",
+    ]}
+    cons={[
+      "240V run can mean trenching costs",
+      "Round walls limit bench layout",
+      "Less headroom than a cabin",
+    ]}
+    skipIf="you want off-grid heat or a large group space."
+    amazonSearch="electric barrel sauna outdoor kit"
+  />
+
+  <ProductCard
+    id="wood-barrel"
+    name="Wood-burning barrel or cabin"
+    bestFor="Best for atmosphere & off-grid"
+    saunaIcon="barrel-outdoor"
+    image="/images/formats/wood-stove.webp"
+    imageAlt="A black wood-burning sauna stove with a glowing fire door and stones on top."
+    formatLabel="Wood-fired, seats 2-6"
+    price="$4,500-$13,000 + chimney"
+    specs={[
+      { label: "Temp", value: "150-195F+" },
+      { label: "Heat-up", value: "60-90 min" },
+      { label: "Power", value: "No heater circuit" },
+      { label: "Install", value: "Chimney + clearances" },
+    ]}
+    summary={[
+      "Wood-burning is the purist's pick: the most authentic loyly, the crackle and smell of a real fire, and no need for an electrical run - ideal for cabins, lakesides, and off-grid lots. The trade-off is a code-compliant chimney with heat shielding and clearances, a longer 60-90 minute heat-up, and real ongoing maintenance.",
+      "Harvia, HUUM, and Kuuma make well-regarded wood stoves; Almost Heaven and Dundalk LeisureCraft offer wood-ready barrels and cabins.",
+    ]}
+    pros={[
+      "Most authentic, intense heat and steam",
+      "No electrician or 240V run required",
+      "Works off-grid",
+    ]}
+    cons={[
+      "Chimney, shielding, and clearances add cost",
+      "Slowest heat-up; you tend the fire",
+      "Most maintenance (15-30 hrs/yr)",
+    ]}
+    skipIf="you want set-and-forget convenience or have strict fire/HOA rules."
+    amazonSearch="wood burning sauna stove outdoor"
+  />
+
+  <ProductCard
+    id="cabin-pod"
+    name="Outdoor cabin or glass-front pod"
+    bestFor="Best for groups & views"
+    saunaIcon="traditional-cabin"
+    image="/images/formats/traditional-cabin.webp"
+    imageAlt="A traditional cedar sauna cabin with a glass door, tiered benches and a stone heater."
+    formatLabel="Cabin / pod, seats 3-6"
+    price="$5,000-$18,000 + electrical"
+    specs={[
+      { label: "Temp", value: "150-195F" },
+      { label: "Heat-up", value: "45-65 min" },
+      { label: "Power", value: "240V (or wood)" },
+      { label: "Install", value: "Slab recommended" },
+    ]}
+    summary={[
+      "A cube cabin gives you full headroom and tiered benches so more people can sit high where it is hottest - the better choice for families and groups. Modern glass-fronted pods trade some efficiency (glass loses heat) for a striking look and a view. Heavier cabins are happiest on a poured slab.",
+      "SaunaLife, Almost Heaven, and Dundalk LeisureCraft offer cabins and pods. Expect a larger heater (8-9 kW) and add ~6 cubic feet of effective volume per square foot of glass when sizing it.",
+    ]}
+    pros={[
+      "Full headroom and tiered benches",
+      "Best for groups and social use",
+      "Pods offer striking design and views",
+    ]}
+    cons={[
+      "Heats slower; larger heater needed",
+      "Glass fronts lose heat (size up the heater)",
+      "Heaviest builds want a concrete slab",
+    ]}
+    skipIf="you mainly sauna solo or want the lowest-cost, fastest-heating option."
+    amazonSearch="outdoor cabin sauna kit"
+  />
+
+  <Callout variant="tip" title="Estimate your specific build">
+    <p>
+      The price bands above are broad on purpose. To size your own project, run the
+      <a href="/tools/sauna-cost-calculator/">sauna cost calculator</a> - pick size, materials,
+      heat source, who builds it, and your electrical situation, and it returns an itemized
+      low-to-high range plus a monthly running cost.
+    </p>
+  </Callout>
+
+  <h2 id="install">Foundation, electrical &amp; clearances</h2>
+  <p>
+    This is where outdoor budgets are won or lost. Plan it before you choose a heater.
+  </p>
+  <ul>
+    <li>
+      <strong>Foundation:</strong> a level, well-drained base is mandatory. A compacted gravel pad is
+      cheapest and drains well; pavers on gravel are a tidy middle ground; a poured slab is most
+      durable and best under heavy cabins. Budget roughly $300-$2,000.
+    </li>
+    <li>
+      <strong>Electric heaters need a dedicated 240V circuit</strong> sized to the heater (about 6 kW
+      on a 30A/#10 circuit, 8-9 kW on 40A/#8), installed by a licensed electrician with a GFCI
+      breaker. Outdoor runs are often trenched in conduit, which pushes a typical run to $800-$2,500.
+    </li>
+    <li>
+      <strong>A panel upgrade adds $1,500-$3,000</strong> if your service has no spare capacity - the
+      single biggest swing in many outdoor projects.
+    </li>
+    <li>
+      <strong>Wood-burning needs a code-compliant chimney,</strong> heat shielding, and fire-rated
+      clearances to combustibles; this install can run $1,000-$2,500 and usually needs its own permit.
+    </li>
+    <li>
+      <strong>Check setbacks, permits, and HOA rules</strong> before buying. Electrical work almost
+      always needs a permit; structures and chimneys sometimes do too.
+    </li>
+  </ul>
+
+  <Callout variant="warning" title="Get a written quote first">
+    <p>
+      Always get a written quote from a licensed electrician (and, for wood, a chimney installer)
+      before buying. Run length, trenching, panel capacity, and local labor rates vary enough to
+      change which heat source makes sense for your yard.
+    </p>
+  </Callout>
+
+  <h2 id="health">A measured word on health benefits</h2>
+  <p>
+    Large observational studies - mostly on traditional, high-heat Finnish saunas, which is exactly
+    what most outdoor builds are - link frequent use with lower cardiovascular and all-cause
+    mortality, and with stress relief and recovery. These are associations, not proof of cause.
+    Saunas are not for everyone: if you are pregnant, have heart disease, unstable blood pressure, or
+    take medications, talk to a physician first. Hydrate, keep early sessions short, and cool down
+    gradually. We do not make detox, weight-loss, or disease-cure claims.
+  </p>
+
+  <h2 id="bottom-line">The bottom line</h2>
+  <p>
+    For most backyards, an <a href="#electric-barrel">electric barrel</a> is the best balance of cost,
+    speed, and convenience. Want the most authentic, off-grid experience and do not mind tending a
+    fire? Go <a href="#wood-barrel">wood-burning</a>. Hosting groups or chasing a view? A
+    <a href="#cabin-pod">cabin or glass-front pod</a> earns its premium. Whichever you choose, price
+    the foundation and the electrical run first, and
+    <a href="/tools/sauna-cost-calculator/">estimate the full build</a> before you buy. New to the
+    format question entirely? Start with our <a href="/home-sauna/">best home sauna guide</a>.
+  </p>
+</DecisionGuideLayout>

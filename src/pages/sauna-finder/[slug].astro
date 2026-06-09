@@ -1,0 +1,474 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Breadcrumbs from "@components/Breadcrumbs.astro";
+import SaunaCard from "@components/finder/SaunaCard.astro";
+import {
+  SAUNAS,
+  TYPE_LABELS,
+  BOOKING_LABELS,
+  formatPrice,
+  amenityLabels,
+  citySlug,
+  nearbySaunas,
+  type Sauna,
+} from "@data/saunas";
+import {
+  absUrl,
+  buildGraph,
+  organizationNode,
+  websiteNode,
+  breadcrumbNode,
+} from "@components/schema/helpers";
+import { ACCESSORIES } from "@data/accessories";
+
+const accessories = ACCESSORIES.filter((a) => a.url);
+
+export function getStaticPaths() {
+  return SAUNAS.map((sauna) => ({
+    params: { slug: sauna.slug },
+    props: { sauna },
+  }));
+}
+
+interface Props {
+  sauna: Sauna;
+}
+const { sauna } = Astro.props;
+
+const pageUrl = absUrl(`/sauna-finder/${sauna.slug}/`);
+const title = `${sauna.name} - sauna in ${sauna.city}`;
+const description = sauna.tagline;
+const amenities = amenityLabels(sauna);
+// Booking CTA priority: a vetted booking deep-link, then the venue website,
+// then a phone-to-book button, then a plain drop-in note. bookingUrl is only
+// set when it is sauna-relevant, so preferring it is safe.
+const ctaExternalHref = sauna.bookingUrl ?? sauna.website ?? null;
+const ctaExternalLabel = sauna.bookingUrl
+  ? "Book now"
+  : sauna.website
+    ? sauna.bookable
+      ? "Book on website"
+      : "Visit website"
+    : null;
+const telHref = sauna.phone ? `tel:${sauna.phone.replace(/\s/g, "")}` : null;
+const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${sauna.lat},${sauna.lng}`;
+
+// Internal links up to programmatic hubs.
+const cityHubHref = `/sauna-finder/city/${citySlug(sauna.city)}/`;
+const typeHubHref = `/sauna-finder/type/${sauna.type}/`;
+const nearby = nearbySaunas(sauna, 3);
+
+// OpeningHoursSpecification from the machine-readable hours, if present.
+const DOW_SCHEMA = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const openingHoursSpec = (sauna.hours ?? []).map((h) => ({
+  "@type": "OpeningHoursSpecification",
+  dayOfWeek: DOW_SCHEMA[h.dow],
+  opens: h.open,
+  closes: h.close,
+}));
+
+const localBusinessNode = {
+  "@type": "HealthAndBeautyBusiness",
+  "@id": `${pageUrl}#business`,
+  name: sauna.name,
+  description: sauna.description,
+  url: sauna.website,
+  ...(sauna.phone ? { telephone: sauna.phone } : {}),
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: sauna.address,
+    addressLocality: sauna.city,
+    addressRegion: sauna.region,
+    addressCountry: "SE",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: sauna.lat,
+    longitude: sauna.lng,
+  },
+  ...(openingHoursSpec.length ? { openingHoursSpecification: openingHoursSpec } : {}),
+  ...(sauna.googleRating != null
+    ? {
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: sauna.googleRating,
+          ...(sauna.googleReviewsCount != null ? { reviewCount: sauna.googleReviewsCount } : {}),
+          bestRating: 5,
+          worstRating: 1,
+        },
+      }
+    : {}),
+  ...(sauna.priceFrom != null ? { priceRange: `${sauna.priceFrom} SEK+` } : {}),
+};
+
+const jsonLd = buildGraph([
+  organizationNode(),
+  websiteNode(),
+  localBusinessNode,
+  breadcrumbNode([
+    { label: "Home", url: "/" },
+    { label: "Sauna finder", url: "/sauna-finder/" },
+    { label: `Saunas in ${sauna.city}`, url: cityHubHref },
+    { label: sauna.name, url: `/sauna-finder/${sauna.slug}/` },
+  ]),
+]);
+
+const factRows = [
+  { label: "Type", value: TYPE_LABELS[sauna.type] },
+  { label: "Price", value: formatPrice(sauna) },
+  { label: "Booking", value: BOOKING_LABELS[sauna.bookingMethod] },
+  ...(sauna.capacity ? [{ label: "Capacity", value: `Up to ${sauna.capacity} people` }] : []),
+  ...(sauna.genderPolicy ? [{ label: "Sessions", value: sauna.genderPolicy }] : []),
+  ...(sauna.swimwearPolicy ? [{ label: "Swimwear", value: sauna.swimwearPolicy }] : []),
+];
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd} type="article">
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+
+  <div class="border-b border-ink-100 bg-sand-50">
+    <div class="editorial-container py-8 md:py-12">
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/" },
+          { label: "Sauna finder", href: "/sauna-finder/" },
+          { label: `Saunas in ${sauna.city}`, href: cityHubHref },
+          { label: sauna.name },
+        ]}
+      />
+      <div class="flex flex-wrap items-center gap-2">
+        <a href={typeHubHref} class="spec-chip no-underline transition-colors hover:bg-ink-100">{TYPE_LABELS[sauna.type]}</a>
+        {sauna.verified && (
+          <span class="inline-flex items-center gap-1 rounded-full bg-brand-50 px-2.5 py-0.5 text-xs font-semibold text-brand-700 ring-1 ring-brand-200 ring-inset">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>
+            Verified
+          </span>
+        )}
+        {sauna.featured && (
+          <span class="inline-flex items-center gap-1 rounded-full bg-ember-500 px-2.5 py-0.5 text-xs font-semibold text-white">Featured</span>
+        )}
+        {sauna.bookable ? (
+          <span class="inline-flex items-center gap-1 rounded-full bg-ember-50 px-2.5 py-0.5 text-xs font-semibold text-ember-700 ring-1 ring-ember-200 ring-inset">Bookable</span>
+        ) : (
+          <span class="inline-flex items-center gap-1 rounded-full bg-ink-100 px-2.5 py-0.5 text-xs font-semibold text-ink-600 ring-1 ring-ink-200 ring-inset">Drop-in</span>
+        )}
+        {sauna.googleRating != null && (
+          <span class="inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-0.5 text-xs font-semibold text-ink-700 ring-1 ring-ink-200 ring-inset">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="#f0a020" stroke="none" aria-hidden="true">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg>
+            {sauna.googleRating.toFixed(1)}
+            {sauna.googleReviewsCount != null && <span class="text-ink-400">({sauna.googleReviewsCount})</span>}
+          </span>
+        )}
+      </div>
+      <h1 class="mt-3 text-3xl font-bold tracking-tight text-ink-900 md:text-5xl">{sauna.name}</h1>
+      <p class="mt-2 flex items-center gap-1.5 text-ink-600">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z" /><circle cx="12" cy="10" r="3" />
+        </svg>
+        <a href={cityHubHref} class="no-underline hover:text-brand-700">{sauna.address}</a>
+      </p>
+    </div>
+  </div>
+
+  {sauna.photo && (
+    <div class="border-b border-ink-100 bg-ink-50">
+      <div class="editorial-container py-0">
+        <figure class="relative -mb-px overflow-hidden">
+          <img
+            src={sauna.photo}
+            alt={`Photo of ${sauna.name}`}
+            loading="lazy"
+            decoding="async"
+            class="h-56 w-full rounded-b-2xl object-cover md:h-80"
+          />
+          {sauna.photoCredit && (
+            <figcaption class="absolute bottom-2 right-3 rounded-full bg-black/45 px-2.5 py-1 text-[0.7rem] text-white backdrop-blur-sm">
+              {sauna.photoCredit}
+            </figcaption>
+          )}
+        </figure>
+      </div>
+    </div>
+  )}
+
+  <div class="editorial-container grid gap-10 py-10 md:grid-cols-[1fr_22rem] md:py-14">
+    <!-- main -->
+    <div>
+      <p class="text-lg leading-8 text-ink-700">{sauna.description}</p>
+
+      {sauna.instructions.length > 0 && (
+        <>
+          <h2 class="mt-10 text-xl font-bold text-ink-900">Good to know</h2>
+          <ul class="mt-3 space-y-2">
+            {sauna.instructions.map((line) => (
+              <li class="flex items-start gap-2.5 text-ink-700">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0 text-brand-600" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                {line}
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+
+      {amenities.length > 0 && (
+        <>
+          <h2 class="mt-10 text-xl font-bold text-ink-900">Facilities</h2>
+          <div class="mt-3 flex flex-wrap gap-2">
+            {amenities.map((a) => (
+              <span class="rounded-lg bg-sand-50 px-3 py-1.5 text-sm font-medium text-clay-700 ring-1 ring-sand-200 ring-inset">{a}</span>
+            ))}
+          </div>
+        </>
+      )}
+
+      <h2 class="mt-10 text-xl font-bold text-ink-900">Opening hours</h2>
+      <dl class="mt-3 divide-y divide-ink-100 overflow-hidden rounded-xl border border-ink-100">
+        {sauna.openingHours.map((o) => (
+          <div class="flex items-center justify-between gap-4 bg-white px-4 py-2.5 text-sm">
+            <dt class="font-medium text-ink-700">{o.days}</dt>
+            <dd class="text-ink-600">{o.hours}</dd>
+          </div>
+        ))}
+      </dl>
+
+      {accessories.length > 0 && (
+        <>
+          <h2 class="mt-10 text-xl font-bold text-ink-900">Sauna accessories</h2>
+          <p class="mt-1 text-xs text-ink-400">Affiliate links - we may earn a commission if you buy through them.</p>
+          <div class="mt-3 grid gap-3 sm:grid-cols-3">
+            {accessories.map((a) => (
+              <a
+                href={a.url}
+                target="_blank"
+                rel="sponsored nofollow noopener"
+                data-evt="affiliate_out"
+                data-evt-label={a.name}
+                class="flex flex-col gap-1 rounded-2xl border border-ink-100 bg-white p-4 no-underline shadow-sm transition-all hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-md"
+              >
+                <span class="text-2xl" aria-hidden="true">{a.emoji}</span>
+                <span class="font-semibold text-ink-900">{a.name}</span>
+                <span class="text-sm text-ink-600">{a.blurb}</span>
+              </a>
+            ))}
+          </div>
+        </>
+      )}
+
+      <h2 class="mt-10 text-xl font-bold text-ink-900">Map & directions</h2>
+      <div class="mt-3 overflow-hidden rounded-2xl border border-ink-100 shadow-sm">
+        <div
+          id="detail-map"
+          class="detail-map h-72 w-full"
+          data-lat={sauna.lat}
+          data-lng={sauna.lng}
+          data-name={sauna.name}
+        ></div>
+      </div>
+      <a
+        href={mapsUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-evt="directions"
+        data-evt-label={sauna.slug}
+        class="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 no-underline hover:text-brand-800"
+      >
+        Get directions in Google Maps
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M7 17 17 7M7 7h10v10" />
+        </svg>
+      </a>
+
+      {nearby.length > 0 && (
+        <>
+          <h2 class="mt-12 text-xl font-bold text-ink-900">Other saunas nearby</h2>
+          <div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {nearby.map((n) => <SaunaCard sauna={n} />)}
+          </div>
+        </>
+      )}
+
+      <div class="mt-10 flex flex-wrap gap-2 border-t border-ink-100 pt-6 text-sm">
+        <a href={cityHubHref} class="rounded-full border border-ink-200 bg-white px-4 py-2 font-medium text-ink-700 no-underline transition-colors hover:border-brand-300 hover:text-brand-700">
+          More saunas in {sauna.city}
+        </a>
+        <a href={typeHubHref} class="rounded-full border border-ink-200 bg-white px-4 py-2 font-medium text-ink-700 no-underline transition-colors hover:border-brand-300 hover:text-brand-700">
+          All {TYPE_LABELS[sauna.type].toLowerCase()}s
+        </a>
+        <a href="/sauna-finder/" class="rounded-full border border-ink-200 bg-white px-4 py-2 font-medium text-ink-700 no-underline transition-colors hover:border-brand-300 hover:text-brand-700">
+          Full map
+        </a>
+      </div>
+    </div>
+
+    <!-- sidebar -->
+    <aside class="md:sticky md:top-24 md:self-start">
+      <div class="rounded-2xl border border-ink-100 bg-white p-5 shadow-md">
+        <p class="text-xs font-semibold tracking-wide text-ink-500 uppercase">Price from</p>
+        <p class="mt-1 text-2xl font-bold text-ink-900">
+          {sauna.priceFrom != null ? `${sauna.priceFrom} kr` : "Varies"}
+          <span class="text-sm font-medium text-ink-500">{sauna.priceFrom != null ? ` ${formatPrice(sauna).split(" ").slice(-2).join(" ")}` : ""}</span>
+        </p>
+
+        {ctaExternalHref ? (
+          <a
+            href={ctaExternalHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-booking-out={sauna.slug}
+            data-evt="booking_out"
+            data-evt-label={sauna.slug}
+            class="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-ink-900 px-5 py-3 text-sm font-semibold text-white no-underline transition-colors hover:bg-ink-800"
+          >
+            {ctaExternalLabel}
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M7 17 17 7M7 7h10v10" />
+            </svg>
+          </a>
+        ) : telHref && sauna.bookingMethod === "telefon" ? (
+          <a
+            href={telHref}
+            data-booking-out={sauna.slug}
+            data-evt="booking_out"
+            data-evt-label={sauna.slug}
+            class="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-ink-900 px-5 py-3 text-sm font-semibold text-white no-underline transition-colors hover:bg-ink-800"
+          >
+            Call to book
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z" />
+            </svg>
+          </a>
+        ) : (
+          <p class="mt-4 rounded-xl bg-sand-50 px-4 py-3 text-center text-sm text-ink-600">
+            {BOOKING_LABELS[sauna.bookingMethod]} - check on-site info
+          </p>
+        )}
+
+        <dl class="mt-5 space-y-3 text-sm">
+          {factRows.map((row) => (
+            <div class="flex items-start justify-between gap-3">
+              <dt class="text-ink-500">{row.label}</dt>
+              <dd class="text-right font-medium text-ink-900">{row.value}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <div class="mt-5 space-y-2 border-t border-ink-100 pt-4 text-sm">
+          {sauna.phone && (
+            <a href={`tel:${sauna.phone.replace(/\s/g, "")}`} data-evt="phone_out" data-evt-label={sauna.slug} class="flex items-center gap-2 text-ink-700 no-underline hover:text-brand-700">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z" />
+              </svg>
+              {sauna.phone}
+            </a>
+          )}
+          {sauna.website && (
+            <a href={sauna.website} target="_blank" rel="noopener noreferrer" data-evt="website_out" data-evt-label={sauna.slug} class="flex items-center gap-2 break-all text-ink-700 no-underline hover:text-brand-700">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+              </svg>
+              {sauna.website.replace(/^https?:\/\//, "").replace(/\/$/, "")}
+            </a>
+          )}
+          {sauna.email && (
+            <a href={`mailto:${sauna.email}`} class="flex items-center gap-2 text-ink-700 no-underline hover:text-brand-700">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-10 5L2 7" />
+              </svg>
+              {sauna.email}
+            </a>
+          )}
+          {sauna.googleReviewsUrl && (
+            <a href={sauna.googleReviewsUrl} target="_blank" rel="noopener noreferrer" data-evt="reviews_out" data-evt-label={sauna.slug} class="flex items-center gap-2 text-ink-700 no-underline hover:text-brand-700">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="#f0a020" stroke="none" aria-hidden="true">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+              </svg>
+              {sauna.googleRating != null ? `${sauna.googleRating.toFixed(1)} · read reviews on Google` : "Read reviews on Google"}
+            </a>
+          )}
+        </div>
+
+        <div class="mt-5 flex items-center justify-between border-t border-ink-100 pt-4 text-xs text-ink-400">
+          <span>Last verified {sauna.lastVerified}</span>
+          <a href={`/sauna-finder/add/?ref=${sauna.slug}`} class="font-medium text-ink-500 hover:text-brand-700">Report an error</a>
+        </div>
+      </div>
+
+      <p class="mt-3 px-1 text-xs text-ink-400">
+        Source: {sauna.source}. Prices and hours can change - please verify with the venue.
+      </p>
+    </aside>
+  </div>
+
+  <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script is:inline>
+    (function () {
+      const L = window.L;
+      const el = document.getElementById("detail-map");
+      if (!L || !el) return;
+      const lat = parseFloat(el.dataset.lat);
+      const lng = parseFloat(el.dataset.lng);
+      const map = L.map(el, { scrollWheelZoom: false, zoomControl: true }).setView([lat, lng], 14);
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+        subdomains: "abcd",
+        maxZoom: 20,
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      }).addTo(map);
+      L.marker([lat, lng], {
+        icon: L.divIcon({
+          className: "sauna-pin-wrap",
+          html: '<span class="sauna-pin"><span class="sauna-pin__dot"></span></span>',
+          iconSize: [30, 38],
+          iconAnchor: [15, 36],
+        }),
+      }).addTo(map);
+    })();
+  </script>
+
+  <style is:global>
+    .detail-map .leaflet-tile {
+      filter: saturate(0.94) contrast(0.98) brightness(1.02);
+    }
+    .detail-map .leaflet-container {
+      background: #cfe0ea;
+      font-family: inherit;
+    }
+    .sauna-pin {
+      position: relative;
+      display: block;
+      width: 30px;
+      height: 38px;
+      filter: drop-shadow(0 3px 3px rgba(28, 19, 13, 0.35));
+    }
+    .sauna-pin::before {
+      content: "";
+      position: absolute;
+      left: 3px;
+      top: 0;
+      width: 24px;
+      height: 24px;
+      background: #c64f15;
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+    }
+    .sauna-pin__dot {
+      position: absolute;
+      left: 11px;
+      top: 8px;
+      width: 8px;
+      height: 8px;
+      background: #fff;
+      border-radius: 50%;
+      z-index: 1;
+    }
+  </style>
+</BaseLayout>

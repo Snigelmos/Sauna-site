@@ -1,0 +1,98 @@
+name: Refresh saunas
+
+# Free, hyrox-style refresh of the Sauna Finder dataset.
+#
+# Pipeline (all free sources): harvest from OpenStreetMap Overpass -> enrich
+# booking links from each venue's own site -> merge/dedupe/classify into
+# src/data/saunas.json. If (and only if) saunas.json changed AND `npm run
+# build` is green, it commits to main and lets Vercel deploy. Building before
+# pushing means bad harvested data can never produce a red production deploy.
+#
+# DataForSEO (paid) is deliberately NOT run here - it stays a manual,
+# cost-gated local step (scripts/harvest-dfs.mjs --confirm) so a scheduled run
+# can never spend money silently.
+#
+# Defaults to manual dispatch. Enable the monthly cron below once you trust the
+# output (sauna data changes slowly, so monthly is plenty).
+
+on:
+  workflow_dispatch:
+    inputs:
+      enrich:
+        description: "Run per-site booking-link enrichment (slower, hits venue sites)"
+        type: boolean
+        default: true
+      photos:
+        description: "Harvest one photo per venue (og:image; slower)"
+        type: boolean
+        default: true
+      geocode:
+        description: "Reverse-geocode missing cities via Nominatim (slow, <=1 req/s)"
+        type: boolean
+        default: false
+  schedule:
+    - cron: "30 4 1 * *"   # 04:30 UTC on the 1st of each month
+
+concurrency:
+  group: refresh-saunas
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Harvest OpenStreetMap (free)
+        run: node scripts/harvest-osm.mjs --print
+
+      - name: Enrich booking links
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.enrich }}
+        run: node scripts/enrich-booking.mjs --delay 1500
+
+      - name: Harvest photos
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.photos }}
+        run: node scripts/harvest-photos.mjs --delay 1500
+
+      - name: Merge into saunas.json
+        run: node scripts/merge-saunas.mjs --write ${{ inputs.geocode && '--geocode' || '' }}
+
+      - name: Detect changes
+        id: changes
+        run: |
+          git add -f src/data/saunas.json
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No sauna data changes."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "Sauna data changes detected:"
+            git diff --cached --stat
+          fi
+
+      # Build gate - must pass before anything is pushed to main.
+      - name: Build site (astro build)
+        if: steps.changes.outputs.changed == 'true'
+        run: npm run build
+
+      - name: Commit and push
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f src/data/saunas.json
+          git commit -m "chore(saunas): auto-refresh finder dataset (OSM + booking enrichment)"
+          git push

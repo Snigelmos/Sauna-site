@@ -1,0 +1,48 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Breadcrumbs from "@components/Breadcrumbs.astro";
+import { SITE } from "@config/site";
+
+const title = "Affiliate Disclosure";
+const description =
+  "How Home Sauna Guide uses affiliate links, including Amazon Associates, and our promise that commissions never change our recommendations.";
+---
+
+<BaseLayout title={title} description={description} type="article">
+  <section class="editorial-container py-10">
+    <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Affiliate disclosure" }]} />
+    <div class="prose prose-lg max-w-3xl">
+      <h1>Affiliate disclosure</h1>
+      <p>
+        {SITE.name} is reader-supported. Some links on this site are affiliate links, which means we may
+        earn a commission when you buy through them - at no extra cost to you.
+      </p>
+      <h2>Our promise</h2>
+      <p>
+        Commissions never influence which products we recommend or how we describe them. We recommend by
+        format, home type, budget, space, and electrical needs, and we tell you when we have not tested
+        something first-hand. If a product is the wrong choice for you, we say so, affiliate link or not.
+      </p>
+      <h2>Amazon Associates</h2>
+      <p>
+        As an Amazon Associate, {SITE.name} may earn from qualifying purchases. Amazon and the Amazon
+        logo are trademarks of Amazon.com, Inc. or its affiliates.
+      </p>
+      <h2>Other programs</h2>
+      <p>
+        We may also participate in affiliate programs run by sauna manufacturers and retailers. Where we
+        link to a manufacturer's specification page for verification, that link may or may not be an
+        affiliate link; either way, our editorial standards are the same. All affiliate links use
+        appropriate <code>rel="sponsored nofollow"</code> attributes.
+      </p>
+      <h2>Prices</h2>
+      <p>
+        Prices and availability change constantly and are accurate only as of the time of viewing on the
+        retailer's site. Cost ranges on this site are planning estimates, not quotes.
+      </p>
+      <p>
+        Questions? Email <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

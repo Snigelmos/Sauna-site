@@ -1,0 +1,108 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Breadcrumbs from "@components/Breadcrumbs.astro";
+import { SITE } from "@config/site";
+
+const title = "Privacy Policy";
+const description = `How ${SITE.name} handles your data: cookieless analytics, affiliate links, and forms.`;
+const lastUpdated = new Date(SITE.defaultLastUpdated);
+const lastUpdatedFmt = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+}).format(lastUpdated);
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="editorial-container py-10">
+    <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Privacy" }]} />
+    <div class="prose prose-lg max-w-3xl">
+      <h1>Privacy policy</h1>
+      <p class="text-sm text-ink-500">Last updated {lastUpdatedFmt}</p>
+      <p>
+        {SITE.name} is a static, content-only website. You can read every guide, use the cost
+        calculator, and browse the sauna finder without creating an account or giving us any personal
+        information. This page explains the limited data involved when you visit, and how the small
+        number of third-party tools we rely on work.
+      </p>
+
+      <h2>What we collect</h2>
+      <p>
+        We do not ask you to register, and we do not sell or rent any data. The only information
+        involved in a normal visit is:
+      </p>
+      <ul>
+        <li>
+          <strong>Anonymous, aggregate analytics.</strong> We use privacy-friendly, cookieless
+          analytics (Plausible) to understand which pages are popular. It does not use cookies, does
+          not track you across sites, and does not collect information that identifies you as an
+          individual. We also record anonymous, aggregate counts of outbound link clicks (for
+          example, how often a booking or product link is clicked) so we know which guides are useful.
+        </li>
+        <li>
+          <strong>Standard server logs.</strong> Like virtually all websites, our hosting provider
+          may temporarily process technical request data (such as your IP address and browser type)
+          to deliver the site securely and prevent abuse. We do not use these logs to build profiles
+          of visitors.
+        </li>
+      </ul>
+
+      <h2>Cookies</h2>
+      <p>
+        {SITE.name} does not set advertising or tracking cookies of its own. Our analytics is
+        cookieless. Third-party sites you click through to (see below) may set their own cookies once
+        you leave us.
+      </p>
+
+      <h2>Forms you choose to submit</h2>
+      <p>
+        Some pages let you contact us or suggest or correct a sauna listing. If you submit one of
+        these forms, we receive only the details you choose to enter (such as a sauna name, a link, or
+        your email if you add it) and use them solely to respond to you or update the directory. We do
+        not use that information for marketing.
+      </p>
+
+      <h2>Affiliate and outbound links</h2>
+      <p>
+        Some links on this site are affiliate links, and the sauna finder links out to venues' own
+        websites and booking pages. When you click an affiliate or outbound link, the destination site
+        (for example Amazon, a manufacturer, or a venue's booking system) may set its own cookies and
+        collect data under its own privacy policy. We have no control over those policies. See our
+        <a href="/disclosure/">affiliate disclosure</a> for details on how those links work.
+      </p>
+
+      <h2>Third-party services</h2>
+      <p>
+        To keep the site lightweight we rely on a few external services: our hosting provider serves
+        the pages, Plausible provides cookieless analytics, and the sauna finder map is rendered with
+        the open-source Leaflet library using map tiles from OpenStreetMap. Each operates under its own
+        privacy and usage terms.
+      </p>
+
+      <h2>Children</h2>
+      <p>
+        This site is intended for a general adult audience and is not directed at children. We do not
+        knowingly collect personal information from children.
+      </p>
+
+      <h2>Your choices</h2>
+      <p>
+        Because we use cookieless analytics and do not maintain accounts, there is no personal profile
+        to access or delete. You can still block scripts or use your browser's privacy settings at any
+        time without affecting your ability to read the site. If you have submitted a form and want the
+        information removed, email us and we will delete it.
+      </p>
+
+      <h2>Changes to this policy</h2>
+      <p>
+        We may update this policy as the site evolves. When we make a material change, we will update
+        the date at the top of this page.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Privacy questions: <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

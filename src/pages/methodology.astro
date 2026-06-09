@@ -1,0 +1,58 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Breadcrumbs from "@components/Breadcrumbs.astro";
+import { SITE } from "@config/site";
+
+const title = "Methodology: How We Research & What We Won't Claim";
+const description =
+  "How Home Sauna Guide researches buyer guides: the sources we use, the standards we hold, and the claims we deliberately avoid - no fabricated testing, ratings, or medical promises.";
+---
+
+<BaseLayout title={title} description={description} type="article">
+  <section class="editorial-container py-10">
+    <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Methodology" }]} />
+    <div class="prose prose-lg max-w-3xl">
+      <h1>How we research, and what we won't claim</h1>
+      <p>
+        {SITE.name} publishes people-first buyer guides for home saunas. We would rather tell you what
+        we do not know than fake authority. This page explains how our guides are built and the limits
+        we hold ourselves to.
+      </p>
+
+      <h2>Where our information comes from</h2>
+      <ul>
+        <li><strong>Manufacturer specifications</strong> for dimensions, heater output, power draw, materials, and electrical requirements.</li>
+        <li><strong>Independent expert reviews and sauna communities</strong> for real-world performance, durability, and the failure patterns owners report.</li>
+        <li><strong>Electrical and building-code references</strong> for circuit, breaker, wire-gauge, chimney, and clearance guidance.</li>
+        <li><strong>Peer-reviewed studies and major clinics</strong> (for example JAMA, Mayo Clinic, Harvard Health, Cleveland Clinic) for any health information.</li>
+      </ul>
+
+      <h2>What we will not do</h2>
+      <ul>
+        <li><strong>We do not fabricate testing.</strong> If we have not personally used a product, we say so and recommend by format and use-case instead of inventing a hands-on verdict.</li>
+        <li><strong>We do not invent ratings.</strong> No made-up star scores or "best overall" trophies on gear we have not tested. We use Article, breadcrumb, FAQ, and list structured data only - never Review, Product, or AggregateRating markup without first-hand testing.</li>
+        <li><strong>We do not overclaim health.</strong> We present sauna research conservatively, distinguish association from causation, cite primary sources, and never promise detox, weight loss, or disease cures.</li>
+        <li><strong>We do not hide money.</strong> Affiliate links are disclosed on every page and never change our recommendations.</li>
+      </ul>
+
+      <h2>Costs and estimates</h2>
+      <p>
+        Pricing on this site, including the sauna cost calculator, is presented as planning ranges
+        synthesized from multiple 2026 industry sources and cross-checked against real build scenarios.
+        Ranges are not quotes. For anything involving wiring, we tell you to get a written quote from a
+        licensed electrician before buying.
+      </p>
+
+      <h2>Updates</h2>
+      <p>
+        Guides show a visible last-updated and last-reviewed date. As we add first-hand testing, we will
+        publish those results separately and link them from the relevant guide rather than quietly
+        rewriting history.
+      </p>
+
+      <p>
+        Questions about how we work? Email <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

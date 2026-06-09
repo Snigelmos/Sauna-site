@@ -1,0 +1,539 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Callout from "@components/Callout.astro";
+import CalcOptionIcon from "@components/CalcOptionIcon.astro";
+import { SITE } from "@config/site";
+import {
+  sizeBands,
+  technologies,
+  tiers,
+  buildPaths,
+  locations,
+  shellCost,
+  heaterCost,
+  stonesCost,
+  electricalCost,
+  electricalByTech,
+  foundationCost,
+  accessoriesCost,
+  operatingCost,
+  estimatorMethodology,
+  saunaScenarioChecks,
+  saunaCostSources,
+} from "@data/saunaCost";
+import {
+  absUrl,
+  articleNode,
+  breadcrumbNode,
+  buildGraph,
+  organizationNode,
+  websiteNode,
+} from "@components/schema/helpers";
+
+const title = "Sauna Cost Calculator: What Will It Cost to Build a Home Sauna?";
+const description =
+  "A homemade-sauna cost estimator. Pick your size, materials, technology (electric, wood, or infrared), and who builds it, and get an itemized cost estimate with operating costs. Planning ranges, not quotes.";
+const pageUrl = absUrl("/tools/sauna-cost-calculator/");
+const updatedDate = new Date(SITE.defaultLastUpdated);
+
+const jsonLd = buildGraph([
+  organizationNode(),
+  websiteNode(),
+  articleNode({
+    url: pageUrl,
+    headline: title,
+    description,
+    datePublished: updatedDate.toISOString(),
+    dateModified: updatedDate.toISOString(),
+  }),
+  breadcrumbNode([
+    { label: "Home", url: "/" },
+    { label: "Sauna cost calculator", url: "/tools/sauna-cost-calculator/" },
+  ]),
+]);
+
+// Everything the client script needs, embedded as JSON so the affiliate/cost
+// numbers live in one typed module (src/data/saunaCost.ts).
+const costData = {
+  sizeBands,
+  shellCost,
+  heaterCost,
+  stonesCost,
+  electricalCost,
+  electricalByTech,
+  foundationCost,
+  accessoriesCost,
+  operatingCost,
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  type="article"
+  jsonLd={jsonLd}
+>
+  <section class="relative isolate overflow-hidden bg-night-950 text-white">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-br from-night-950 via-night-950/85 to-brand-900/40"></div>
+    <div aria-hidden="true" class="absolute -top-24 right-0 -z-10 h-96 w-96 rounded-full bg-ember-600/25 blur-3xl"></div>
+    <div class="editorial-container py-16 md:py-24">
+      <a href="/home-sauna/" class="text-sm font-semibold text-sand-100 no-underline hover:text-white">
+        &larr; Back to the best home sauna guide
+      </a>
+      <p class="mt-6 text-xs font-semibold tracking-[0.18em] text-sand-200 uppercase">
+        Home sauna cost estimator
+      </p>
+      <h1 class="mt-4 max-w-4xl text-4xl font-bold leading-[1.0] tracking-[-0.04em] text-white md:text-6xl">
+        What will it cost to build your sauna?
+      </h1>
+      <p class="mt-6 max-w-2xl text-lg leading-8 text-white/85">
+        A quick, honest way to think about the cost of building a sauna. Make a few choices and get
+        an itemized estimate plus a rough monthly running cost.
+      </p>
+    </div>
+  </section>
+
+  <main class="editorial-container grid gap-10 py-10 lg:grid-cols-[minmax(0,46rem)_minmax(280px,1fr)]">
+    <div>
+      <section
+        class="rounded-[2rem] border border-ink-100 bg-white p-5 shadow-sm md:p-7"
+        aria-labelledby="cost-calculator"
+      >
+        <h2 id="cost-calculator" class="text-2xl font-semibold tracking-tight text-ink-900">
+          Sauna cost calculator
+        </h2>
+        <p class="mt-2 text-ink-700">
+          Pick one option in each section. Your estimate appears below once every choice is made.
+        </p>
+
+        <form id="sauna-cost-form" class="mt-6 grid min-w-0 gap-6">
+          <fieldset class="grid min-w-0 gap-2">
+            <legend class="mb-1 text-sm font-semibold text-ink-900">Size</legend>
+            <div class="opt-grid" role="group" data-field="size">
+              {sizeBands.map((s) => (
+                <button type="button" data-value={s.id} aria-pressed="false" class="opt-btn">
+                  <span class="opt-btn__icon"><CalcOptionIcon name="users" /></span>
+                  <span class="opt-btn__text">
+                    <span class="opt-btn__title">{s.people}</span>
+                    <span class="opt-btn__desc">{s.dims}</span>
+                  </span>
+                </button>
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset class="grid min-w-0 gap-2">
+            <legend class="mb-1 text-sm font-semibold text-ink-900">Sauna technology</legend>
+            <div class="opt-grid" role="group" data-field="tech">
+              {technologies.map((t) => (
+                <button type="button" data-value={t.id} aria-pressed="false" class="opt-btn">
+                  <span class="opt-btn__icon"><CalcOptionIcon name={t.icon} /></span>
+                  <span class="opt-btn__text">
+                    <span class="opt-btn__title">{t.label}</span>
+                    <span class="opt-btn__desc">{t.desc}</span>
+                  </span>
+                </button>
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset class="grid min-w-0 gap-2">
+            <legend class="mb-1 text-sm font-semibold text-ink-900">Material tier</legend>
+            <div class="opt-grid" role="group" data-field="tier">
+              {tiers.map((t) => (
+                <button type="button" data-value={t.id} aria-pressed="false" class="opt-btn">
+                  <span class="opt-btn__icon"><CalcOptionIcon name={t.icon} /></span>
+                  <span class="opt-btn__text">
+                    <span class="opt-btn__title">{t.label}</span>
+                    <span class="opt-btn__desc">{t.desc}</span>
+                  </span>
+                </button>
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset class="grid min-w-0 gap-2">
+            <legend class="mb-1 text-sm font-semibold text-ink-900">Who builds it?</legend>
+            <div class="opt-grid" role="group" data-field="build">
+              {buildPaths.map((b) => (
+                <button type="button" data-value={b.id} aria-pressed="false" class="opt-btn">
+                  <span class="opt-btn__icon"><CalcOptionIcon name={b.icon} /></span>
+                  <span class="opt-btn__text">
+                    <span class="opt-btn__title">{b.label}</span>
+                    <span class="opt-btn__desc">{b.desc}</span>
+                  </span>
+                </button>
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset class="grid min-w-0 gap-2">
+            <legend class="mb-1 text-sm font-semibold text-ink-900">Location</legend>
+            <div class="opt-grid" role="group" data-field="location">
+              {locations.map((l) => (
+                <button type="button" data-value={l.id} aria-pressed="false" class="opt-btn">
+                  <span class="opt-btn__icon"><CalcOptionIcon name={l.icon} /></span>
+                  <span class="opt-btn__text">
+                    <span class="opt-btn__title">{l.label}</span>
+                    <span class="opt-btn__desc">{l.desc}</span>
+                  </span>
+                </button>
+              ))}
+            </div>
+          </fieldset>
+        </form>
+
+        <div id="cost-result" class="mt-6 rounded-2xl border p-5" aria-live="polite"></div>
+      </section>
+
+      <Callout variant="warning" title="Estimate only - not a quote">
+        <p>
+          Real costs vary a lot by region, your panel's spare capacity, material prices, and local
+          labor rates. This tool lands you in the right ballpark and shows where the money goes. The
+          single biggest swing is electrical: we assume a standard new circuit, but if your panel is
+          full and needs upgrading, add roughly $1,500-$2,500. Get a written quote from a licensed
+          electrician before buying a heater.
+        </p>
+      </Callout>
+
+      <section class="prose prose-lg mt-10 max-w-none">
+        <h2>How the calculator works</h2>
+        <p>
+          The estimate is built up from the same line items a builder would quote, using 2026
+          national-average ranges. Here is the logic:
+        </p>
+        <ol>
+          {estimatorMethodology.map((step) => <li>{step}</li>)}
+        </ol>
+
+        <h2>Sanity-check ranges</h2>
+        <p>We validate the calculator's output against these real-world scenario totals:</p>
+        <ul>
+          {saunaScenarioChecks.map((s) => <li>{s}</li>)}
+        </ul>
+
+        <h2>What this tool cannot know</h2>
+        <p>
+          It does not know your exact local labor rates, how much spare capacity your electrical
+          panel has, how far the sauna sits from that panel, or what material prices are doing this
+          month. Use it to choose between approaches - infrared plug-in versus a traditional electric
+          build, DIY versus contractor - and to budget a realistic range. Then confirm the two
+          numbers that move the most: a written electrician's quote and a real material list for
+          your chosen size.
+        </p>
+      </section>
+
+      <section id="sources" class="mt-10 rounded-2xl border border-ink-100 bg-sand-50/60 p-5 md:p-6">
+        <p class="editorial-kicker">Sources</p>
+        <h2 class="mt-1 text-lg font-semibold text-ink-900">Where the cost numbers come from</h2>
+        <p class="mt-2 text-sm text-ink-700">
+          Ranges are synthesized from multiple 2026 industry pricing guides and electrical
+          references, then cross-checked against the scenario totals above. They are directional
+          planning ranges, not quotes.
+        </p>
+        <ol class="mt-4 grid gap-3 text-sm text-ink-700">
+          {saunaCostSources.map((source, i) => (
+            <li class="flex flex-col gap-1">
+              <span class="flex flex-wrap items-baseline gap-2">
+                <span class="text-xs font-semibold tracking-wide text-ink-500">[{i + 1}]</span>
+                <a
+                  href={source.url}
+                  class="font-semibold text-ink-900 no-underline hover:text-brand-700"
+                  rel="nofollow noopener"
+                  target="_blank"
+                >
+                  {source.name}
+                </a>
+              </span>
+              <span class="text-ink-600">{source.note}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <p class="tool-disclosure-band tool-disclosure-band--foot" aria-label="Affiliate disclosure">
+        <strong>Disclosure:</strong> Some links on this page are affiliate links. Commissions never change our recommendations.
+        <a class="tool-disclosure-band__link" href="/disclosure/">Read the full disclosure</a>.
+      </p>
+    </div>
+
+    <aside class="space-y-5 lg:sticky lg:top-24 lg:self-start">
+      <div class="rounded-2xl border border-ink-100 bg-white p-5 shadow-sm">
+        <p class="editorial-kicker">The biggest cost swings</p>
+        <dl class="mt-4 space-y-4 text-sm">
+          <div>
+            <dt class="font-semibold text-ink-900">Electrical</dt>
+            <dd class="mt-1 text-ink-700">A new circuit is modest; a panel upgrade adds $1,500-$3,000 and an outdoor trench can add up fast. Infrared avoids this entirely.</dd>
+          </div>
+          <div>
+            <dt class="font-semibold text-ink-900">Who builds it</dt>
+            <dd class="mt-1 text-ink-700">A full contractor build roughly doubles the materials-plus-heater subtotal versus DIY.</dd>
+          </div>
+          <div>
+            <dt class="font-semibold text-ink-900">Wood vs electric heat</dt>
+            <dd class="mt-1 text-ink-700">A wood stove's chimney and heat-shield install costs 2-3x an electric heater to fit.</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="rounded-2xl border border-brand-100 bg-brand-50/60 p-5">
+        <p class="editorial-kicker">Next</p>
+        <a href="/home-sauna/" class="mt-2 block font-semibold text-ink-900 no-underline hover:text-brand-700">
+          Read the best home sauna buyer guide
+        </a>
+        <a href="/home-sauna/#electrical" class="mt-3 block font-semibold text-ink-900 no-underline hover:text-brand-700">
+          Sauna electrical &amp; installation basics
+        </a>
+        <a href="/sauna-kits/" class="mt-3 block font-semibold text-ink-900 no-underline hover:text-brand-700">
+          DIY sauna builds &amp; kits
+        </a>
+      </div>
+    </aside>
+  </main>
+
+  <style is:global>
+    .opt-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+      gap: 0.5rem;
+      min-width: 0;
+    }
+    .opt-btn {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      width: 100%;
+      min-width: 0;
+      text-align: left;
+      border: 1px solid var(--color-ink-200);
+      background: #fff;
+      border-radius: 0.85rem;
+      padding: 0.6rem 0.8rem;
+      cursor: pointer;
+      transition:
+        border-color 0.15s ease,
+        background-color 0.15s ease,
+        box-shadow 0.15s ease;
+    }
+    .opt-btn:hover {
+      border-color: var(--color-brand-300);
+      background: var(--color-sand-50);
+    }
+    .opt-btn:focus-visible {
+      outline: 2px solid var(--color-brand-500);
+      outline-offset: 2px;
+    }
+    .opt-btn__icon {
+      flex: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.4rem;
+      height: 2.4rem;
+      margin-top: 0.05rem;
+      border-radius: 0.7rem;
+      background: var(--color-sand-100);
+      color: var(--color-brand-600);
+    }
+    .opt-btn__text {
+      min-width: 0;
+    }
+    .opt-btn__title {
+      display: block;
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--color-ink-900);
+    }
+    .opt-btn__desc {
+      display: block;
+      margin-top: 0.1rem;
+      font-size: 0.72rem;
+      line-height: 1.3;
+      color: var(--color-ink-500);
+    }
+    .opt-btn[aria-pressed="true"] {
+      border-color: var(--color-brand-600);
+      background: var(--color-brand-50);
+      box-shadow: inset 0 0 0 1px var(--color-brand-600);
+    }
+    .opt-btn[aria-pressed="true"] .opt-btn__title {
+      color: var(--color-brand-900);
+    }
+    .opt-btn[aria-pressed="true"] .opt-btn__icon {
+      background: var(--color-brand-600);
+      color: #fff;
+    }
+    .tool-disclosure-band--foot {
+      margin: 2rem 0 0 !important;
+    }
+    .tool-disclosure-band {
+      margin: 0 0 1.25rem;
+      padding: 0.6rem 0.95rem;
+      border-left: 3px solid var(--color-brand-300);
+      background: var(--color-brand-50);
+      color: var(--color-brand-900);
+      border-radius: 0.5rem;
+      font-size: 0.85rem;
+      line-height: 1.55;
+    }
+    .tool-disclosure-band strong {
+      margin-right: 0.25rem;
+    }
+    .tool-disclosure-band__link {
+      margin-left: 0.25rem;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .tool-disclosure-band__link:hover {
+      color: var(--color-brand-700);
+    }
+  </style>
+
+  <script is:inline id="sauna-cost-data" type="application/json" set:html={JSON.stringify(costData)} />
+  <script is:inline>
+    const data = JSON.parse(document.getElementById("sauna-cost-data").textContent);
+    const result = document.getElementById("cost-result");
+
+    const state = {
+      size: null,
+      tech: null,
+      tier: null,
+      build: null,
+      location: null,
+    };
+
+    // Wire up each button group: clicking a button selects it and re-renders.
+    document.querySelectorAll(".opt-grid[data-field]").forEach((grid) => {
+      const field = grid.getAttribute("data-field");
+      const btns = Array.from(grid.querySelectorAll(".opt-btn"));
+      btns.forEach((b) => {
+        if (b.getAttribute("aria-pressed") === "true") state[field] = b.dataset.value;
+      });
+      grid.addEventListener("click", (e) => {
+        const btn = e.target.closest(".opt-btn");
+        if (!btn) return;
+        btns.forEach((b) => b.setAttribute("aria-pressed", b === btn ? "true" : "false"));
+        state[field] = btn.dataset.value;
+        render();
+      });
+    });
+
+    const ZERO = { low: 0, high: 0 };
+    const addR = (a, b) => ({ low: a.low + b.low, high: a.high + b.high });
+    const scaleR = (r, fLow, fHigh) => ({ low: r.low * fLow, high: r.high * fHigh });
+    const usd = (n) => "$" + Math.round(n).toLocaleString("en-US");
+    const range = (r) => `${usd(r.low)} - ${usd(r.high)}`;
+    // Headline figures round to the nearest $50 so they read as estimates.
+    const round50 = (n) => Math.round(n / 50) * 50;
+    const band = (r) => `$${round50(r.low).toLocaleString("en-US")} - $${round50(r.high).toLocaleString("en-US")}`;
+
+    function compute() {
+      const size = state.size;
+      const tech = state.tech;
+      const tier = state.tier;
+      const build = state.build;
+      const location = state.location;
+
+      const shell = data.shellCost[tech][tier][size];
+      const heater = data.heaterCost[tech][size];
+      const stones = data.stonesCost[tech];
+
+      // Electrical is baked in (no longer an input): a standard new dedicated
+      // circuit indoors, a trenched run outdoors. Wood needs only lighting;
+      // infrared plugs into a normal outlet.
+      let electricalR = ZERO;
+      if (tech === "electric") {
+        electricalR = location === "outdoor" ? data.electricalCost.outdoor_trench : data.electricalCost.circuit_only;
+      } else if (tech === "wood") {
+        electricalR = data.electricalByTech.wood;
+      } else {
+        electricalR = data.electricalByTech.infrared;
+      }
+
+      const foundation = location === "outdoor" ? data.foundationCost[tier] : ZERO;
+      const accessories = data.accessoriesCost;
+
+      let labor = ZERO;
+      if (build === "contractor") {
+        if (tech === "infrared") {
+          labor = { low: 250, high: 450 };
+        } else {
+          const baseForLabor = addR(addR(shell, heater), stones);
+          labor = scaleR(baseForLabor, 0.8, 1.0);
+        }
+      }
+
+      const lines = [
+        { label: "Shell / structure", value: shell },
+        { label: tech === "infrared" ? "Infrared emitters" : "Heater" + (tech === "wood" ? " + chimney install" : ""), value: heater },
+        { label: "Heater stones", value: stones },
+        { label: "Electrical" + (tech === "infrared" ? " (plug-in)" : ""), value: electricalR },
+        { label: location === "outdoor" ? "Foundation" : "Foundation (indoor: none)", value: foundation },
+        { label: "Accessories", value: accessories },
+        { label: "Labor", value: labor },
+      ];
+
+      const total = lines.reduce((acc, l) => addR(acc, l.value), ZERO);
+      // Most-likely band: the line items rarely all hit their low (or all their
+      // high) together, so the realistic all-in cost is a tighter band around
+      // the central estimate, not the sum of every extreme.
+      const mid = (total.low + total.high) / 2;
+      const likely = { low: mid * 0.85, high: mid * 1.15 };
+      const sizeBand = data.sizeBands.find((s) => s.id === size);
+      const op = data.operatingCost[tech];
+
+      return { lines, total, likely, tech, sizeBand, op, build, location };
+    }
+
+    function lineRow(label, value) {
+      const v = value.low === 0 && value.high === 0 ? "Included / none" : range(value);
+      return `<div class="flex items-baseline justify-between gap-3 border-b border-ink-100 py-1.5">
+        <dt class="text-ink-700">${label}</dt>
+        <dd class="font-semibold text-ink-900 whitespace-nowrap">${v}</dd>
+      </div>`;
+    }
+
+    function render() {
+      // Start empty: only show an estimate once every section has a choice.
+      const ready = state.size && state.tech && state.tier && state.build && state.location;
+      if (!ready) {
+        result.className =
+          "mt-6 rounded-2xl border border-dashed border-ink-200 bg-ink-50/50 p-6 text-center";
+        result.innerHTML = `
+          <p class="text-sm font-medium text-ink-600">Your estimate will appear here</p>
+          <p class="mt-1 text-sm text-ink-500">Pick an option in each section above to see your estimated all-in cost.</p>`;
+        return;
+      }
+
+      const r = compute();
+      const techLabel = r.tech === "infrared" ? "infrared" : r.tech === "wood" ? "wood-burning" : "electric";
+      const opLine =
+        r.tech === "wood"
+          ? `about ${usd(r.op.perSession.low)}-${usd(r.op.perSession.high)} per session in firewood`
+          : `about ${usd(r.op.monthly.low)}-${usd(r.op.monthly.high)}/month (${usd(r.op.perSession.low)}-${usd(r.op.perSession.high)} per session)`;
+
+      result.className = "mt-6 rounded-2xl border border-ember-200 bg-ember-50/60 p-5";
+      result.innerHTML = `
+        <p class="text-xs font-bold uppercase tracking-[0.12em] text-ember-800">Most likely all-in cost</p>
+        <p class="mt-1 text-3xl font-bold text-ink-900 md:text-4xl">${band(r.likely)}</p>
+        <p class="mt-2 text-sm text-ink-700">
+          For a ${r.sizeBand.label.toLowerCase()} ${techLabel} sauna,
+          ${r.build === "contractor" ? "fully built by a contractor" : r.build === "diy_plus_electrical" ? "DIY shell with a licensed electrician" : "fully DIY"},
+          built ${r.location === "outdoor" ? "outdoors" : "indoors"}.
+        </p>
+        <dl class="mt-4 text-sm">
+          ${r.lines.map((l) => lineRow(l.label, l.value)).join("")}
+        </dl>
+        <p class="mt-3 text-xs text-ink-500">Each line shows its own low-to-high range. They rarely all land at the same end at once, so your most likely all-in cost is the tighter band above (full spread ${band(r.total)}).</p>
+        <p class="mt-4 text-sm text-ink-800"><strong>Running cost:</strong> ${opLine}, plus a ${r.sizeBand.heaterKw} heater and a ${r.sizeBand.heatUp} heat-up time at this size.</p>
+        <p class="mt-3 text-xs text-ink-500">Estimate only. Real costs vary by region, panel capacity, material prices, and labor rates. Get a written quote from a licensed electrician before buying a heater.</p>
+        <div class="mt-4 flex flex-wrap gap-3">
+          <a href="/home-sauna/" class="text-sm font-semibold text-brand-700 no-underline hover:text-brand-800">Which sauna should you buy? &rarr;</a>
+          <a href="/sauna-kits/" class="text-sm font-semibold text-brand-700 no-underline hover:text-brand-800">DIY kits &amp; heaters &rarr;</a>
+        </div>
+      `;
+    }
+
+    render();
+  </script>
+</BaseLayout>

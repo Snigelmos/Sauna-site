@@ -1,0 +1,443 @@
+---
+import DecisionGuideLayout from "@layouts/DecisionGuideLayout.astro";
+import ComparisonTable from "@components/ComparisonTable.astro";
+import ProductCard from "@components/ProductCard.astro";
+import Callout from "@components/Callout.astro";
+
+const title = "Best Home Sauna: How to Choose (Infrared, Traditional, Outdoor & Portable)";
+const description =
+  "An honest decision guide to the best home sauna for your space, budget, and electrical setup. Compare infrared, traditional electric, wood-burning, outdoor barrel, and portable saunas - with the install caveats most lists skip.";
+const heroSubtitle =
+  "There is no single best home sauna - there is the best one for your home type, budget, space, and what your electrical panel can handle. This guide turns that into a clear decision instead of a ranked list.";
+
+const pubDate = new Date("2026-06-08");
+const updatedDate = new Date("2026-06-08");
+const lastReviewed = new Date("2026-06-08");
+
+const methodologyNote =
+  "This guide is a synthesis of manufacturer specifications, independent expert reviews, electrical and building-code references, and verified owner feedback from sauna communities. We have not heat-tested every product, so we recommend by format and use-case rather than inventing star ratings. Where we name brands, we link to the maker's spec sheet so you can verify claims yourself. Health information is kept conservative and cited.";
+
+const sources = [
+  {
+    name: "Sauna Guide - Infrared vs traditional sauna",
+    url: "https://sauna.guide/guides/infrared-vs-traditional-sauna",
+    accessed: new Date("2026-06-08"),
+    note: "Operating temperatures, heat mechanism, and how the two formats actually differ in use.",
+  },
+  {
+    name: "Haven of Heat - How much does a sauna cost (2026 pricing)",
+    url: "https://havenofheat.com/blogs/sauna-guides/how-much-does-a-sauna-cost-the-complete-2026-pricing-guide",
+    accessed: new Date("2026-06-08"),
+    note: "2026 price bands and running costs across infrared, traditional, barrel, and custom saunas.",
+  },
+  {
+    name: "Haven of Heat - Sauna electrical requirements (240V vs 120V, breaker & wire gauge)",
+    url: "https://havenofheat.com/blogs/sauna-guides/sauna-electrical-requirements-complete-wiring-guide-240v-vs-120v-breaker-sizing-wire-gauge",
+    accessed: new Date("2026-06-08"),
+    note: "Circuit, breaker, and wire-gauge sizing by heater kW; why traditional heaters need a dedicated 240V circuit.",
+  },
+  {
+    name: "Haven of Heat - How to size a sauna (why person capacity is misleading)",
+    url: "https://havenofheat.com/blogs/sauna-guides/how-to-size-a-sauna-why-person-capacity-is-misleading",
+    accessed: new Date("2026-06-08"),
+    note: "Bench-length and volume math; advertised person capacity runs ~25-33% optimistic.",
+  },
+  {
+    name: "ThermalFinn - Sauna build guide (wood species & sizing)",
+    url: "https://thermalfinn.com/sauna-builds/",
+    accessed: new Date("2026-06-08"),
+    note: "Wood thermal-conductivity table and why bench wood differs from wall wood.",
+  },
+  {
+    name: "Laukkanen et al., JAMA Internal Medicine (2015)",
+    url: "https://pubmed.ncbi.nlm.nih.gov/25705824/",
+    accessed: new Date("2026-06-08"),
+    note: "Observational cohort linking frequent traditional sauna use with lower cardiovascular and all-cause mortality.",
+  },
+  {
+    name: "Cleveland Clinic - Sauna benefits",
+    url: "https://health.clevelandclinic.org/sauna-benefits",
+    accessed: new Date("2026-06-08"),
+    note: "Clinic summary of benefits and the contraindications worth knowing before you start.",
+  },
+];
+
+const faq = [
+  {
+    q: "Is an infrared or traditional sauna better for a home?",
+    a: "It depends on your priorities. Infrared runs cooler (110-150F), heats in 10-20 minutes, and usually plugs into a standard 120V outlet, so it is the easiest daily-use option for most homes and renters. Traditional saunas run hotter (150-195F) with steam from water on the rocks, take 30-45 minutes to heat, and need a dedicated 240V circuit - but they deliver the classic experience and carry the strongest long-term health evidence. Pick infrared for convenience and low install cost; pick traditional for heat, steam, and the most-studied format.",
+  },
+  {
+    q: "Do home saunas need special wiring?",
+    a: "Traditional electric heaters above about 3 kW need a dedicated 240V circuit sized to the heater (for example a 6 kW heater on a 30A/#10 circuit), installed by a licensed electrician with a GFCI breaker. Wood-burning saunas need no heater circuit but do need a code-compliant chimney and clearances. Most plug-in infrared cabins, portable units, and sauna blankets run on a normal 120V household outlet with no electrician required.",
+  },
+  {
+    q: "How much does a home sauna cost?",
+    a: "Roughly: portable infrared and blankets $200-$1,500; plug-in infrared cabins $1,500-$8,500; indoor traditional kits $3,000-$12,000 plus $600-$2,000 of electrical; and outdoor barrel or cabin saunas $4,000-$25,000 depending on materials and whether you DIY or hire a contractor. Use our sauna cost calculator to estimate your specific build as an itemized range.",
+  },
+  {
+    q: "What size sauna do I need?",
+    a: "Allow about 20 inches of bench length per seated adult, and roughly 70 inches if anyone wants to lie flat. Advertised person capacity is optimistic - reduce it by about a quarter to a third for real comfort. A 4x6 ft room realistically seats one to two; a 5x7 ft room two to three.",
+  },
+  {
+    q: "Are home saunas actually good for you?",
+    a: "Observational research, mostly on traditional Finnish saunas, associates regular use with lower cardiovascular and all-cause mortality and with stress and recovery benefits. These are associations, not proof of cause, and the strongest data is on traditional saunas rather than infrared. Saunas are not safe for everyone - if you are pregnant, have heart disease, unstable blood pressure, or take medications, check with a physician first.",
+  },
+];
+
+const heroGuides = {
+  heading: "Jump to",
+  items: [
+    { award: "Tool", title: "Estimate your build cost", href: "/tools/sauna-cost-calculator/" },
+    { award: "Compare", title: "Infrared vs traditional", href: "#types" },
+    { award: "Decide", title: "Best by home & budget", href: "#by-home" },
+    { award: "Plan", title: "Electrical & install", href: "#electrical" },
+  ],
+};
+
+const typeRows = [
+  [
+    "Infrared cabin",
+    "110-150F",
+    "10-20 min",
+    "120V plug-in",
+    "$1,500-$8,500",
+    "Daily use, renters, easy install, recovery",
+  ],
+  [
+    "Traditional electric",
+    "150-195F",
+    "30-45 min",
+    "240V circuit",
+    "$3,000-$14,000",
+    "Heat &amp; steam lovers, classic experience",
+  ],
+  [
+    "Wood-burning",
+    "150-195F+",
+    "60-90 min",
+    "No heater circuit",
+    "$4,000-$15,000",
+    "Off-grid &amp; detached outdoor builds",
+  ],
+  [
+    "Outdoor barrel",
+    "150-195F",
+    "40-60 min",
+    "240V or wood",
+    "$4,000-$12,000",
+    "Backyards, social use, fast-ish heat-up",
+  ],
+  [
+    "Portable / blanket",
+    "120-150F",
+    "5-15 min",
+    "120V plug-in",
+    "$200-$1,500",
+    "Apartments, lowest cost, storage-friendly",
+  ],
+];
+---
+
+<DecisionGuideLayout
+  title={title}
+  description={description}
+  hubSlug="home-sauna"
+  heroSubtitle={heroSubtitle}
+  image="/images/heroes/home-sauna.webp"
+  imageAlt="An indoor home sauna with cedar walls, a glass door and a stone heater."
+  pubDate={pubDate}
+  updatedDate={updatedDate}
+  lastReviewed={lastReviewed}
+  methodologyNote={methodologyNote}
+  sources={sources}
+  faq={faq}
+  heroGuides={heroGuides}
+>
+  <p>
+    Search "best home sauna" and you get ranked lists that quietly assume you already know whether you
+    want infrared or traditional, indoor or outdoor, plug-in or hard-wired. That is the actual
+    decision - and it hinges on three things most lists skip: how much space you have, what your
+    electrical panel can handle, and whether you want gentle daily heat or a hot, steamy classic
+    session. Get those right and the specific product almost picks itself.
+  </p>
+  <p>
+    Below we compare the formats honestly, then walk through what suits different homes and budgets,
+    and finish with the installation realities. When you want hard numbers for your own build, the
+    <a href="/tools/sauna-cost-calculator/">sauna cost calculator</a> turns your choices into an
+    itemized cost range.
+  </p>
+
+  <h2 id="types">The five home sauna formats, compared</h2>
+  <p>
+    Every home sauna is a variation on five formats. This is the fastest way to narrow the field
+    before you look at any single product.
+  </p>
+
+  <ComparisonTable
+    caption="Home sauna formats compared by temperature, heat-up time, electrical, price, and best use"
+    headers={["Format", "Temp", "Heat-up", "Electrical", "Typical price", "Best for"]}
+    rows={typeRows}
+  />
+
+  <p>
+    The honest headline: the long-term cardiovascular research is overwhelmingly on
+    <em>traditional</em> Finnish saunas, not infrared. Infrared still has real benefits and you will
+    actually use it daily because it heats fast and needs no electrician - but if you are buying for
+    the most-studied format, that is traditional. Choose on lifestyle and install reality, not on
+    health-claim marketing.
+  </p>
+
+  <h2 id="by-home">Which sauna fits your home and budget?</h2>
+  <p>
+    Use these as starting points. Each card is a format-level recommendation with the specs that
+    matter and the trade-offs to weigh - not a star-rated "winner," because we have not heat-tested
+    every unit. Where we mention brands, treat them as well-regarded examples to compare, and check
+    the maker's spec sheet before buying.
+  </p>
+
+  <ProductCard
+    id="infrared-cabin"
+    name="Plug-in infrared cabin"
+    bestFor="Best for most homes & renters"
+    saunaIcon="infrared-cabin"
+    image="/images/formats/infrared-cabin.webp"
+    imageAlt="A small infrared sauna cabin with a glass door and interior heating panels."
+    formatLabel="Infrared cabin, seats 1-2"
+    price="$1,500-$8,500"
+    specs={[
+      { label: "Temp", value: "110-150F" },
+      { label: "Heat-up", value: "10-20 min" },
+      { label: "Power", value: "120V plug-in" },
+      { label: "Install", value: "None (plug & play)" },
+    ]}
+    summary={[
+      "If you want a sauna you will actually use most days, an infrared cabin is the path of least resistance. It plugs into a normal outlet, heats in 10-20 minutes, and runs cool enough for a comfortable 30-45 minute session - which is why it suits apartments, basements, and anyone who does not want to call an electrician.",
+      "Well-regarded examples include HigherDose, Sun Home, and Clearlight. If you sit close to carbon panels daily, look for independent low-EMF testing measured at body distance, not just a vague 'low EMF' label.",
+    ]}
+    pros={[
+      "No electrician - standard 120V outlet",
+      "Fast heat-up, gentle and comfortable",
+      "Lowest running cost (~$5-$15/month)",
+    ]}
+    cons={[
+      "No steam or loyly; drier, milder feel",
+      "Thinner long-term health evidence than traditional",
+      "Cheap units can run higher EMF",
+    ]}
+    skipIf="you specifically want hot, steamy, classic sauna heat."
+    amazonSearch="infrared sauna for home 1-2 person"
+  />
+
+  <ProductCard
+    id="traditional-indoor"
+    name="Indoor traditional electric sauna"
+    bestFor="Best for the classic hot, steamy session"
+    saunaIcon="traditional-cabin"
+    image="/images/formats/traditional-cabin.webp"
+    imageAlt="A traditional cedar sauna cabin with a glass door, tiered benches and a stone heater."
+    formatLabel="Traditional electric, seats 2-4"
+    price="$3,000-$14,000 + electrical"
+    specs={[
+      { label: "Temp", value: "150-195F" },
+      { label: "Heat-up", value: "30-45 min" },
+      { label: "Power", value: "240V circuit" },
+      { label: "Install", value: "Licensed electrician" },
+    ]}
+    summary={[
+      "This is the real thing: high heat, and steam when you pour water on the rocks. It is also the format with the strongest long-term health research. The catch is electrical - heaters above ~3 kW need a dedicated 240V circuit sized to the heater, installed by a licensed electrician.",
+      "Harvia, HUUM, and Finlandia are common heater choices; Almost Heaven and SaunaLife make popular indoor kits. Budget $600-$1,800 for the electrical on top of the kit, more if your panel needs an upgrade.",
+    ]}
+    pros={[
+      "Authentic high heat and steam (loyly)",
+      "Strongest cardiovascular evidence base",
+      "Premium kits last 20+ years",
+    ]}
+    cons={[
+      "Needs a 240V circuit and an electrician",
+      "Slower heat-up, higher running cost",
+      "Needs proper ventilation",
+    ]}
+    skipIf="you rent, lack 240V capacity, or want plug-and-play simplicity."
+    amazonSearch="traditional electric sauna heater 6kw home"
+  />
+
+  <ProductCard
+    id="outdoor-barrel"
+    name="Outdoor barrel or cabin sauna"
+    bestFor="Best for backyards & social use"
+    saunaIcon="barrel-outdoor"
+    image="/images/formats/barrel-outdoor.webp"
+    imageAlt="A cedar barrel sauna with a chimney on a wooden deck surrounded by greenery."
+    formatLabel="Outdoor barrel, seats 2-6"
+    price="$4,000-$12,000"
+    specs={[
+      { label: "Temp", value: "150-195F" },
+      { label: "Heat-up", value: "40-60 min" },
+      { label: "Power", value: "240V or wood" },
+      { label: "Install", value: "Pad + electrical/chimney" },
+    ]}
+    summary={[
+      "An outdoor build gets the heat (and the cold plunge afterward) out of the house. Barrels heat faster than boxy cabins because there is less dead air above your head, and they look the part in a backyard. You will need a level gravel pad or slab, plus either a 240V run (often trenched) or a wood stove with a code-compliant chimney.",
+      "Almost Heaven, Redwood Outdoors, Dundalk LeisureCraft, and SaunaLife are common outdoor brands. Thermowood or clear cedar shells weather best.",
+    ]}
+    pros={[
+      "Keeps heat and moisture out of the house",
+      "Great for groups; wood-burning option",
+      "Barrels heat relatively quickly",
+    ]}
+    cons={[
+      "Foundation + outdoor electrical or chimney",
+      "Trenching can be the biggest single cost",
+      "More maintenance than indoor units",
+    ]}
+    skipIf="you have no yard or want to avoid foundation and trenching work."
+    amazonSearch="outdoor barrel sauna kit"
+  />
+
+  <ProductCard
+    id="portable"
+    name="Portable sauna or sauna blanket"
+    bestFor="Best for apartments & the lowest entry cost"
+    saunaIcon="portable"
+    image="/images/formats/portable-blanket.webp"
+    imageAlt="A quilted infrared sauna blanket laid out beside a rolled towel."
+    formatLabel="Portable pod / infrared blanket"
+    price="$200-$1,500"
+    specs={[
+      { label: "Temp", value: "120-150F" },
+      { label: "Heat-up", value: "5-15 min" },
+      { label: "Power", value: "120V plug-in" },
+      { label: "Install", value: "None; folds away" },
+    ]}
+    summary={[
+      "When space or budget is tight, a portable infrared pod (you sit with your head out the top) or a sauna blanket gets you most of the heat benefit for a fraction of the cost and zero installation. Both fold away, which is why they win in apartments and small homes.",
+      "HigherDose, MiHigh, and Therasage are common blanket brands; SereneLife and LifePro make budget portable pods. Expect a milder experience and a shorter lifespan than a built cabin.",
+    ]}
+    pros={[
+      "Cheapest way in; no install at all",
+      "Folds away - ideal for renters",
+      "Fast to heat for a quick session",
+    ]}
+    cons={[
+      "Mildest experience; head often outside the heat",
+      "Less durable than a cabin",
+      "Not a true social or steam sauna",
+    ]}
+    skipIf="you want a full-body, room-style sauna experience."
+    amazonSearch="sauna blanket infrared"
+  />
+
+  <ProductCard
+    id="diy-kit"
+    name="DIY kit or build-from-scratch"
+    bestFor="Best for builders & cost-per-square-foot"
+    saunaIcon="kit"
+    image="/images/formats/diy-kit.webp"
+    imageAlt="Stacked cedar panels, a roll of foil vapor barrier and a boxed heater for a DIY sauna kit."
+    formatLabel="Pre-cut kit or scratch build"
+    price="$2,000-$12,000 (DIY)"
+    specs={[
+      { label: "Temp", value: "150-195F" },
+      { label: "Heat-up", value: "By heater size" },
+      { label: "Power", value: "240V (electric)" },
+      { label: "Install", value: "Your labor + electrician" },
+    ]}
+    summary={[
+      "If you are handy, building your own sauna - from a pre-cut kit or fully from scratch - is the best value per square foot, especially for larger or custom rooms. You supply 40-100+ hours of intermediate-to-advanced carpentry; you still hire an electrician for a traditional heater.",
+      "Harvia, Superior Saunas, and SaunaPlace sell heaters, pre-cut kits, and materials. Use aspen or abachi on bench surfaces (they stay cool to the touch) and cedar or spruce on walls and ceiling. Never put resinous pine where skin touches it.",
+    ]}
+    pros={[
+      "Best cost-per-square-foot, fully custom",
+      "Kits remove the hardest cut-and-fit work",
+      "You control wood and heater quality",
+    ]}
+    cons={[
+      "Real carpentry skill and time required",
+      "Still need an electrician for 240V heat",
+      "Mistakes in vapor barrier/venting are costly",
+    ]}
+    skipIf="you are not comfortable with framing, insulation, and a vapor barrier."
+    amazonSearch="DIY sauna kit pre-cut"
+  />
+
+  <Callout variant="tip" title="Estimate your specific build">
+    <p>
+      The five price bands above are broad on purpose. To size your own project, run the
+      <a href="/tools/sauna-cost-calculator/">sauna cost calculator</a> - pick size, materials,
+      technology, who builds it, and your electrical situation, and it returns an itemized low-to-high
+      range plus a monthly running cost.
+    </p>
+  </Callout>
+
+  <h2 id="electrical">Electrical &amp; installation: the part that surprises people</h2>
+  <p>
+    This is where budgets blow up, so plan it before you fall in love with a heater.
+  </p>
+  <ul>
+    <li>
+      <strong>Traditional electric heaters need a dedicated 240V circuit</strong> sized to the heater:
+      roughly 6 kW on a 30A/#10 circuit, 8-9 kW on 40A/#8. A licensed electrician and a GFCI breaker
+      are non-negotiable. Budget $600-$1,800 for a straightforward run.
+    </li>
+    <li>
+      <strong>A panel upgrade adds $1,500-$3,000</strong> if your service has no spare capacity, and an
+      <strong>outdoor trench</strong> can add hundreds to a couple thousand more. These two items are the
+      biggest swing in the whole project.
+    </li>
+    <li>
+      <strong>Infrared, portable, and blanket units plug into a standard 120V outlet</strong> - no
+      electrician, no permit, which is a real part of their appeal.
+    </li>
+    <li>
+      <strong>Wood-burning needs no heater circuit</strong> but does need a code-compliant chimney, heat
+      shielding, and clearances - that install can cost 2-3x an electric heater fit.
+    </li>
+    <li>
+      <strong>Size to comfort, not to the box.</strong> Advertised person capacity runs about a quarter to
+      a third optimistic. Allow ~20 inches of bench per seated adult.
+    </li>
+  </ul>
+
+  <Callout variant="warning" title="Get a written quote first">
+    <p>
+      Always get a written quote from a licensed electrician before buying a traditional heater. Panel
+      capacity, run length, and local labor rates vary enough to change which format makes sense for
+      your home.
+    </p>
+  </Callout>
+
+  <h2 id="health">A measured word on health benefits</h2>
+  <p>
+    Saunas are associated with real benefits, but the evidence deserves honesty. Large observational
+    studies - mostly on traditional Finnish saunas - link frequent use with lower cardiovascular and
+    all-cause mortality, and with stress relief and recovery. These are associations, not proof that
+    saunas cause those outcomes, and the strongest data is on traditional saunas rather than infrared.
+  </p>
+  <p>
+    Saunas are not for everyone. If you are pregnant, have heart disease, unstable or very low blood
+    pressure, or take medications, talk to a physician before starting. Hydrate, keep early sessions
+    short, and cool down gradually. We do not make detox, weight-loss, or disease-cure claims, because
+    the evidence does not support them.
+  </p>
+
+  <Callout variant="note" title="Go deeper by format">
+    <p>Once you know which way you lean, the dedicated guides go further:</p>
+    <ul>
+      <li><a href="/outdoor-sauna/">Best outdoor sauna</a> - barrel vs cabin, electric vs wood, foundations and trenching.</li>
+      <li><a href="/portable-sauna/">Best portable sauna</a> - blankets vs pods vs steam tents for apartments and renters.</li>
+      <li><a href="/sauna-kits/">DIY sauna builds &amp; heaters</a> - kit vs scratch, heater sizing (kW), and the 240V circuit.</li>
+    </ul>
+  </Callout>
+
+  <h2 id="bottom-line">The bottom line</h2>
+  <p>
+    For most homes and renters, a <a href="#infrared-cabin">plug-in infrared cabin</a> is the easiest
+    sauna to live with. If you want authentic high heat and steam and can run a 240V circuit, go
+    <a href="#traditional-indoor">traditional electric</a>. Have a yard and want a social, get-out-of-the-house
+    space? Build <a href="#outdoor-barrel">outdoor</a>. Tight on space or budget? Start with a
+    <a href="#portable">portable unit or blanket</a>. Handy and chasing value? <a href="#diy-kit">Build it</a>.
+    Whichever way you lean, price the electrical first and
+    <a href="/tools/sauna-cost-calculator/">estimate the full build</a> before you buy.
+  </p>
+</DecisionGuideLayout>

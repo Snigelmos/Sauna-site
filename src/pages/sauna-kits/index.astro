@@ -1,0 +1,801 @@
+---
+import DecisionGuideLayout from "@layouts/DecisionGuideLayout.astro";
+import ComparisonTable from "@components/ComparisonTable.astro";
+import ProductCard from "@components/ProductCard.astro";
+import AffiliateButton from "@components/AffiliateButton.astro";
+import Callout from "@components/Callout.astro";
+
+const title = "DIY Sauna Builds & Heaters: Kits, Sizing & Wiring Explained";
+const description =
+  "An honest guide to building your own sauna: pre-cut kits vs scratch builds, how to size a sauna heater (kW), the 240V circuit and wire gauge you need, and which woods to use - with the install costs most lists skip.";
+const heroSubtitle =
+  "Building your own sauna is the best value per square foot - if you are handy. The real decisions are kit vs scratch, the right heater kW for your volume, and the 240V circuit it demands. This turns that into a clear plan.";
+
+const pubDate = new Date("2026-06-08");
+const updatedDate = new Date("2026-06-08");
+const lastReviewed = new Date("2026-06-08");
+
+const methodologyNote =
+  "This guide synthesizes manufacturer specifications, sauna-builder references, and electrical and building-code guidance. Heater-sizing and circuit figures are general planning rules of thumb, not a substitute for the heater manufacturer's manual or a licensed electrician. We have not built every kit, so we recommend by approach and use-case rather than inventing star ratings.";
+
+const sources = [
+  {
+    name: "ThermalFinn - Sauna build guide (wood species & sizing)",
+    url: "https://thermalfinn.com/sauna-builds/",
+    accessed: new Date("2026-06-08"),
+    note: "Wood thermal-conductivity table, why bench wood differs from wall wood, and build-from-scratch material lists.",
+  },
+  {
+    name: "Haven of Heat - How to size a sauna (why person capacity is misleading)",
+    url: "https://havenofheat.com/blogs/sauna-guides/how-to-size-a-sauna-why-person-capacity-is-misleading",
+    accessed: new Date("2026-06-08"),
+    note: "Volume math (L x W x H) and the ~1 kW per 45-50 cu ft heater-sizing rule used below.",
+  },
+  {
+    name: "Haven of Heat - Sauna electrical requirements (240V vs 120V, breaker & wire gauge)",
+    url: "https://havenofheat.com/blogs/sauna-guides/sauna-electrical-requirements-complete-wiring-guide-240v-vs-120v-breaker-sizing-wire-gauge",
+    accessed: new Date("2026-06-08"),
+    note: "Breaker and wire-gauge sizing by heater kW; GFCI and dedicated-circuit requirements.",
+  },
+  {
+    name: "Sweat Decks - Sauna sizing",
+    url: "https://sweatdecks.com/blogs/news/sauna-sizing",
+    accessed: new Date("2026-06-08"),
+    note: "Bench-length and headroom guidance; tiered-bench layout for heat stratification.",
+  },
+  {
+    name: "Haven of Heat - How much does a sauna cost (2026 pricing)",
+    url: "https://havenofheat.com/blogs/sauna-guides/how-much-does-a-sauna-cost-the-complete-2026-pricing-guide",
+    accessed: new Date("2026-06-08"),
+    note: "2026 material, heater, and kit price bands for DIY budgeting.",
+  },
+  {
+    name: "Sauna Guide - Infrared vs traditional sauna",
+    url: "https://sauna.guide/guides/infrared-vs-traditional-sauna",
+    accessed: new Date("2026-06-08"),
+    note: "Heat mechanism and temperature targets for traditional electric and wood heaters.",
+  },
+];
+
+const faq = [
+  {
+    q: "What size sauna heater do I need?",
+    a: "Size by volume, not by 'person' rating. Calculate cubic feet (length x width x height) and allow roughly 1 kW of heater per 45-50 cubic feet of a well-insulated room. Add 15-25% for lots of glass, poor insulation, or a cold location, and add about 6 cubic feet of effective volume per square foot of glass. As examples, a 4x6 ft room (about 168 cu ft at a 7 ft ceiling) wants a 4.5-6 kW heater; a 5x7 ft room (about 245 cu ft) wants 6-8 kW; a 6x8 ft room wants 8-9 kW. Always confirm against the specific heater manufacturer's sizing chart.",
+  },
+  {
+    q: "What electrical circuit does a sauna heater need?",
+    a: "Traditional electric heaters above about 3 kW need a dedicated 240V circuit sized to the heater, on a GFCI breaker, installed by a licensed electrician. As a rough guide: a 6 kW heater typically needs a 30A breaker with #10 wire; an 8-9 kW heater needs a 40-50A breaker with #8 wire. Heaters at or below ~1.5 kW can sometimes run on a 120V circuit. Confirm the exact breaker and wire size with the heater's manual and your electrician, since wire gauge also depends on run length.",
+  },
+  {
+    q: "Is it cheaper to build a sauna or buy a kit?",
+    a: "A pre-cut kit is usually cheaper than a custom contractor build and far faster than scratch-building, because the hardest cut-and-fit work is done for you. Building fully from scratch is the lowest material cost and the most customizable, but it demands intermediate-to-advanced carpentry and 40-100+ hours of labor. Most DIYers get the best balance from a pre-cut kit plus a separately chosen quality heater. Either way, you still hire an electrician for a traditional heater.",
+  },
+  {
+    q: "What wood should I use to build a sauna?",
+    a: "Use low-thermal-conductivity woods that stay cool to the touch on bench surfaces - aspen or abachi are ideal - and a rot-resistant, aromatic wood like Western red cedar (or budget Nordic spruce) on walls and ceiling. Thermally modified spruce ('thermowood') is very stable and good for outdoor or premium builds. Never use resinous, knotty pine where skin touches it: the resin liquefies at sauna temperatures and creates sticky, burning hot spots.",
+  },
+  {
+    q: "Do I need a vapor barrier and ventilation?",
+    a: "Yes. A traditional sauna needs a foil vapor barrier behind the wood to protect the framing from moisture, plus insulation and proper intake/exhaust ventilation for airflow and safety. Getting the vapor barrier and venting right is the part beginners most often get wrong, and mistakes are expensive to fix later - which is a major reason pre-cut kits, which handle much of this, are popular.",
+  },
+];
+
+const heroGuides = {
+  heading: "Jump to",
+  items: [
+    { award: "Plan", title: "Build it step by step", href: "#steps" },
+    { award: "Size", title: "Heater kW by volume", href: "#sizing" },
+    { award: "Pick", title: "Heater shortlist", href: "#heaters" },
+    { award: "Tool", title: "Estimate your build", href: "/tools/sauna-cost-calculator/" },
+  ],
+};
+
+// Collapsible build walkthrough. Bodies use anchors to the detailed tables below.
+const buildSteps = [
+  {
+    n: 1,
+    title: "Decide the size and who it's for",
+    body: "Start from how many people use it at once and the space you have, then size everything else off the room's volume. Allow about 20 inches of bench length per seated adult (around 70 inches if anyone lies flat) and aim for a ~7 ft ceiling so heat stratifies. Treat advertised 'person' capacity as roughly a quarter to a third optimistic. The room's cubic feet (length x width x height) drives the heater you need - see the <a href=\"#sizing\">sizing table</a>.",
+  },
+  {
+    n: 2,
+    title: "Choose location and heat source",
+    body: "Indoor (garage, basement, spare room) is the cheapest and easiest; outdoor needs a foundation and, for an electric heater, usually a trenched 240V run. Then pick the heat source: <strong>electric</strong> (set-and-forget, needs a dedicated circuit), <strong>wood-burning</strong> (authentic loyly and off-grid, but needs a chimney, heat shielding, and clearances), or <strong>infrared</strong> (plug-in panels, no stone heater - a different build entirely). Compare the trade-offs in the <a href=\"/home-sauna/\">home sauna guide</a> and <a href=\"/outdoor-sauna/\">outdoor guide</a>.",
+  },
+  {
+    n: 3,
+    title: "Size the heater (kW) to the room",
+    body: "Size by volume, not by 'person' rating: roughly <strong>1 kW of heater per 45-50 cubic feet</strong> (about 1.3 m&sup3;) of a well-insulated room, plus 15-25% for lots of glass, poor insulation, or a cold location, and about 6 cubic feet per square foot of glass. A 5x7 ft room wants roughly 6-8 kW. Always confirm against the specific heater's chart - see the <a href=\"#sizing\">sizing table</a> and the <a href=\"#heaters\">heater shortlist</a>.",
+  },
+  {
+    n: 4,
+    title: "Frame, insulate, vapor barrier, and ventilate",
+    body: "Frame the walls, add insulation, then a <strong>foil vapor barrier</strong> (shiny side in) to protect the framing from moisture - lapped and taped at the seams. Plan intake and exhaust <strong>ventilation</strong>: a low intake near the heater and an adjustable exhaust on the opposite wall. This is the step beginners most often get wrong and the most expensive to fix later, which is why pre-cut kits, which handle much of it, are popular.",
+  },
+  {
+    n: 5,
+    title: "Clad the room and build the benches",
+    body: "Use a rot-resistant, aromatic wood like Western red cedar (or budget Nordic spruce) on walls and ceiling, and a low-conductivity wood that stays cool to the touch - <strong>aspen or abachi</strong> - on bench surfaces. Never use resinous, knotty pine where skin touches it: the resin liquefies at sauna heat and creates sticky, burning hot spots. Build tiered benches so you can sit higher where it is hotter. See <a href=\"#materials\">wood &amp; materials</a>.",
+  },
+  {
+    n: 6,
+    title: "Install the heater and electrical",
+    body: "A traditional electric heater above ~3 kW needs a dedicated <strong>240V circuit on a GFCI breaker, installed by a licensed electrician</strong> - never a DIY shortcut. Mount the heater per its manual with correct clearances, add the heater guard, and load the stones loosely so air flows. Wood stoves skip the circuit but need a code-compliant chimney and clearances. Check breaker and wire sizing in the <a href=\"#electrical\">circuit table</a>.",
+  },
+  {
+    n: 7,
+    title: "Door, controls, and first burn-in",
+    body: "Hang a sauna-rated door (tempered glass or insulated wood) that opens outward, fit the thermometer/hygrometer and any controller, and add a sauna-rated light. Run a first heat-up with the room empty and well ventilated to burn off manufacturing residue before your first real session. Then estimate running cost and double-check your budget with the <a href=\"/tools/sauna-cost-calculator/\">cost calculator</a>.",
+  },
+];
+
+// Curated heater shortlist - described at brand/category level, conservatively.
+// No invented ratings; always confirm kW against the maker's chart.
+const heaters = [
+  {
+    name: "Harvia electric (KIP, Cilindro, Vega)",
+    type: "Electric",
+    kw: "4.5-9 kW",
+    bestFor: "Best all-round value",
+    blurb:
+      "Finland's largest sauna brand makes dependable, widely available electric heaters across the whole size range - from simple wall-mounted units to large stone-capacity towers. A safe default for most home builds.",
+    pros: ["Huge model range and availability", "Good stone mass on larger units", "Easy to source parts"],
+    cons: ["Entry models have basic controls", "Match the kW to your room volume"],
+    amazonSearch: "harvia electric sauna heater",
+  },
+  {
+    name: "HUUM DROP / HIVE",
+    type: "Electric",
+    kw: "4.5-18 kW",
+    bestFor: "Best design and soft heat",
+    blurb:
+      "Estonian heaters known for a clean, minimalist look and generous stone capacity - the HIVE buries the element in rocks for soft, even loyly. Often paired with the UKU Wi-Fi controller.",
+    pros: ["Striking minimalist design", "Large stone mass = softer steam", "App / remote control option"],
+    cons: ["Premium price", "Controller often sold separately"],
+    amazonSearch: "huum drop sauna heater",
+  },
+  {
+    name: "EOS (German-engineered)",
+    type: "Electric",
+    kw: "6-12 kW",
+    bestFor: "Best premium controls",
+    blurb:
+      "German manufacturer with a strong reputation for build quality and sophisticated control systems, including combi (steam) units. A good fit if you want precise, feature-rich operation.",
+    pros: ["Excellent build quality", "Advanced and combi options", "Precise control systems"],
+    cons: ["Higher cost", "Some models need a separate controller"],
+    amazonSearch: "eos sauna heater",
+  },
+  {
+    name: "Finlandia / Finnleo (FLB)",
+    type: "Electric",
+    kw: "4.5-10.5 kW",
+    bestFor: "Best mid-range reliability",
+    blurb:
+      "Long-established in the North American market with straightforward, reliable electric heaters and strong dealer support - an easy, no-drama choice for a standard home room.",
+    pros: ["Proven, reliable units", "Good North American support", "Simple to specify"],
+    cons: ["Less design-forward", "Mid-to-premium pricing"],
+    amazonSearch: "finlandia sauna heater",
+  },
+  {
+    name: "Scandia electric",
+    type: "Electric",
+    kw: "3-9 kW",
+    bestFor: "Best budget electric",
+    blurb:
+      "A value-oriented North American option that covers small to mid rooms at a lower price point. A sensible pick when the budget is tight and you do not need premium controls or stone mass.",
+    pros: ["Lower upfront cost", "Covers small-to-mid rooms", "Simple operation"],
+    cons: ["Smaller stone capacity", "Fewer premium features"],
+    amazonSearch: "scandia sauna heater",
+  },
+  {
+    name: "Harvia wood-burning (M-series, Pro)",
+    type: "Wood",
+    kw: "Room-rated",
+    bestFor: "Best value wood stove",
+    blurb:
+      "Widely available wood-burning stoves for cabins and outdoor builds, in models rated by room size. Gives authentic loyly and off-grid capability - but you must add a code-compliant chimney, heat shielding, and clearances.",
+    pros: ["Authentic, intense loyly", "Off-grid, no heater circuit", "Range of room sizes"],
+    cons: ["Needs chimney + clearances", "More maintenance than electric"],
+    amazonSearch: "harvia wood burning sauna stove",
+  },
+  {
+    name: "Kuuma by Lamppa (USA)",
+    type: "Wood",
+    kw: "Room-rated",
+    bestFor: "Best high-efficiency wood",
+    blurb:
+      "American-made wood stoves with a reputation for high efficiency and long burn times among off-grid and cabin builders. A premium choice where firewood and authenticity are the point.",
+    pros: ["Very efficient, long burns", "Robust, made in the USA", "Loved by off-grid builders"],
+    cons: ["Premium price", "Still needs chimney + clearances"],
+    amazonSearch: "kuuma sauna wood stove",
+  },
+  {
+    name: "Carbon / ceramic infrared panels",
+    type: "Infrared",
+    kw: "1.5-3 kW (panels)",
+    bestFor: "Best for an infrared room",
+    blurb:
+      "If you are building an infrared room rather than a traditional sauna, you buy panels (not a stone heater) sized by occupancy. Look for low-EMF designs with third-party testing measured where the body sits.",
+    pros: ["Plug-in, no 240V circuit", "Low running cost", "Easy retrofit into a room"],
+    cons: ["No steam / loyly", "Verify low-EMF test data"],
+    amazonSearch: "infrared sauna carbon panel kit",
+  },
+];
+
+const approachRows = [
+  [
+    "Pre-cut kit",
+    "Intermediate",
+    "1-3 days",
+    "$3,000-$9,000 + heater",
+    "Most DIYers; balance of cost, speed, quality",
+  ],
+  [
+    "Scratch build",
+    "Advanced",
+    "40-100+ hrs",
+    "$2,000-$6,000 materials + heater",
+    "Custom rooms, best value/sq ft, experienced builders",
+  ],
+  [
+    "Convert a room",
+    "Intermediate-Advanced",
+    "Varies",
+    "$2,500-$7,000 + heater",
+    "Using an existing closet, basement, or bathroom shell",
+  ],
+];
+
+const sizingRows = [
+  ["4x6 ft", "24 sq ft", "~168 cu ft", "4.5-6 kW", "25-35 min", "1-2"],
+  ["5x7 ft", "35 sq ft", "~245 cu ft", "6-8 kW", "30-45 min", "2-3"],
+  ["6x8 ft", "48 sq ft", "~336 cu ft", "8-9 kW", "40-55 min", "3-4"],
+  ["7x9 ft", "63 sq ft", "~441 cu ft", "9-12 kW", "45-65 min", "4-6"],
+];
+
+const circuitRows = [
+  ["Up to 1.5 kW", "120V", "15-20A", "#12", "Some plug-in / small infrared"],
+  ["4.5 kW", "240V", "20A", "#12", "Small 1-2 person room"],
+  ["6 kW", "240V", "30A", "#10", "Most popular home size"],
+  ["8 kW", "240V", "40A", "#8", "5x7 to 6x8 ft rooms"],
+  ["9-10.5 kW", "240V", "50A", "#6", "Large or glass-heavy rooms"],
+];
+---
+
+<DecisionGuideLayout
+  title={title}
+  description={description}
+  hubSlug="sauna-kits"
+  heroSubtitle={heroSubtitle}
+  image="/images/heroes/sauna-kits.webp"
+  imageAlt="A partly built sauna showing cedar cladding over a foil vapor barrier and framing."
+  pubDate={pubDate}
+  updatedDate={updatedDate}
+  lastReviewed={lastReviewed}
+  methodologyNote={methodologyNote}
+  sources={sources}
+  faq={faq}
+  heroGuides={heroGuides}
+>
+  <p>
+    Building your own sauna is the best value per square foot - especially for larger or custom
+    rooms - if you are comfortable with framing, insulation, a vapor barrier, and finish carpentry.
+    The decision is not which kit "wins": it is <strong>kit vs scratch build</strong>, the right
+    <strong>heater kW for your room's volume</strong>, and the <strong>240V circuit</strong> that
+    heater demands. Get those three right and the rest is execution.
+  </p>
+  <p>
+    Below we walk the build step by step, give you heater-sizing and circuit tables you can plan
+    against, shortlist the heaters worth considering, and cover the woods and details beginners get
+    wrong. For a full itemized budget, run the
+    <a href="/tools/sauna-cost-calculator/">sauna cost calculator</a>.
+  </p>
+
+  <h2 id="steps">Build a sauna step by step</h2>
+  <p>
+    Every build comes down to the same ordered decisions. Expand each step for the detail - the order
+    matters, because your size choice drives the heater, and the heater drives the electrical.
+  </p>
+
+  <div class="build-steps not-prose">
+    {
+      buildSteps.map((step) => (
+        <details class="build-step">
+          <summary class="build-step__summary">
+            <span class="build-step__num">{step.n}</span>
+            <span class="build-step__title">{step.title}</span>
+            <span class="build-step__chevron" aria-hidden="true" />
+          </summary>
+          <div class="build-step__body" set:html={step.body} />
+        </details>
+      ))
+    }
+  </div>
+
+  <h2 id="approach">Kit vs scratch build vs room conversion</h2>
+  <p>
+    There are three realistic DIY paths. Most people are best served by a pre-cut kit plus a
+    separately chosen quality heater.
+  </p>
+
+  <ComparisonTable
+    caption="DIY sauna build approaches compared by skill, time, cost, and best fit"
+    headers={["Approach", "Skill needed", "Time", "Typical cost", "Best for"]}
+    rows={approachRows}
+  />
+
+  <Callout variant="note" title="Kits remove the hardest work">
+    <p>
+      A pre-cut kit ships pre-measured wall and bench components, a vapor barrier, and a heater spec,
+      so you skip the most error-prone cutting and fitting. Scratch-building costs less in materials
+      but assumes you can detail the vapor barrier and ventilation correctly - the part beginners
+      most often get wrong and the most expensive to fix.
+    </p>
+  </Callout>
+
+  <h2 id="sizing">How to size a sauna heater (by volume)</h2>
+  <p>
+    Size by cubic feet, not by the brochure's "person" count. The rule of thumb is roughly
+    <strong>1 kW of heater per 45-50 cubic feet</strong> of a well-insulated room (volume = length x
+    width x height). Add 15-25% for lots of glass, poor insulation, or a cold location, and about
+    6 cubic feet of effective volume per square foot of glass. Then confirm against the specific
+    heater's chart.
+  </p>
+
+  <ComparisonTable
+    caption="Sauna room size, volume, heater kW, heat-up time, and realistic capacity (7 ft ceiling)"
+    headers={["Interior", "Floor", "Volume", "Heater", "Heat-up", "Realistic capacity"]}
+    rows={sizingRows}
+  />
+
+  <p>
+    Note the realistic capacity column: advertised person capacity runs about a quarter to a third
+    optimistic. Allow ~20 inches of bench length per seated adult, and about 70 inches if anyone
+    wants to lie flat. Tiered benches let you sit higher where it is hotter.
+  </p>
+
+  <h2 id="electrical">The 240V circuit and wire gauge</h2>
+  <p>
+    This is the part you do not improvise. Traditional electric heaters above ~3 kW need a dedicated
+    240V circuit on a GFCI breaker, installed by a licensed electrician. Use this as a planning
+    reference, then confirm exact sizing with the heater's manual and your electrician (wire gauge
+    also depends on run length).
+  </p>
+
+  <ComparisonTable
+    caption="Approximate sauna heater circuit sizing by heater power (confirm with manual and electrician)"
+    headers={["Heater power", "Voltage", "Breaker", "Wire (copper)", "Typical use"]}
+    rows={circuitRows}
+  />
+
+  <Callout variant="warning" title="Electrical is not a DIY shortcut">
+    <p>
+      Hire a licensed electrician for any 240V heater circuit, and budget $600-$1,800 for a
+      straightforward run - more if your panel needs an upgrade ($1,500-$3,000) or the run is
+      trenched outdoors. A GFCI breaker is required. Wood-burning heaters skip the circuit but need a
+      code-compliant chimney, heat shielding, and clearances.
+    </p>
+  </Callout>
+
+  <h2 id="materials">Wood &amp; materials that matter</h2>
+  <p>
+    Wood choice is about safety and longevity, not just looks. The key rule: bench wood must stay
+    cool to the touch.
+  </p>
+  <ul>
+    <li><strong>Benches:</strong> aspen or abachi (lowest thermal conductivity - won't burn bare skin).</li>
+    <li><strong>Walls &amp; ceiling:</strong> Western red cedar (aromatic, rot-resistant, 20-30 yr) or budget Nordic spruce.</li>
+    <li><strong>Outdoor / premium:</strong> thermally modified spruce ("thermowood") for stability and weathering.</li>
+    <li><strong>Never:</strong> resinous or knotty pine on bench surfaces - resin liquefies at sauna heat and burns.</li>
+    <li><strong>Behind the wood:</strong> a foil vapor barrier plus insulation, and proper intake/exhaust ventilation - non-negotiable for a traditional sauna.</li>
+  </ul>
+
+  <h2 id="heaters">A curated sauna heater shortlist</h2>
+  <p>
+    The heater is the single most important component in a traditional build. Rather than list dozens,
+    here are eight well-regarded options worth comparing, grouped by electric, wood-burning, and
+    infrared. These are starting points, not star-rated winners - size the kW to your room's volume
+    and confirm against the manufacturer's chart before buying.
+  </p>
+
+  <div class="heater-grid not-prose">
+    {
+      heaters.map((h) => (
+        <article class="heater-card">
+          <div class="heater-card__head">
+            <span class={`heater-card__type heater-card__type--${h.type.toLowerCase()}`}>{h.type}</span>
+            <span class="heater-card__kw">{h.kw}</span>
+          </div>
+          <h3 class="heater-card__name">{h.name}</h3>
+          <p class="heater-card__best">{h.bestFor}</p>
+          <p class="heater-card__blurb">{h.blurb}</p>
+          <div class="heater-card__pc">
+            <div>
+              <p class="heater-card__pc-h heater-card__pc-h--pro">What works</p>
+              <ul>{h.pros.map((p) => <li>{p}</li>)}</ul>
+            </div>
+            <div>
+              <p class="heater-card__pc-h heater-card__pc-h--con">What to weigh</p>
+              <ul>{h.cons.map((c) => <li>{c}</li>)}</ul>
+            </div>
+          </div>
+          <div class="heater-card__cta">
+            <AffiliateButton amazonSearch={h.amazonSearch} productName={h.name} variant="primary" />
+          </div>
+        </article>
+      ))
+    }
+  </div>
+
+  <Callout variant="note" title="How to choose between them">
+    <p>
+      For most home builds, a well-sized <strong>electric</strong> heater from Harvia, HUUM, Finlandia,
+      or EOS is the straightforward answer. Choose <strong>wood-burning</strong> only if you want
+      authentic loyly or off-grid use and can build a compliant chimney. Pick <strong>infrared
+      panels</strong> only if you are building an infrared room rather than a traditional one. Whatever
+      you choose, match the kW to the <a href="#sizing">sizing table</a> and have a licensed
+      electrician handle any 240V circuit.
+    </p>
+  </Callout>
+
+  <h2 id="picks">Where to source kits, heaters &amp; materials</h2>
+  <p>
+    Format-level starting points, not star-rated winners. Where we mention brands, treat them as
+    well-regarded examples to compare, and check spec sheets before buying.
+  </p>
+
+  <ProductCard
+    id="precut-kit"
+    name="Pre-cut indoor sauna kit"
+    bestFor="Best for most DIY builders"
+    saunaIcon="kit"
+    image="/images/formats/diy-kit.webp"
+    imageAlt="Stacked cedar panels, a roll of foil vapor barrier and a boxed heater for a DIY sauna kit."
+    formatLabel="Pre-cut kit, seats 2-4"
+    price="$3,000-$9,000 + heater"
+    specs={[
+      { label: "Skill", value: "Intermediate" },
+      { label: "Build time", value: "1-3 days" },
+      { label: "Heater", value: "Sized to room kW" },
+      { label: "Electrical", value: "240V + electrician" },
+    ]}
+    summary={[
+      "A pre-cut kit is the sweet spot for most people: pre-measured wall and bench components, vapor barrier, and a matched heater spec, assembled in a day or two. You skip the hardest cutting and fitting and still get to choose a quality heater.",
+      "Superior Saunas, SaunaPlace, and Finnleo offer pre-cut kits; Almost Heaven and SaunaLife are common in the indoor space. Confirm the kit's heater kW matches your room volume.",
+    ]}
+    pros={[
+      "Removes the most error-prone work",
+      "Fast assembly; predictable result",
+      "Choose your own quality heater",
+    ]}
+    cons={[
+      "Costs more than scratch materials",
+      "Less customizable than a scratch build",
+      "Still needs an electrician for 240V",
+    ]}
+    skipIf="you want a fully custom room or the lowest possible material cost."
+    amazonSearch="pre-cut sauna kit indoor"
+  />
+
+  <ProductCard
+    id="heater"
+    name="Traditional sauna heater (electric)"
+    bestFor="Best single decision in the build"
+    saunaIcon="heater"
+    image="/images/formats/electric-heater.webp"
+    imageAlt="A modern electric sauna heater topped with dark stones on a cedar wall."
+    formatLabel="Electric heater, 4.5-9 kW"
+    price="$500-$2,500"
+    specs={[
+      { label: "Power", value: "4.5-9 kW typical" },
+      { label: "Voltage", value: "240V dedicated" },
+      { label: "Sizing", value: "~1 kW / 45-50 cu ft" },
+      { label: "Breaker", value: "20-50A + GFCI" },
+    ]}
+    summary={[
+      "The heater is the heart of a traditional sauna - size it to your room's volume, not its 'person' rating. A good heater holds enough stone mass for proper loyly (steam when you pour water) and even heat.",
+      "Harvia, HUUM, Finlandia, and EOS are well-regarded heater brands; for wood-burning, look at Harvia, HUUM, and Kuuma. Match the kW to the sizing table above and verify the manufacturer's chart.",
+    ]}
+    pros={[
+      "Right kW = fast, even, reliable heat",
+      "Stone mass enables proper loyly",
+      "Quality units last 10-20+ years",
+    ]}
+    cons={[
+      "Needs a dedicated 240V GFCI circuit",
+      "Undersizing leaves the room never hot enough",
+      "Oversizing wastes energy and trips breakers",
+    ]}
+    skipIf="you are building an infrared room (uses panels, not a stone heater)."
+    amazonSearch="harvia sauna heater 6kw"
+  />
+
+  <ProductCard
+    id="materials-pack"
+    name="Sauna wood &amp; materials"
+    bestFor="Best for scratch builders & upgrades"
+    saunaIcon="kit"
+    image="/images/formats/diy-kit.webp"
+    imageAlt="Stacked cedar panels, a roll of foil vapor barrier and a boxed heater for a DIY sauna build."
+    formatLabel="Lumber, foil, door, accessories"
+    price="$1,500-$4,000 (materials)"
+    specs={[
+      { label: "Benches", value: "Aspen / abachi" },
+      { label: "Walls", value: "Cedar / spruce" },
+      { label: "Barrier", value: "Foil vapor barrier" },
+      { label: "Extras", value: "Door, vents, guard" },
+    ]}
+    summary={[
+      "Scratch builders assemble their own material list: tongue-and-groove cladding, bench lumber, a foil vapor barrier, insulation, a sauna door, vents, and a heater guard. This is the lowest-cost, most customizable path - and the most demanding.",
+      "Superior Saunas and SaunaPlace sell lumber and components by the piece. Budget roughly $660-$1,100 in wood for a 5x7 room in Nordic spruce, more for cedar or thermowood.",
+    ]}
+    pros={[
+      "Lowest material cost; fully custom",
+      "Choose every wood and fitting",
+      "Ideal for odd-shaped rooms",
+    ]}
+    cons={[
+      "Advanced carpentry and 40-100+ hours",
+      "You own the vapor-barrier/venting details",
+      "Mistakes are costly to redo",
+    ]}
+    skipIf="you are not confident with framing, insulation, and a vapor barrier."
+    amazonSearch="sauna wood cedar tongue and groove"
+  />
+
+  <Callout variant="tip" title="Price your exact build">
+    <p>
+      The bands above are broad on purpose. The
+      <a href="/tools/sauna-cost-calculator/">sauna cost calculator</a> lets you pick size, materials,
+      technology, who builds it, and indoor vs outdoor, then returns your most likely all-in cost
+      plus an itemized breakdown and a monthly running cost - the fastest way to sanity-check a DIY
+      budget.
+    </p>
+  </Callout>
+
+  <h2 id="bottom-line">The bottom line</h2>
+  <p>
+    For most builders, a <a href="#precut-kit">pre-cut kit</a> plus a quality
+    <a href="#heater">heater sized to your room's volume</a> is the best balance of cost, speed, and
+    result. Scratch-build with a <a href="#materials-pack">materials pack</a> only if you are
+    confident with the vapor barrier and ventilation. Whichever path you take, size the heater by
+    cubic feet, get a licensed electrician for the 240V circuit, and
+    <a href="/tools/sauna-cost-calculator/">estimate the full build</a> first. Still deciding on a
+    format? Start with the <a href="/home-sauna/">best home sauna guide</a> or compare
+    <a href="/outdoor-sauna/">outdoor builds</a>.
+  </p>
+</DecisionGuideLayout>
+
+<style>
+  .build-steps {
+    display: grid;
+    gap: 0.6rem;
+    margin: 1.5rem 0;
+  }
+
+  .build-step {
+    border: 1px solid var(--color-ink-100);
+    border-radius: 1rem;
+    background: white;
+    box-shadow: 0 1px 2px rgba(40, 25, 16, 0.04);
+    overflow: hidden;
+  }
+
+  .build-step[open] {
+    box-shadow: 0 12px 30px rgba(40, 25, 16, 0.06);
+  }
+
+  .build-step__summary {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 1rem 1.15rem;
+    cursor: pointer;
+    list-style: none;
+    font-weight: 700;
+    color: var(--color-ink-900);
+  }
+
+  .build-step__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .build-step__num {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    border-radius: 999px;
+    background: var(--color-brand-700);
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 800;
+  }
+
+  .build-step__title {
+    flex: 1 1 auto;
+    font-size: 1.02rem;
+    line-height: 1.3;
+  }
+
+  .build-step__chevron {
+    flex: none;
+    width: 0.65rem;
+    height: 0.65rem;
+    border-right: 2px solid var(--color-ink-400);
+    border-bottom: 2px solid var(--color-ink-400);
+    transform: rotate(45deg);
+    transition: transform 0.18s ease;
+  }
+
+  .build-step[open] .build-step__chevron {
+    transform: rotate(-135deg);
+  }
+
+  .build-step__body {
+    padding: 0 1.15rem 1.15rem 3.75rem;
+    color: var(--color-ink-800);
+    font-size: 0.98rem;
+    line-height: 1.65;
+  }
+
+  .build-step__body :global(a) {
+    color: var(--color-brand-700);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  @media (max-width: 480px) {
+    .build-step__body {
+      padding-left: 1.15rem;
+    }
+  }
+
+  .heater-grid {
+    display: grid;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .heater-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .heater-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--color-ink-100);
+    border-radius: 1.25rem;
+    background: white;
+    padding: 1.25rem;
+    box-shadow: 0 10px 28px rgba(40, 25, 16, 0.05), 0 1px 2px rgba(40, 25, 16, 0.04);
+  }
+
+  .heater-card__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .heater-card__type {
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    background: var(--color-sand-100);
+    color: var(--color-ink-700);
+  }
+
+  .heater-card__type--electric {
+    background: #e0f2fe;
+    color: #075985;
+  }
+
+  .heater-card__type--wood {
+    background: #fee2c7;
+    color: #9a3412;
+  }
+
+  .heater-card__type--infrared {
+    background: #fde2e4;
+    color: #9d174d;
+  }
+
+  .heater-card__kw {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--color-ink-600);
+  }
+
+  .heater-card__name {
+    margin: 0.7rem 0 0.15rem;
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-ink-900);
+  }
+
+  .heater-card__best {
+    margin: 0;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-brand-700);
+  }
+
+  .heater-card__blurb {
+    margin: 0.7rem 0 0;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--color-ink-800);
+  }
+
+  .heater-card__pc {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem;
+    margin: 1rem 0;
+  }
+
+  .heater-card__pc-h {
+    margin: 0 0 0.35rem;
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .heater-card__pc-h--pro {
+    color: var(--color-brand-700);
+  }
+
+  .heater-card__pc-h--con {
+    color: var(--color-ember-700);
+  }
+
+  .heater-card__pc ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.3rem;
+  }
+
+  .heater-card__pc li {
+    position: relative;
+    padding-left: 0.9rem;
+    font-size: 0.82rem;
+    line-height: 1.4;
+    color: var(--color-ink-700);
+  }
+
+  .heater-card__pc li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.5em;
+    width: 0.35rem;
+    height: 0.35rem;
+    border-radius: 999px;
+    background: var(--color-brand-300);
+  }
+
+  .heater-card__pc div:last-child li::before {
+    background: var(--color-ember-400);
+  }
+
+  .heater-card__cta {
+    margin-top: auto;
+    padding-top: 0.5rem;
+  }
+</style>

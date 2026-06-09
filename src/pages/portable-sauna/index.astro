@@ -1,0 +1,327 @@
+---
+import DecisionGuideLayout from "@layouts/DecisionGuideLayout.astro";
+import ComparisonTable from "@components/ComparisonTable.astro";
+import ProductCard from "@components/ProductCard.astro";
+import Callout from "@components/Callout.astro";
+
+const title = "Best Portable Sauna: Blankets, Pods & Tents Compared";
+const description =
+  "An honest decision guide to the best portable sauna for apartments and renters. Compare infrared sauna blankets, portable pods, and steam tents by experience, cost, storage, and EMF - no fabricated testing or fake ratings.";
+const heroSubtitle =
+  "Portable saunas trade some intensity for no installation, low cost, and fold-away storage. The real choice is blanket vs pod vs steam tent - matched to your space, budget, and how close you want to mimic a real sauna.";
+
+const pubDate = new Date("2026-06-08");
+const updatedDate = new Date("2026-06-08");
+const lastReviewed = new Date("2026-06-08");
+
+const methodologyNote =
+  "This guide synthesizes manufacturer specifications, independent expert reviews, and verified owner feedback from sauna and recovery communities. We have not heat-tested every product, so we recommend by format and use-case rather than inventing star ratings. Where we name brands, we link to the maker's spec sheet so you can verify claims yourself. Health information is kept conservative and cited.";
+
+const sources = [
+  {
+    name: "Sauna Guide - Infrared vs traditional sauna",
+    url: "https://sauna.guide/guides/infrared-vs-traditional-sauna",
+    accessed: new Date("2026-06-08"),
+    note: "How infrared (radiant) heat differs from steam, and the temperature ranges portable units reach.",
+  },
+  {
+    name: "Haven of Heat - How much does a sauna cost (2026 pricing)",
+    url: "https://havenofheat.com/blogs/sauna-guides/how-much-does-a-sauna-cost-the-complete-2026-pricing-guide",
+    accessed: new Date("2026-06-08"),
+    note: "2026 price bands for blankets, pods, and portable units, plus running costs.",
+  },
+  {
+    name: "Healing Sauna - Infrared sauna buying guide",
+    url: "https://www.healingsauna.com/infrared-sauna/buying-guide",
+    accessed: new Date("2026-06-08"),
+    note: "What to look for in portable infrared units, including heating elements and controls.",
+  },
+  {
+    name: "Sun Home - Infrared vs traditional (best home sauna 2026)",
+    url: "https://sunhomesaunas.com/blogs/saunas/infrared-vs-traditional-sauna-best-home-sauna-2026",
+    accessed: new Date("2026-06-08"),
+    note: "Power draw and the milder, drier character of low-wattage infrared used in portables.",
+  },
+  {
+    name: "Cleveland Clinic - Sauna benefits",
+    url: "https://health.clevelandclinic.org/sauna-benefits",
+    accessed: new Date("2026-06-08"),
+    note: "Clinic summary of benefits and the contraindications worth knowing before you start.",
+  },
+];
+
+const faq = [
+  {
+    q: "Do portable saunas actually work?",
+    a: "Yes, within limits. Infrared blankets and portable pods reach roughly 120-150F and will make you sweat and warm up, which many people use for relaxation and post-workout recovery. What they do not replicate is the high heat (150-195F), steam, and full-body environment of a real cabin - and in most portable pods your head sits outside the heat. Think of them as an accessible, low-cost way to get a regular heat session, not a full substitute for a built sauna.",
+  },
+  {
+    q: "Sauna blanket or portable pod - which is better?",
+    a: "A sauna blanket is the most compact and cheapest: you lie inside a heated, zip-up wrap, so it stores in a closet and is ideal for tiny apartments. A portable pod is a collapsible box you sit in with your head out the top, which feels a bit more like a sauna and lets you read or relax upright. Choose a blanket for maximum portability and lowest cost; choose a pod if you want a more upright, sauna-like session and have a little more space.",
+  },
+  {
+    q: "Should I worry about EMF in a sauna blanket?",
+    a: "It is worth thinking about, not panicking about. Cheap carbon-heating units can emit measurable low-frequency magnetic fields close to the body. Better brands publish third-party EMF testing measured at body distance, and a reasonable target is under about 3 mG where your body sits. Look for units that disclose accredited-lab EMF results for both magnetic and electric fields, rather than a vague 'low EMF' label.",
+  },
+  {
+    q: "How much does a portable sauna cost?",
+    a: "Roughly: infrared sauna blankets $200-$650; portable infrared pods $150-$900; portable steam tents $100-$400. Running cost is low - usually $5-$15 a month - because they draw far less power than a 240V cabin heater. For a built cabin instead, see our best home sauna guide and the sauna cost calculator.",
+  },
+  {
+    q: "Are portable steam saunas the same as infrared ones?",
+    a: "No. A portable steam tent uses a small water boiler to fill the enclosure with hot, humid steam, which feels closer to a traditional sauna or steam room and adds humidity that some find better for the skin and sinuses. Infrared blankets and pods are dry radiant heat with no steam. Steam tents involve a water reservoir to fill and dry afterward, so there is a little more upkeep.",
+  },
+];
+
+const heroGuides = {
+  heading: "Jump to",
+  items: [
+    { award: "Compare", title: "Blanket vs pod vs tent", href: "#formats" },
+    { award: "Check", title: "EMF & safety", href: "#emf" },
+    { award: "Decide", title: "Best by need", href: "#picks" },
+    { award: "Upgrade", title: "When to buy a cabin", href: "#upgrade" },
+  ],
+};
+
+const formatRows = [
+  [
+    "Infrared blanket",
+    "120-150F",
+    "10-20 min",
+    "Folds into a closet",
+    "$200-$650",
+    "Tiny apartments, lowest cost, recovery",
+  ],
+  [
+    "Portable pod (infrared)",
+    "120-150F",
+    "5-15 min",
+    "Collapses to a flat box",
+    "$150-$900",
+    "Upright, more sauna-like session",
+  ],
+  [
+    "Portable steam tent",
+    "Warm + humid steam",
+    "5-10 min",
+    "Folds; needs a boiler",
+    "$100-$400",
+    "Steam feel, sinuses, lowest entry price",
+  ],
+];
+---
+
+<DecisionGuideLayout
+  title={title}
+  description={description}
+  hubSlug="portable-sauna"
+  heroSubtitle={heroSubtitle}
+  image="/images/heroes/portable-sauna.webp"
+  imageAlt="A portable infrared sauna blanket folded on a bench in a bright modern apartment."
+  pubDate={pubDate}
+  updatedDate={updatedDate}
+  lastReviewed={lastReviewed}
+  methodologyNote={methodologyNote}
+  sources={sources}
+  faq={faq}
+  heroGuides={heroGuides}
+>
+  <p>
+    A portable sauna is the easiest, cheapest way to add a regular heat session to your routine when
+    you rent, live in an apartment, or just do not want to install anything. You give up the high
+    heat, steam, and full-body environment of a real cabin - but you gain a unit that costs a few
+    hundred dollars, plugs into a normal outlet, and folds away when you are done. The decision is
+    not which brand "wins": it is <strong>blanket vs pod vs steam tent</strong>, matched to your
+    space and how close you want to get to a real sauna.
+  </p>
+  <p>
+    Below we compare the three formats honestly, cover the EMF question buyers ask about most, and
+    point you to format-level picks. If you decide you actually want high heat and steam, jump to our
+    <a href="/home-sauna/">best home sauna guide</a>.
+  </p>
+
+  <h2 id="formats">The three portable formats, compared</h2>
+  <p>
+    Almost every portable sauna is one of these three. This is the fastest way to narrow the field.
+  </p>
+
+  <ComparisonTable
+    caption="Portable sauna formats compared by temperature, heat-up, storage, price, and best use"
+    headers={["Format", "Heat", "Heat-up", "Storage", "Typical price", "Best for"]}
+    rows={formatRows}
+  />
+
+  <p>
+    The honest headline: these run cooler than a real sauna (about 120-150F vs 150-195F), and in most
+    pods your head sits outside the heat, so the experience is milder. That is the trade for no
+    installation and easy storage. The long-term cardiovascular research is on hot, traditional
+    saunas - portables are best framed as an accessible, convenient way to get a regular sweat and
+    relaxation session, not as the most-studied format.
+  </p>
+
+  <h2 id="emf">EMF and safety</h2>
+  <p>
+    Because you sit or lie close to the heating elements, EMF comes up more with portables than with
+    a cabin. It is worth thinking about, not panicking about.
+  </p>
+  <ul>
+    <li>
+      Cheap carbon-heating units can emit measurable low-frequency magnetic fields at the surface.
+      Better brands publish third-party EMF testing; a reasonable target is under about
+      <strong>3 mG at body distance</strong>.
+    </li>
+    <li>
+      Prefer units that disclose <strong>accredited-lab EMF results for both magnetic and electric
+      fields</strong>, measured where your body sits - not a vague "low EMF" sticker.
+    </li>
+    <li>
+      Standard heat-session cautions apply: hydrate, keep early sessions short (10-20 minutes), and
+      stop if you feel dizzy or unwell.
+    </li>
+  </ul>
+
+  <h2 id="picks">Which portable sauna fits your need?</h2>
+  <p>
+    Format-level starting points, not star-rated winners. Where we mention brands, treat them as
+    well-regarded examples to compare, and check the maker's spec sheet before buying.
+  </p>
+
+  <ProductCard
+    id="blanket"
+    name="Infrared sauna blanket"
+    bestFor="Best for tiny spaces & lowest fuss"
+    saunaIcon="blanket"
+    image="/images/formats/portable-blanket.webp"
+    imageAlt="A quilted infrared sauna blanket laid out beside a rolled towel."
+    formatLabel="Infrared blanket, 1 person"
+    price="$200-$650"
+    specs={[
+      { label: "Heat", value: "120-150F" },
+      { label: "Heat-up", value: "10-20 min" },
+      { label: "Power", value: "120V plug-in" },
+      { label: "Storage", value: "Folds into a closet" },
+    ]}
+    summary={[
+      "You lie inside a heated, zip-up wrap - the most compact and lowest-cost way to sweat at home. It stores in a closet, needs zero setup beyond plugging in, and is ideal for studio apartments and travel. The catch: you are lying down and wrapped, so it is the least 'sauna-like' of the three.",
+      "HigherDose, MiHigh, and Therasage are common blanket brands. Wipe-clean interiors and a published EMF test are the features worth paying for.",
+    ]}
+    pros={[
+      "Smallest footprint; closet storage",
+      "Lowest cost and running cost",
+      "No setup beyond plugging in",
+    ]}
+    cons={[
+      "Least sauna-like (lying down, wrapped)",
+      "Mild heat; no steam",
+      "Cheap units can run higher EMF",
+    ]}
+    skipIf="you want to sit upright or get anywhere near a real sauna feel."
+    amazonSearch="infrared sauna blanket low emf"
+  />
+
+  <ProductCard
+    id="pod"
+    name="Portable infrared pod"
+    bestFor="Best for an upright, sauna-like session"
+    saunaIcon="portable"
+    image="/images/formats/portable-tent.webp"
+    imageAlt="A compact portable sauna tent with a small steam unit in a bright room."
+    formatLabel="Portable pod, 1 person"
+    price="$150-$900"
+    specs={[
+      { label: "Heat", value: "120-150F" },
+      { label: "Heat-up", value: "5-15 min" },
+      { label: "Power", value: "120V plug-in" },
+      { label: "Storage", value: "Collapses flat" },
+    ]}
+    summary={[
+      "A collapsible box you sit in with your head out the top, so you can read or relax upright - the closest portable feel to a real sauna. It heats fast, folds flat, and suits apartments and small homes that want more than a blanket.",
+      "SereneLife and LifePro make popular budget pods; higher-end versions add better framing and controls. Look for a sturdy frame and a foot heater for a more even session.",
+    ]}
+    pros={[
+      "Upright, more sauna-like than a blanket",
+      "Fast heat-up; folds flat for storage",
+      "Hands free to read or relax",
+    ]}
+    cons={[
+      "Head sits outside the heat",
+      "Frames on budget units can feel flimsy",
+      "Mild, dry heat; no steam",
+    ]}
+    skipIf="you want full-body, head-included heat or a social space."
+    amazonSearch="portable infrared sauna pod"
+  />
+
+  <ProductCard
+    id="steam-tent"
+    name="Portable steam tent"
+    bestFor="Best for steam feel on a budget"
+    saunaIcon="portable"
+    image="/images/formats/portable-tent.webp"
+    imageAlt="A compact portable sauna tent with a small steam unit in a bright room."
+    formatLabel="Steam tent, 1 person"
+    price="$100-$400"
+    specs={[
+      { label: "Heat", value: "Warm + humid steam" },
+      { label: "Heat-up", value: "5-10 min" },
+      { label: "Power", value: "120V plug-in" },
+      { label: "Storage", value: "Folds; boiler unit" },
+    ]}
+    summary={[
+      "A small water boiler fills a zip-up tent with hot steam, giving a humid feel closer to a traditional sauna or steam room - nice for sinuses and skin. It is the cheapest way in, but you fill and dry a water reservoir each time, so there is a little more upkeep.",
+      "Many are generic boiler-and-tent kits; prioritize a stable frame, a timer, and a boiler with auto shut-off.",
+    ]}
+    pros={[
+      "Humid steam feel, not just dry heat",
+      "Lowest entry price",
+      "Folds away after use",
+    ]}
+    cons={[
+      "Water reservoir to fill and dry each time",
+      "Head usually outside the tent",
+      "Flimsiest builds in the category",
+    ]}
+    skipIf="you want dry infrared heat or minimal cleanup."
+    amazonSearch="portable steam sauna tent"
+  />
+
+  <Callout variant="tip" title="Comparing the bigger picture?">
+    <p>
+      Portables are one of five home sauna formats. To see how they stack up against infrared cabins,
+      traditional electric, and outdoor builds, read the
+      <a href="/home-sauna/">best home sauna guide</a>. If you are leaning toward a built unit, the
+      <a href="/tools/sauna-cost-calculator/">sauna cost calculator</a> estimates an itemized build cost.
+    </p>
+  </Callout>
+
+  <h2 id="upgrade">When to skip portable and build instead</h2>
+  <p>
+    A portable is the right call if you rent, have very little space, or want the lowest possible
+    entry cost. Consider stepping up to a built unit if:
+  </p>
+  <ul>
+    <li>You want <strong>high heat and steam</strong> (a real 150-195F session, head included).</li>
+    <li>You will use it daily for years - a <a href="/home-sauna/#infrared-cabin">plug-in infrared cabin</a> is more durable and comfortable.</li>
+    <li>You want a <strong>social space</strong> for two or more - look at <a href="/outdoor-sauna/">outdoor barrels and cabins</a>.</li>
+    <li>You are handy and want the best value per square foot - see <a href="/sauna-kits/">DIY builds and heaters</a>.</li>
+  </ul>
+
+  <h2 id="health">A measured word on health benefits</h2>
+  <p>
+    Regular heat exposure is associated with relaxation and recovery benefits, and observational
+    studies link frequent sauna use with cardiovascular and stress benefits - but that research is
+    overwhelmingly on hot, traditional saunas, not low-heat portables. These are associations, not
+    proof of cause. If you are pregnant, have heart disease, unstable blood pressure, or take
+    medications, talk to a physician before starting. Hydrate and keep sessions short. We do not make
+    detox, weight-loss, or disease-cure claims.
+  </p>
+
+  <h2 id="bottom-line">The bottom line</h2>
+  <p>
+    For the smallest space and lowest cost, an <a href="#blanket">infrared blanket</a> is the easiest
+    way in. Want to sit upright in something more sauna-like? Choose a
+    <a href="#pod">portable pod</a>. Prefer steam and the cheapest possible entry? A
+    <a href="#steam-tent">steam tent</a> delivers. And if you find yourself wanting real heat, steam,
+    and durability, move up to the <a href="/home-sauna/">best home sauna formats</a>.
+  </p>
+</DecisionGuideLayout>

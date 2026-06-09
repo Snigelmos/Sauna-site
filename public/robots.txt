@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.homesaunaguide.com/sitemap-index.xml

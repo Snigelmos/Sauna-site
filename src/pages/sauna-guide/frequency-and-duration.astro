@@ -1,0 +1,98 @@
+---
+import GuideArticleLayout from "@layouts/GuideArticleLayout.astro";
+
+const title = "How Often & How Long Should You Use a Sauna?";
+const description =
+  "Sensible sauna frequency and session length: how many times a week, how long per session for traditional vs infrared, hydration, and how to build up safely as a beginner.";
+const intro =
+  "How often and how long comes down to your experience level and how your body responds. Here are practical defaults, plus what the research used.";
+
+const updatedDate = new Date("2026-06-09");
+const pubDate = new Date("2026-06-09");
+
+const sources = [
+  {
+    name: "Laukkanen et al., 2015, JAMA Internal Medicine - sauna frequency and mortality",
+    url: "https://jamanetwork.com/journals/jamainternalmedicine/fullarticle/2130724",
+  },
+  {
+    name: "Harvard Health - Hot baths and saunas: beneficial for your heart?",
+    url: "https://www.health.harvard.edu/heart-health/hot-baths-and-saunas-beneficial-for-your-heart",
+  },
+];
+
+const faq = [
+  {
+    q: "How many times a week should you use a sauna?",
+    a: "There is no required number. In the large Finnish observational study, the lowest cardiovascular risk was seen in people using a traditional sauna 4-7 times a week, with benefit also at 2-3 times. For general wellbeing, 2-4 sessions a week is a reasonable target - but any consistent habit you enjoy and tolerate well is fine.",
+  },
+  {
+    q: "How long should one session be?",
+    a: "Roughly 10-20 minutes per round in a hot traditional sauna, or 30-45 minutes in a cooler infrared cabin. Beginners should start shorter and add time gradually. Leave whenever you feel lightheaded.",
+  },
+  {
+    q: "Can you use a sauna every day?",
+    a: "Many healthy people do, and the research population often used saunas very frequently. If you go daily, keep individual sessions moderate, hydrate well, and pay attention to how you feel. If you have a health condition, check with your doctor about frequency.",
+  },
+];
+---
+
+<GuideArticleLayout
+  title={title}
+  description={description}
+  eyebrow="Frequency & duration"
+  intro={intro}
+  heroImage="/images/guide/frequency.webp"
+  heroImageAlt="A tidy cedar sauna with folded towels and a glass of water in calm light."
+  updatedDate={updatedDate}
+  pubDate={pubDate}
+  faq={faq}
+  sources={sources}
+>
+  <p>
+    The honest answer to "how often and how long" is: enough to enjoy it and feel good, not so much
+    that you feel wiped out. Below are practical defaults, plus the numbers the research actually
+    used so you can see where the popular advice comes from.
+  </p>
+
+  <h2>How often per week</h2>
+  <p>
+    In the long-running Finnish cohort
+    (<a href="https://jamanetwork.com/journals/jamainternalmedicine/fullarticle/2130724" rel="noopener nofollow" target="_blank">Laukkanen 2015</a>),
+    the lowest risk of fatal heart events was seen in men who used a traditional sauna
+    <strong>4-7 times a week</strong>, with a smaller benefit at 2-3 times - a dose-response pattern.
+    That is association, not proof, but it is a reasonable reference point. For general wellbeing,
+    <strong>2-4 sessions a week</strong> is a sensible target. The best frequency is the one you will
+    actually keep up.
+  </p>
+
+  <h2>How long per session</h2>
+  <ul>
+    <li><strong>Traditional sauna:</strong> about 10-20 minutes per round, often two to three rounds with cool-downs between. <a href="https://www.health.harvard.edu/heart-health/hot-baths-and-saunas-beneficial-for-your-heart" rel="noopener nofollow" target="_blank">Harvard Health</a> cites roughly 15-20 minutes.</li>
+    <li><strong>Infrared sauna:</strong> about 30-45 minutes, because it runs cooler.</li>
+  </ul>
+  <p>
+    These are ceilings, not targets. If five minutes is all you want on a given day, that is fine.
+  </p>
+
+  <h2>Build up gradually</h2>
+  <p>
+    If you are new, start with shorter, cooler sessions and a lower bench, then add time and heat
+    over a few weeks as your tolerance grows. There is no benefit to pushing through discomfort, and
+    overdoing the heat is the main way people get into trouble.
+  </p>
+
+  <h2>Hydration</h2>
+  <p>
+    You lose fluid as sweat, so drink water before and after, and skip alcohol around sauna sessions.
+    If you feel dizzy, headachy, or nauseated, that is your cue to get out, cool down, and rehydrate.
+  </p>
+
+  <h2>Timing</h2>
+  <p>
+    Many people find an evening sauna relaxing and sleep-promoting, but for some a hot session right
+    before bed is stimulating. If sauna seems to disrupt your sleep, move it earlier. See
+    <a href="/sauna-guide/how-to-use/">how to use a sauna</a> for the full round-by-round ritual and
+    <a href="/sauna-guide/safety/">safety</a> for who should be cautious.
+  </p>
+</GuideArticleLayout>

@@ -1,0 +1,175 @@
+---
+/*
+ * CalcOptionIcon - filled, multi-tone icons for the sauna cost calculator's
+ * option buttons. Same warm visual language as SaunaFormatIcon: a currentColor
+ * base (layered with fill-opacity) plus an ember accent for heat / energy /
+ * highlight. currentColor flows from the button so the icon flips to white on
+ * the pressed (brand) state while the ember accent stays warm.
+ * Keep names in sync with the `icon` fields in src/data/saunaCost.ts.
+ */
+export interface Props {
+  name: string;
+  size?: number;
+}
+const { name, size = 22 } = Astro.props;
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  aria-hidden="true"
+  focusable="false"
+  class="calc-opt-icon"
+>
+  {/* Electricity - charged bolt on a soft plate */}
+  {
+    name === "bolt" && (
+      <>
+        <circle cx="12" cy="12" r="10" fill="currentColor" fill-opacity="0.12" />
+        <path d="M13 2 4 14h6l-1 8 11-12h-6l2-8z" fill="var(--color-ember-400)" />
+        <path d="M13 2 4 14h6l-1 8 11-12h-6l2-8z" fill="none" stroke="var(--color-ember-300)" stroke-opacity="0.6" stroke-width="0.6" />
+      </>
+    )
+  }
+
+  {/* Wood - two-tone flame */}
+  {
+    name === "flame" && (
+      <>
+        <path
+          d="M12 2c2.5 3.5 5 5.4 5 9.8a5 5 0 0 1-10 0c0-1.8.8-3.1 1.8-4.3.3 1.6 1.7 1.8 1.7.4 0-1.6-1-3-.3-5.9z"
+          fill="currentColor"
+          fill-opacity="0.85"
+        />
+        <path
+          d="M12 12.4c1.3 1.2 2 2.1 2 3.4a2 2 0 0 1-4 0c0-1 .5-1.6 1.1-2.3.2.8 1 .6.9-1.1z"
+          fill="var(--color-ember-400)"
+        />
+      </>
+    )
+  }
+
+  {/* Infrared - radiant sun with ember core */}
+  {
+    name === "radiant" && (
+      <>
+        <g stroke="var(--color-ember-400)" stroke-width="2" stroke-linecap="round">
+          <line x1="12" y1="1.6" x2="12" y2="4" />
+          <line x1="12" y1="20" x2="12" y2="22.4" />
+          <line x1="1.6" y1="12" x2="4" y2="12" />
+          <line x1="20" y1="12" x2="22.4" y2="12" />
+          <line x1="4.6" y1="4.6" x2="6.3" y2="6.3" />
+          <line x1="17.7" y1="17.7" x2="19.4" y2="19.4" />
+          <line x1="4.6" y1="19.4" x2="6.3" y2="17.7" />
+          <line x1="17.7" y1="6.3" x2="19.4" y2="4.6" />
+        </g>
+        <circle cx="12" cy="12" r="4.4" fill="currentColor" fill-opacity="0.85" />
+        <circle cx="12" cy="12" r="2" fill="var(--color-ember-400)" />
+      </>
+    )
+  }
+
+  {/* Standard - stacked layers */}
+  {
+    name === "layers" && (
+      <>
+        <path d="M12 3 2 8l10 5 10-5-10-5z" fill="currentColor" fill-opacity="0.9" />
+        <path d="M2 12l10 5 10-5" fill="none" stroke="currentColor" stroke-opacity="0.55" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
+        <path d="M2 16l10 5 10-5" fill="none" stroke="currentColor" stroke-opacity="0.32" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
+      </>
+    )
+  }
+
+  {/* Premium - sparkle with a small companion star */}
+  {
+    name === "sparkle" && (
+      <>
+        <path
+          d="M12 2.5l1.8 5.7a2 2 0 0 0 1.3 1.3l5.7 1.8-5.7 1.8a2 2 0 0 0-1.3 1.3L12 20.1l-1.8-5.7a2 2 0 0 0-1.3-1.3L3.2 11.3l5.7-1.8a2 2 0 0 0 1.3-1.3z"
+          fill="var(--color-ember-400)"
+        />
+        <path d="M19.3 2.4l.6 1.9 1.9.6-1.9.6-.6 1.9-.6-1.9-1.9-.6 1.9-.6z" fill="currentColor" fill-opacity="0.75" />
+      </>
+    )
+  }
+
+  {/* Full DIY - hammer (steel head, warm handle) */}
+  {
+    name === "hammer" && (
+      <g transform="rotate(32 12 11)">
+        <rect x="7" y="3.8" width="11" height="4.6" rx="1.1" fill="currentColor" fill-opacity="0.9" />
+        <rect x="8" y="3.8" width="2.4" height="4.6" fill="currentColor" fill-opacity="0.55" />
+        <rect x="10.3" y="7.6" width="3" height="13.4" rx="1.4" fill="var(--color-ember-400)" />
+      </g>
+    )
+  }
+
+  {/* DIY + electrician - wrench with an ember bolt badge */}
+  {
+    name === "wrench" && (
+      <>
+        <path
+          d="M15.5 3a5 5 0 0 0-4.7 6.7L3.3 17.2a1.9 1.9 0 0 0 2.7 2.7l7.5-7.5A5 5 0 0 0 20.9 7l-2.8 2.8a1.6 1.6 0 0 1-2.3-2.3L18.6 4.7A5 5 0 0 0 15.5 3z"
+          fill="currentColor"
+          fill-opacity="0.9"
+        />
+        <path d="M18.6 12.6l-3 4.2h2.1l-1 3.7 4-5.1h-2.1l1.2-2.8z" fill="var(--color-ember-400)" />
+      </>
+    )
+  }
+
+  {/* Contractor - hard hat with ember crest */}
+  {
+    name === "hardhat" && (
+      <>
+        <path d="M4 16a8 8 0 0 1 16 0z" fill="currentColor" fill-opacity="0.85" />
+        <path d="M9.5 16V9.2a8 8 0 0 1 5 0V16z" fill="var(--color-ember-400)" fill-opacity="0.92" />
+        <rect x="2.5" y="15.4" width="19" height="3.3" rx="1.6" fill="currentColor" fill-opacity="0.7" />
+      </>
+    )
+  }
+
+  {/* Indoor - house with a warm-lit doorway */}
+  {
+    name === "house" && (
+      <>
+        <path d="M12 3.2 2.5 11.3H4L12 5l8 6.3h1.5z" fill="currentColor" fill-opacity="0.55" />
+        <path d="M4.5 11 12 5.3 19.5 11V20a1 1 0 0 1-1 1H5.5a1 1 0 0 1-1-1z" fill="currentColor" fill-opacity="0.85" />
+        <rect x="10" y="13.5" width="4" height="7.5" rx="0.6" fill="var(--color-ember-400)" />
+      </>
+    )
+  }
+
+  {/* Outdoor - pine tree under a warm sun */}
+  {
+    name === "tree" && (
+      <>
+        <circle cx="18.6" cy="5.2" r="2.1" fill="var(--color-ember-400)" />
+        <path d="M12 3 17 11H7z" fill="currentColor" fill-opacity="0.85" />
+        <path d="M12 8 19 17H5z" fill="currentColor" fill-opacity="0.68" />
+        <rect x="10.7" y="16.5" width="2.6" height="4.5" rx="0.5" fill="currentColor" fill-opacity="0.5" />
+      </>
+    )
+  }
+
+  {/* Size - two people */}
+  {
+    name === "users" && (
+      <>
+        <circle cx="16" cy="8.2" r="2.8" fill="currentColor" fill-opacity="0.5" />
+        <path d="M11.5 20a5.5 5.5 0 0 1 11 0z" fill="currentColor" fill-opacity="0.5" />
+        <circle cx="9" cy="8.6" r="3.3" fill="currentColor" fill-opacity="0.92" />
+        <path d="M2.2 20.5a6.8 6.8 0 0 1 13.6 0z" fill="currentColor" fill-opacity="0.92" />
+      </>
+    )
+  }
+</svg>
+
+<style>
+  .calc-opt-icon {
+    display: block;
+  }
+</style>

@@ -1,0 +1,21 @@
+---
+export interface Props {
+  date?: Date | string;
+  body: string;
+  prefix?: string;
+}
+
+const { date, body, prefix = "Editor's note" } = Astro.props;
+const formatted = date
+  ? (typeof date === "string" ? new Date(date) : date).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    })
+  : null;
+---
+
+<p class="editor-note">
+  <strong>{prefix}{formatted ? `, ${formatted}:` : ":"}</strong>
+  <span>{body}</span>
+</p>

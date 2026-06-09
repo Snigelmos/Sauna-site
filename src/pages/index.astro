@@ -1,0 +1,197 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import SaunaFormatIcon, { type SaunaVariant } from "@components/SaunaFormatIcon.astro";
+import { SITE, HUBS } from "@config/site";
+import {
+  buildGraph,
+  organizationNode,
+  websiteNode,
+  itemListNode,
+} from "@components/schema/helpers";
+
+const title = `${SITE.name}: Independent Home Sauna Buyer Guides`;
+const description = SITE.description;
+
+const jsonLd = buildGraph([
+  organizationNode(),
+  websiteNode(),
+  itemListNode({
+    name: "Home sauna categories",
+    items: HUBS.map((h) => ({ name: h.title, url: h.href })),
+  }),
+]);
+
+const hubIcon: Record<string, SaunaVariant> = {
+  "home-sauna": "infrared-cabin",
+  "outdoor-sauna": "barrel-outdoor",
+  "portable-sauna": "portable",
+  "sauna-kits": "kit",
+};
+
+const guideTopics = [
+  {
+    title: "Sauna benefits",
+    body: "What the research actually shows on heart health, recovery, sleep, and stress - measured, cited, and free of detox or weight-loss hype.",
+    href: "/sauna-guide/benefits/",
+  },
+  {
+    title: "How to use a sauna",
+    body: "The ritual, step by step: warm-up, loyly, the cold plunge, cool-down, and how many rounds most people do.",
+    href: "/sauna-guide/how-to-use/",
+  },
+  {
+    title: "Temperature & humidity",
+    body: "How hot a sauna should be - Finnish 70-90C vs gentler 45-60C infrared - and how water on the stones changes the experience.",
+    href: "/sauna-guide/temperature-and-humidity/",
+  },
+  {
+    title: "How often & how long",
+    body: "Session length, how many times a week, hydration, and who should check with a doctor first.",
+    href: "/sauna-guide/frequency-and-duration/",
+  },
+];
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <section class="relative isolate overflow-hidden border-b border-ink-100 bg-night-950 text-white">
+    <img
+      src="/images/heroes/home-hero.webp"
+      alt=""
+      aria-hidden="true"
+      width="1920"
+      height="1080"
+      fetchpriority="high"
+      class="absolute inset-0 -z-10 h-full w-full object-cover object-[center_40%] opacity-90"
+    />
+    <div aria-hidden="true" class="absolute inset-0 -z-10 bg-gradient-to-br from-night-950/95 via-night-950/70 to-night-950/35"></div>
+    <div aria-hidden="true" class="absolute inset-0 -z-10 bg-gradient-to-t from-night-950/85 via-night-950/20 to-transparent"></div>
+    <div aria-hidden="true" class="absolute -top-32 right-[-10%] -z-10 h-[32rem] w-[32rem] rounded-full bg-ember-600/20 blur-3xl"></div>
+    <div class="editorial-container py-12 md:py-20">
+      <p class="text-xs font-semibold tracking-[0.18em] text-sand-200 uppercase">Independent home sauna guides</p>
+      <h1 class="mt-4 max-w-4xl text-4xl font-bold leading-[1.0] tracking-[-0.045em] text-white md:text-6xl lg:text-7xl">
+        Choose the right home sauna without the marketing fog.
+      </h1>
+      <p class="mt-6 max-w-2xl text-lg leading-8 text-white/85">
+        Infrared, traditional, outdoor, portable, or a DIY build - we compare them by your home,
+        your budget, your space, and what your electrical panel can actually handle. Clear trade-offs,
+        real sources, and an honest take on what we have and haven't tested.
+      </p>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <a
+          href="/home-sauna/"
+          class="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand-800 no-underline hover:bg-sand-50"
+        >
+          Find your best home sauna <span aria-hidden="true">&rarr;</span>
+        </a>
+        <a
+          href="/tools/sauna-cost-calculator/"
+          class="inline-flex items-center justify-center rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white no-underline hover:bg-white/10"
+        >
+          Estimate build cost
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="hubs" class="editorial-container scroll-mt-24 py-14 md:py-20">
+    <div class="max-w-2xl">
+      <p class="editorial-kicker">Start by category</p>
+      <h2 class="mt-2 text-3xl font-bold tracking-tight text-ink-900 md:text-4xl">
+        Four ways people add a sauna at home
+      </h2>
+      <p class="mt-3 text-lg text-ink-700">
+        Each category guide walks you through the real decision: format trade-offs, who it suits, and
+        what installation actually involves.
+      </p>
+    </div>
+
+    <div class="mt-10 grid gap-6 sm:grid-cols-2">
+      {
+        HUBS.map((h) => (
+          <a
+            href={h.href}
+            class="group flex flex-col gap-4 rounded-3xl border border-ink-100 bg-white p-6 no-underline shadow-sm transition-shadow hover:shadow-md md:flex-row md:items-center"
+          >
+            <div class="w-full max-w-[180px] shrink-0 rounded-2xl border border-ink-100 bg-sand-50 p-3">
+              <SaunaFormatIcon variant={hubIcon[h.slug]} width={200} />
+            </div>
+            <div>
+              <h3 class="text-xl font-semibold text-ink-900 group-hover:text-brand-700">{h.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-ink-700">{h.description}</p>
+              <span class="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-brand-700">
+                Explore {h.title.toLowerCase()} <span aria-hidden="true">&rarr;</span>
+              </span>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="border-y border-ink-100 bg-sand-50/60">
+    <div class="editorial-container grid gap-8 py-14 md:grid-cols-[1.2fr_1fr] md:items-center md:py-20">
+      <div>
+        <p class="editorial-kicker">Featured guide</p>
+        <h2 class="mt-2 text-3xl font-bold tracking-tight text-ink-900 md:text-4xl">
+          Best home sauna: the honest decision guide
+        </h2>
+        <p class="mt-3 text-lg text-ink-700">
+          Most "best sauna" lists are thin rankings. Ours is a decision framework: match infrared,
+          traditional, portable, or a blanket to your home type, budget, and the circuit you have -
+          with the install caveats nobody mentions until the electrician shows up.
+        </p>
+        <a
+          href="/home-sauna/"
+          class="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-brand-700 px-6 py-3 text-sm font-semibold text-white no-underline hover:bg-brand-800"
+        >
+          Read the best home sauna guide <span aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+      <div class="rounded-3xl border border-ink-100 bg-white p-4 shadow-sm">
+        <SaunaFormatIcon variant="traditional-cabin" width={520} />
+      </div>
+    </div>
+  </section>
+
+  <section class="editorial-container py-14 md:py-20">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <div class="max-w-2xl">
+        <p class="editorial-kicker">Learn about saunas</p>
+        <h2 class="mt-2 text-3xl font-bold tracking-tight text-ink-900 md:text-4xl">
+          Everything you need to know about using a sauna
+        </h2>
+        <p class="mt-3 text-lg text-ink-700">
+          Before the buying decision, the basics: what saunas do for you, how to actually use one,
+          how hot it should be, and how often is sensible.
+        </p>
+      </div>
+      <a
+        href="/sauna-guide/"
+        class="inline-flex items-center gap-1.5 rounded-full border border-ink-200 px-5 py-2.5 text-sm font-semibold text-ink-800 no-underline hover:border-brand-300 hover:bg-sand-50"
+      >
+        Open the sauna guide <span aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
+    <div class="mt-10 grid gap-6 sm:grid-cols-2">
+      {
+        guideTopics.map((t) => (
+          <a
+            href={t.href}
+            class="group rounded-2xl border border-ink-100 bg-white p-6 no-underline shadow-sm transition-shadow hover:shadow-md"
+          >
+            <h3 class="text-lg font-semibold text-ink-900 group-hover:text-brand-700">{t.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-ink-700">{t.body}</p>
+            <span class="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-brand-700">
+              Read more <span aria-hidden="true">&rarr;</span>
+            </span>
+          </a>
+        ))
+      }
+    </div>
+    <p class="mt-8 border-t border-ink-100 pt-6 text-sm text-ink-600">
+      Independent and people-first: we write from specs, independent reviews, and code references -
+      not fabricated testing - keep health claims conservative and cited, and disclose every affiliate
+      link. <a class="font-semibold text-brand-700 no-underline hover:text-brand-800" href="/methodology/">How we research</a>.
+    </p>
+  </section>
+</BaseLayout>

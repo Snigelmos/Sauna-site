@@ -1,0 +1,136 @@
+---
+import GuideArticleLayout from "@layouts/GuideArticleLayout.astro";
+
+const title = "Sauna Benefits: What the Research Actually Shows";
+const description =
+  "An honest, cited look at sauna health benefits - the cardiovascular and longevity evidence, recovery and stress findings, what is still uncertain, and the claims (detox, weight loss) to ignore.";
+const intro =
+  "Saunas are good for more than relaxation - but the evidence is more nuanced than the headlines. Here is what the research supports, what is still uncertain, and what to ignore.";
+
+const updatedDate = new Date("2026-06-09");
+const pubDate = new Date("2026-06-09");
+
+const sources = [
+  {
+    name: "Laukkanen et al., 2015, JAMA Internal Medicine - Association between sauna bathing and fatal cardiovascular and all-cause mortality events",
+    url: "https://jamanetwork.com/journals/jamainternalmedicine/fullarticle/2130724",
+  },
+  {
+    name: "Laukkanen, Laukkanen & Kunutsor, 2018, Mayo Clinic Proceedings - Cardiovascular and other health benefits of sauna bathing",
+    url: "https://www.mayoclinicproceedings.org/article/S0025-6196(18)30275-1/fulltext",
+  },
+  {
+    name: "Harvard Health - Sauna use linked to longer life, fewer fatal heart problems",
+    url: "https://www.health.harvard.edu/blog/sauna-use-linked-longer-life-fewer-fatal-heart-problems-201502257755",
+  },
+  {
+    name: "Cleveland Clinic - Sauna benefits",
+    url: "https://health.clevelandclinic.org/sauna-benefits",
+  },
+];
+
+const faq = [
+  {
+    q: "Are saunas actually good for your heart?",
+    a: "The evidence is encouraging but observational. A large long-term Finnish study (Laukkanen 2015) found that men who used a traditional sauna 4-7 times a week had substantially lower rates of fatal heart events and all-cause mortality than those who went once a week, with a dose-response pattern. Because it is observational, it shows association, not proof of cause - frequent sauna users may also differ in other ways - and researchers call for more controlled trials.",
+  },
+  {
+    q: "Do saunas help you detox or lose weight?",
+    a: "No. Sweating is not a meaningful detox mechanism - your liver and kidneys do that work - and any weight you drop in a session is water you replace by rehydrating, not fat. Treat 'detox' and 'weight loss' sauna claims as marketing.",
+  },
+  {
+    q: "Is infrared or traditional better for health benefits?",
+    a: "The strongest long-term cardiovascular evidence is on traditional Finnish saunas (around 80C with steam), not infrared. Infrared has thinner, smaller-scale evidence but real benefits and is far easier to install and use daily. Choose based on your lifestyle rather than health-claim hype.",
+  },
+];
+---
+
+<GuideArticleLayout
+  title={title}
+  description={description}
+  eyebrow="Benefits"
+  intro={intro}
+  heroImage="/images/guide/benefits.webp"
+  heroImageAlt="A folded towel and a glass of water on a cedar sauna bench in soft light."
+  updatedDate={updatedDate}
+  pubDate={pubDate}
+  faq={faq}
+  sources={sources}
+>
+  <p>
+    A regular sauna habit is one of the more pleasant things you can do that also appears to be good
+    for you. But the popular claims run well ahead of the science in places, so this page sticks to
+    what is actually documented - and flags where the evidence is thin or where a claim is simply
+    wrong.
+  </p>
+  <p>
+    One framing matters before anything else: most of the strongest research is
+    <strong>observational</strong>. It tracks people who already sauna and compares their health
+    outcomes. That can show a strong <em>association</em>, but it cannot prove the sauna
+    <em>caused</em> the difference, because frequent users may differ in fitness, income, or other
+    habits. The leading researchers in this field say so themselves and call for more controlled
+    trials.
+  </p>
+
+  <h2>Cardiovascular health and longevity (the strongest evidence)</h2>
+  <p>
+    The headline findings come from a long-running Finnish cohort. In
+    <a href="https://jamanetwork.com/journals/jamainternalmedicine/fullarticle/2130724" rel="noopener nofollow" target="_blank">Laukkanen et al. (2015, JAMA Internal Medicine)</a>,
+    which followed roughly 2,300 middle-aged men for about two decades, more frequent traditional
+    sauna use was associated with markedly lower risk after adjusting for standard cardiovascular
+    risk factors:
+  </p>
+  <ul>
+    <li>
+      <strong>4-7 sessions a week</strong> vs once a week: about 63% lower risk of sudden cardiac
+      death and roughly 40% lower all-cause mortality, with a similar pattern for fatal coronary and
+      cardiovascular disease.
+    </li>
+    <li><strong>2-3 sessions a week</strong>: a smaller but still measurable reduction.</li>
+    <li>Longer sessions were also associated with lower risk - a dose-response signal.</li>
+  </ul>
+  <p>
+    A later review by the same group
+    (<a href="https://www.mayoclinicproceedings.org/article/S0025-6196(18)30275-1/fulltext" rel="noopener nofollow" target="_blank">Mayo Clinic Proceedings, 2018</a>)
+    summarizes plausible mechanisms - blood vessels dilate and blood pressure drops during and after
+    heat exposure, arterial stiffness may improve, and the heart-rate response resembles
+    light-to-moderate exercise. <a href="https://www.health.harvard.edu/blog/sauna-use-linked-longer-life-fewer-fatal-heart-problems-201502257755" rel="noopener nofollow" target="_blank">Harvard Health</a>
+    notes the same vessel-dilation effect, and that some of the benefit may also come from the
+    relaxation and routine around sauna use. This evidence is strongest for
+    <strong>traditional Finnish saunas</strong>; infrared has not been studied at the same scale.
+  </p>
+
+  <h2>Recovery, performance, and muscle soreness (promising, early)</h2>
+  <p>
+    Small studies suggest post-exercise heat may aid endurance adaptations and that local heat can
+    ease delayed-onset muscle soreness. The samples are small and the results inconsistent, so treat
+    this as promising rather than settled. A useful, more confident point: unlike cold-water
+    immersion, heat does not appear to blunt the muscle-building signal after training, so it is a
+    reasonable recovery tool if you enjoy it.
+  </p>
+
+  <h2>Stress, relaxation, and sleep</h2>
+  <p>
+    The <a href="https://health.clevelandclinic.org/sauna-benefits" rel="noopener nofollow" target="_blank">Cleveland Clinic</a>
+    notes saunas may reduce stress and anxiety and relieve sore muscles, while repeating that more
+    research is needed. Many people report better sleep, though timing matters - for some, a hot
+    session right before bed is stimulating rather than calming, so experiment.
+  </p>
+
+  <h2>What to ignore</h2>
+  <ul>
+    <li><strong>"Detox."</strong> Sweat is not a meaningful route for clearing toxins; your liver and kidneys handle that.</li>
+    <li><strong>Weight loss.</strong> The scale drops because you lost water, which you replace by rehydrating. It is not fat loss.</li>
+    <li><strong>Cures.</strong> A sauna is not a treatment for disease. Anyone marketing it that way is overreaching.</li>
+  </ul>
+
+  <h2>Before you start</h2>
+  <p>
+    Saunas are generally safe for healthy adults, but heat is a real physiological stress. If you are
+    pregnant, have a heart condition or uncontrolled blood pressure, or take medication that affects
+    how you handle heat, talk to your doctor first. See our
+    <a href="/sauna-guide/safety/">sauna safety guide</a> for the full list, and
+    <a href="/sauna-guide/how-to-use/">how to use a sauna</a> for sensible session length and
+    hydration.
+  </p>
+</GuideArticleLayout>

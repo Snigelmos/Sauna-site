@@ -1,0 +1,106 @@
+---
+import GuideArticleLayout from "@layouts/GuideArticleLayout.astro";
+
+const title = "Sauna Temperature & Humidity: How Hot Should It Be?";
+const description =
+  "How hot a sauna should be - traditional Finnish 70-90C (150-195F) vs gentler infrared around 45-60C - how humidity and loyly change the feel, and how to set your sauna for the experience you want.";
+const intro =
+  "How hot is 'right' depends on the type of sauna and how much steam you add. Here are the usual ranges and what they feel like.";
+
+const updatedDate = new Date("2026-06-09");
+const pubDate = new Date("2026-06-09");
+
+const sources = [
+  {
+    name: "Harvard Health - Hot baths and saunas: beneficial for your heart?",
+    url: "https://www.health.harvard.edu/heart-health/hot-baths-and-saunas-beneficial-for-your-heart",
+  },
+  {
+    name: "Sauna Guide - Infrared vs traditional sauna",
+    url: "https://sauna.guide/guides/infrared-vs-traditional-sauna",
+  },
+];
+
+const faq = [
+  {
+    q: "How hot should a traditional sauna be?",
+    a: "Traditional Finnish saunas typically run about 70-90C (150-195F) at head height, with some going hotter. Beginners are comfortable nearer the lower end; you can also sit on a lower bench where it is cooler.",
+  },
+  {
+    q: "Why does an infrared sauna feel hot at a lower temperature?",
+    a: "Infrared saunas usually run around 45-60C (110-150F). They warm your body directly with radiant heat rather than heating the air, so you feel deep warmth and sweat even though the air temperature is much lower than a traditional sauna.",
+  },
+  {
+    q: "Does adding water make a sauna hotter?",
+    a: "It makes it feel hotter. Pouring water on the stones (loyly) raises humidity, and moist air transfers heat to your skin more effectively, so the same air temperature feels more intense. The thermometer may barely move, but the perceived heat jumps.",
+  },
+];
+---
+
+<GuideArticleLayout
+  title={title}
+  description={description}
+  eyebrow="Temperature & humidity"
+  intro={intro}
+  heroImage="/images/guide/temperature.webp"
+  heroImageAlt="A sauna stone heater with a round wall thermometer on cedar wall planks."
+  updatedDate={updatedDate}
+  pubDate={pubDate}
+  faq={faq}
+  sources={sources}
+>
+  <p>
+    Two things decide how a sauna feels: the air temperature and the humidity. A dry 90C and a steamy
+    70C can feel similarly intense. Knowing the typical ranges helps you set yours - or pick a type -
+    for the experience you want.
+  </p>
+
+  <h2>Typical temperature ranges</h2>
+  <ul>
+    <li>
+      <strong>Traditional Finnish sauna:</strong> about <strong>70-90C (150-195F)</strong> at head
+      height, sometimes hotter. This is the high-heat, steam-capable classic.
+    </li>
+    <li>
+      <strong>Infrared sauna:</strong> about <strong>45-60C (110-150F)</strong>. It feels gentler in
+      the air but still makes you sweat because the heat reaches your body directly.
+    </li>
+  </ul>
+  <p>
+    <a href="https://www.health.harvard.edu/heart-health/hot-baths-and-saunas-beneficial-for-your-heart" rel="noopener nofollow" target="_blank">Harvard Health</a>
+    describes a typical Finnish sauna around 175F (about 80C) with sessions of roughly 15-20 minutes.
+    Start cooler and lower if you are new, and build up.
+  </p>
+
+  <h2>How humidity changes everything</h2>
+  <p>
+    In a traditional sauna, the base humidity is low and dry. When you ladle water onto the hot
+    stones, you create <em>loyly</em> - a burst of steam that briefly raises humidity to anywhere
+    from roughly 10% to 60%. Moist air carries heat to your skin far more efficiently than dry air,
+    so the room feels much hotter even though the thermometer hardly changes. That is why two people
+    can sit in the "same" sauna and experience very different intensities depending on how much water
+    goes on the rocks.
+  </p>
+  <p>
+    Infrared saunas have no stones and no steam - they are dry by design. They rely on radiant heat
+    rather than humidity, which is why they can run at a much lower air temperature and still produce
+    a sweat. If steam and the splash-of-water ritual matter to you, you want a traditional sauna; see
+    our <a href="/home-sauna/">home sauna comparison</a> for the full trade-off.
+  </p>
+
+  <h2>Where you sit matters</h2>
+  <p>
+    Heat stratifies - the air near the ceiling is significantly hotter than near the floor. On a
+    tiered bench, the top bench can be 10-20C hotter than the bottom. If a sauna feels too intense,
+    simply move down a bench rather than cutting the session short.
+  </p>
+
+  <h2>Setting your own sauna</h2>
+  <p>
+    If you are building or buying, size the heater to the room so it can comfortably reach
+    temperature - a rough rule is about 1 kW of heater per 1.3 cubic metres (roughly 45-50 cubic
+    feet) of well-insulated room, with more for glass or poor insulation. Our
+    <a href="/sauna-kits/">DIY build guide</a> walks through heater sizing, and the
+    <a href="/tools/sauna-cost-calculator/">cost calculator</a> turns a size into a budget.
+  </p>
+</GuideArticleLayout>

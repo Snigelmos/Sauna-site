@@ -1,0 +1,183 @@
+---
+/**
+ * Read-only clustered map for hub pages (city/type). The interactive finder on
+ * the index page has its own filter-integrated map; this is a lighter display
+ * version that just plots the supplied saunas.
+ */
+import { type Sauna, TYPE_LABELS } from "@data/saunas";
+
+export interface Props {
+  saunas: Sauna[];
+  heightClass?: string;
+}
+const { saunas, heightClass = "h-[55vh]" } = Astro.props;
+
+const points = saunas.map((s) => ({
+  slug: s.slug,
+  name: s.name,
+  city: s.city,
+  typeLabel: TYPE_LABELS[s.type],
+  bookable: s.bookable,
+  lat: s.lat,
+  lng: s.lng,
+  priceFrom: s.priceFrom ?? null,
+}));
+---
+
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+  crossorigin=""
+/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+
+<div class="overflow-hidden rounded-2xl border border-ink-100 shadow-md">
+  <div id="hub-map" class={`finder-map w-full ${heightClass}`}></div>
+</div>
+
+<script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script is:inline src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
+<script is:inline define:vars={{ points }}>
+  (function () {
+    const L = window.L;
+    const el = document.getElementById("hub-map");
+    if (!L || !el || !points.length) return;
+
+    const map = L.map(el, { scrollWheelZoom: false, zoomControl: true }).setView([62.5, 16.5], 4);
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+      subdomains: "abcd",
+      maxZoom: 20,
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    }).addTo(map);
+    map.on("focus", () => map.scrollWheelZoom.enable());
+    map.on("blur", () => map.scrollWheelZoom.disable());
+
+    const cluster = L.markerClusterGroup({
+      showCoverageOnHover: false,
+      maxClusterRadius: 48,
+      iconCreateFunction: (c) =>
+        L.divIcon({ html: '<div class="sauna-cluster">' + c.getChildCount() + "</div>", className: "sauna-cluster-wrap", iconSize: [40, 40] }),
+    });
+
+    const bounds = [];
+    points.forEach((s) => {
+      const m = L.marker([s.lat, s.lng], {
+        icon: L.divIcon({
+          className: "sauna-pin-wrap",
+          html: '<span class="sauna-pin"><span class="sauna-pin__dot"></span></span>',
+          iconSize: [30, 38],
+          iconAnchor: [15, 36],
+          popupAnchor: [0, -34],
+        }),
+      });
+      const price = s.priceFrom != null ? "from " + s.priceFrom + " kr" : "Price varies";
+      m.bindPopup(
+        '<div class="sauna-popup">' +
+          '<span class="sauna-popup__type">' + s.typeLabel + (s.bookable ? " · Bookable" : " · Drop-in") + "</span>" +
+          '<strong class="sauna-popup__name">' + s.name + "</strong>" +
+          '<span class="sauna-popup__meta">' + s.city + " · " + price + "</span>" +
+          '<a class="sauna-popup__link" href="/sauna-finder/' + s.slug + '/">View sauna &rarr;</a>' +
+        "</div>",
+        { closeButton: false, minWidth: 200 }
+      );
+      cluster.addLayer(m);
+      bounds.push([s.lat, s.lng]);
+    });
+    map.addLayer(cluster);
+    if (bounds.length === 1) map.setView(bounds[0], 12);
+    else if (bounds.length) map.fitBounds(bounds, { padding: [40, 40], maxZoom: 12 });
+  })();
+</script>
+
+<style is:global>
+  .finder-map .leaflet-tile {
+    filter: saturate(0.94) contrast(0.98) brightness(1.02);
+  }
+  .finder-map .leaflet-container {
+    background: #cfe0ea;
+    font-family: inherit;
+  }
+  .sauna-pin {
+    position: relative;
+    display: block;
+    width: 30px;
+    height: 38px;
+    filter: drop-shadow(0 3px 3px rgba(28, 19, 13, 0.35));
+  }
+  .sauna-pin::before {
+    content: "";
+    position: absolute;
+    left: 3px;
+    top: 0;
+    width: 24px;
+    height: 24px;
+    background: #c64f15;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+  }
+  .sauna-pin__dot {
+    position: absolute;
+    left: 11px;
+    top: 8px;
+    width: 8px;
+    height: 8px;
+    background: #fff;
+    border-radius: 50%;
+    z-index: 1;
+  }
+  .sauna-cluster-wrap {
+    background: transparent;
+  }
+  .sauna-cluster {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(198, 79, 21, 0.92);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.85rem;
+    border: 3px solid #fff;
+    box-shadow: 0 4px 10px rgba(28, 19, 13, 0.3);
+  }
+  .leaflet-popup-content-wrapper {
+    border-radius: 14px;
+    box-shadow: 0 12px 32px rgba(28, 19, 13, 0.22);
+  }
+  .leaflet-popup-content {
+    margin: 12px 14px;
+  }
+  .sauna-popup {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .sauna-popup__type {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #c64f15;
+  }
+  .sauna-popup__name {
+    font-size: 1rem;
+    color: #1d1d1c;
+  }
+  .sauna-popup__meta {
+    font-size: 0.8rem;
+    color: #65655f;
+  }
+  .sauna-popup__link {
+    margin-top: 6px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #6c4124;
+    text-decoration: none;
+  }
+</style>

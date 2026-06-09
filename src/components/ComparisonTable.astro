@@ -1,0 +1,66 @@
+---
+/*
+ * ComparisonTable
+ *
+ * Responsive comparison. The guide content column is only ~44rem wide, so a
+ * many-column table is forced to wrap or scroll there (the unreadable behaviour
+ * we are fixing). This renders the SAME data two ways and uses a CONTAINER
+ * query (not a viewport query) so it adapts to the real column width:
+ *   - wide container  -> a normal table
+ *   - narrow container -> one stacked card per row (row label = card heading,
+ *     each header: value as a clean label/value pair)
+ *
+ * Cells accept HTML (set:html), so pages can mark a winning value with
+ * <span class="cmp-win">...</span> to highlight who wins each row.
+ */
+export interface Props {
+  caption?: string;
+  headers: string[];
+  rows: string[][];
+  ariaLabel?: string;
+}
+
+const { caption, headers, rows, ariaLabel } = Astro.props;
+---
+
+<div
+  class="compare-table-wrap my-6"
+  role="region"
+  aria-label={ariaLabel ?? caption ?? "Comparison table"}
+>
+  {/* Wide container: real table */}
+  <table class="compare-table">
+    {caption && <caption class="sr-only">{caption}</caption>}
+    <thead>
+      <tr>
+        {headers.map((h) => <th scope="col">{h}</th>)}
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((row) => (
+        <tr>
+          {row.map((cell, i) => (
+            <td class={i === 0 ? "col-product" : ""} set:html={cell} />
+          ))}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+
+  {/* Narrow container: stacked cards */}
+  <div class="compare-cards">
+    {rows.map((row) => (
+      <div class="compare-card">
+        <p class="compare-card__title" set:html={row[0]} />
+        <dl class="compare-card__list">
+          {headers.slice(1).map((h, i) => (
+            <div class="compare-card__row">
+              <dt>{h}</dt>
+              <dd set:html={row[i + 1]} />
+            </div>
+          ))}
+        </dl>
+      </div>
+    ))}
+  </div>
+</div>

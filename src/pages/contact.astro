@@ -1,0 +1,35 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Breadcrumbs from "@components/Breadcrumbs.astro";
+import { SITE } from "@config/site";
+
+const title = "Contact";
+const description = "Get in touch with Home Sauna Guide for corrections, questions, or feedback.";
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="editorial-container py-10">
+    <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Contact" }]} />
+    <div class="prose prose-lg max-w-3xl">
+      <h1>Contact us</h1>
+      <p>
+        We read everything. Corrections and firsthand owner feedback are especially welcome - they make
+        the guides more accurate for the next reader.
+      </p>
+      <p>
+        Email: <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>
+      </p>
+      <h2>Good things to send</h2>
+      <ul>
+        <li>A factual correction (with a source, if you have one).</li>
+        <li>Your real-world experience with a specific sauna or heater.</li>
+        <li>A topic you wish we covered.</li>
+      </ul>
+      <p>
+        Please note we cannot give personalized medical or electrical advice - see a physician or a
+        licensed electrician for that. For how we handle recommendations and links, see our
+        <a href="/methodology/">methodology</a> and <a href="/disclosure/">disclosure</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
