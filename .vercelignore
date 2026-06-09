@@ -4,5 +4,19 @@
 /data/
 /research/
 /briefs/
+
+# Build/harvest scripts (Vercel runs npm scripts, not these directly)
+/scripts/
+
+# Editor / local-only
+/.cursor/
+/.github/
+
+# Local preview output and logs
+preview-*.html
+*.log
+*.err
+
+# Internal markdown docs (none are served by the site)
 *.md
 !README.md
