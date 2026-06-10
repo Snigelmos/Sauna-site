@@ -1,0 +1,260 @@
+---
+import DecisionGuideLayout from "@layouts/DecisionGuideLayout.astro";
+import ComparisonTable from "@components/ComparisonTable.astro";
+import ProductCard from "@components/ProductCard.astro";
+import Callout from "@components/Callout.astro";
+
+const title = "Best Portable Infrared Sauna: Pods & Blankets Compared";
+const description =
+  "The best portable infrared sauna for small homes, renters, and travel: sit-in pods vs sauna blankets, how hot they get, power and storage, what to avoid, and who should skip them - with honest, no-hype picks.";
+const heroSubtitle =
+  "A portable infrared sauna is the cheapest, smallest way to sweat at home. It folds away after use, plugs into a normal outlet, and costs a fraction of a cabin. Here is how to choose between a sit-in pod and a blanket - and what to expect.";
+
+const pubDate = new Date("2026-06-10");
+const updatedDate = new Date("2026-06-10");
+const lastReviewed = new Date("2026-06-10");
+
+const methodologyNote =
+  "This guide synthesizes manufacturer specifications and independent portable-sauna references. We have not lab-tested every unit, so we recommend by type and use-case rather than inventing star ratings, and we keep heat and health claims conservative. Portable infrared pods and blankets run cooler than cabins and far cooler than traditional saunas - we say so rather than implying equivalence.";
+
+const sources = [
+  {
+    name: "Healing Sauna - Infrared sauna buying guide",
+    url: "https://www.healingsauna.com/infrared-sauna/buying-guide",
+    accessed: new Date("2026-06-10"),
+    note: "Power, heat-up, and how portable infrared compares with full cabins.",
+  },
+  {
+    name: "Sun Home - Infrared vs traditional (best home sauna 2026)",
+    url: "https://sunhomesaunas.com/blogs/saunas/infrared-vs-traditional-sauna-best-home-sauna-2026",
+    accessed: new Date("2026-06-10"),
+    note: "Radiant infrared mechanism and the milder, lower-temperature experience.",
+  },
+  {
+    name: "Cleveland Clinic - Sauna benefits",
+    url: "https://health.clevelandclinic.org/sauna-benefits",
+    accessed: new Date("2026-06-10"),
+    note: "Benefits summary and who should avoid heat exposure.",
+  },
+];
+
+const faq = [
+  {
+    q: "What is a portable infrared sauna?",
+    a: "A portable infrared sauna is a collapsible, plug-in unit that delivers radiant infrared heat without a built cabin. The two common types are a sit-in pod - a zip-up tent with your head sticking out the top, a foldable chair, and a remote - and a sauna blanket you lie inside. Both run on a standard 120V outlet, fold or roll away for storage, and cost a few hundred dollars rather than thousands.",
+  },
+  {
+    q: "How hot does a portable infrared sauna get?",
+    a: "Most portable pods and blankets reach roughly 120-150F at their warmest setting - cooler than a traditional sauna (150-195F) and similar to an infrared cabin. Because infrared heats your body directly rather than the air, you sweat well below the air temperatures of a hot rock sauna. Sessions usually run 30-45 minutes. If you want intense, steamy high heat, a portable unit will not deliver it.",
+  },
+  {
+    q: "Pod or blanket - which is better?",
+    a: "Choose a sit-in pod if you want to sit upright, keep your hands and head free to read or use a phone, and have a closet to store a folded tent and chair. Choose a blanket if you want the smallest possible storage, the lowest price, and don't mind lying still for the session. Pods feel more like a sauna; blankets are the most space- and budget-friendly.",
+  },
+  {
+    q: "Do portable infrared saunas actually work?",
+    a: "For sweating, relaxation, and a warm-up after exercise, yes - they raise your skin temperature and induce a sweat at a comfortable, low air temperature. What they do not do is match the high heat or the strongest long-term health evidence of a traditional sauna, or 'detox' you or burn meaningful fat. Buy one for an easy, low-cost heat habit you'll actually keep, not for the marketing promises.",
+  },
+  {
+    q: "Who should not use a portable infrared sauna?",
+    a: "Skip heat exposure, or check with a doctor first, if you are pregnant, have heart disease, low or unstable blood pressure, or take medications that affect heat tolerance or hydration. Don't use one if you have been drinking alcohol, hydrate before and after, and get out if you feel dizzy or unwell. Blankets in particular restrict movement, so they are a poor choice if you might need to get out quickly.",
+  },
+];
+
+const heroGuides = {
+  heading: "Jump to",
+  items: [
+    { award: "Decide", title: "Pod vs blanket", href: "#pod-vs-blanket" },
+    { award: "Expect", title: "Heat & sessions", href: "#what-to-expect" },
+    { award: "Picks", title: "By need", href: "#picks" },
+    { award: "Safety", title: "Who should skip", href: "#safety" },
+  ],
+};
+
+const typeRows = [
+  [
+    "Sit-in pod (tent)",
+    "Sit upright, head out, hands free",
+    '<span class="cmp-win">120-150F</span>',
+    "Folds into a closet",
+    "$150-$400",
+    "Most like a real sauna at low cost",
+  ],
+  [
+    "Sauna blanket",
+    "Lie down, wrapped, still",
+    "120-150F",
+    '<span class="cmp-win">Rolls up small</span>',
+    "$200-$600",
+    "Smallest storage, travel, lowest fuss",
+  ],
+  [
+    "Infrared cabin (for reference)",
+    "Sit/recline in a rigid cabin",
+    "120-150F",
+    "Permanent footprint",
+    "$1,500-$6,000",
+    "Daily use, resale, lie-down room",
+  ],
+];
+---
+
+<DecisionGuideLayout
+  title={title}
+  description={description}
+  hubSlug="portable-sauna"
+  heroSubtitle={heroSubtitle}
+  image="/images/heroes/portable-sauna.webp"
+  imageAlt="A portable infrared sauna pod with a foldable frame beside a rolled-up sauna blanket."
+  pubDate={pubDate}
+  updatedDate={updatedDate}
+  lastReviewed={lastReviewed}
+  methodologyNote={methodologyNote}
+  sources={sources}
+  faq={faq}
+  heroGuides={heroGuides}
+>
+  <p>
+    A portable infrared sauna is the lowest-commitment way to bring heat home. There is no
+    installation, no 240V circuit, and no permanent footprint - it plugs into a normal outlet, heats
+    your body with radiant infrared, and folds away when you are done. For renters, small homes, and
+    anyone who wants to test the habit before spending thousands on a cabin, it is the obvious
+    starting point.
+  </p>
+  <p>
+    The choice comes down to two formats: a <strong>sit-in pod</strong> you climb into with your head
+    out the top, or a <strong>sauna blanket</strong> you lie inside. Here is how they differ, what to
+    realistically expect, and honest picks by need.
+  </p>
+
+  <Callout variant="tip" title="The quick verdict">
+    <p>
+      Want it to feel most like a sauna and have a closet to store a folded tent? Get a
+      <strong>sit-in pod</strong>. Want the smallest storage, lowest price, and don't mind lying
+      still? Get a <a href="/sauna-blanket/"><strong>sauna blanket</strong></a>. Either way you'll
+      spend a few hundred dollars, not a few thousand.
+    </p>
+  </Callout>
+
+  <h2 id="pod-vs-blanket">Pod vs blanket vs cabin</h2>
+  <p>
+    Both portable formats give the same radiant heat; the difference is posture, storage, and price.
+    A cabin is included below only for reference - if you have the space and budget, see the
+    <a href="/infrared-sauna/">best infrared sauna guide</a>.
+  </p>
+
+  <ComparisonTable
+    caption="Portable infrared sauna pod vs blanket vs cabin compared by posture, heat, storage, and price"
+    headers={["Type", "Posture", "Max heat", "Storage", "Price", "Best for"]}
+    rows={typeRows}
+  />
+
+  <h2 id="what-to-expect">What to realistically expect</h2>
+  <ul>
+    <li><strong>Heat:</strong> roughly 120-150F at the top setting - comfortable, not the intense heat of a traditional sauna.</li>
+    <li><strong>Sessions:</strong> 30-45 minutes is typical; you sweat steadily rather than all at once.</li>
+    <li><strong>Power:</strong> a standard 120V outlet; give it a circuit that isn't shared with other big loads.</li>
+    <li><strong>Heat-up:</strong> about 10-15 minutes.</li>
+    <li><strong>Cleaning:</strong> wipe the interior after each use; many blankets have a removable, washable insert. Sweat and humidity build up, so air it out.</li>
+    <li><strong>Limits:</strong> no steam, no high heat, and not the long-term health evidence base of a traditional sauna. Great for relaxation and recovery; not a detox or weight-loss device.</li>
+  </ul>
+
+  <h2 id="picks">Best portable infrared saunas by need</h2>
+  <p>
+    Type-and-use starting points rather than star-rated winners. Where we name brands -
+    <strong>HigherDose, MiHigh, LifePro, and Therasage</strong> are the most cross-shopped - compare
+    temperature range, materials, washability, and warranty before buying.
+  </p>
+
+  <ProductCard
+    id="pod-sitin"
+    name="Sit-in infrared sauna pod"
+    bestFor="Best portable sauna overall"
+    saunaIcon="portable"
+    image="/images/formats/portable-tent.webp"
+    imageAlt="A zip-up portable infrared sauna pod with a foldable chair and the user's head above the top."
+    formatLabel="Sit-in tent + chair, 120V"
+    price="$150-$400"
+    specs={[
+      { label: "Heat", value: "120-150F" },
+      { label: "Outlet", value: "Standard 120V" },
+      { label: "Posture", value: "Seated, head out" },
+      { label: "Storage", value: "Folds to a bag" },
+    ]}
+    summary={[
+      "The best all-rounder: you sit upright with your head out the top and hands free, so you can read or scroll while you sweat. It feels the most like a real sauna of any portable option, then folds into a closet afterward.",
+      "Look for a sturdy foldable frame, a foot heater or pad, and a remote. Cheaper pods can feel flimsy and run cool, so check the temperature range and frame quality.",
+    ]}
+    pros={[
+      "Sit upright, hands and head free",
+      "Most sauna-like portable experience",
+      "Folds away; no installation",
+    ]}
+    cons={[
+      "Bulkier to store than a blanket",
+      "Cheapest models feel flimsy",
+      "No steam, modest heat",
+    ]}
+    skipIf="you want the absolute smallest storage or lowest price - get a blanket."
+    amazonSearch="portable infrared sauna pod sit in"
+  />
+
+  <ProductCard
+    id="blanket"
+    name="Infrared sauna blanket"
+    bestFor="Best for tiny spaces & travel"
+    saunaIcon="blanket"
+    image="/images/formats/portable-blanket.webp"
+    imageAlt="An infrared sauna blanket laid flat with a digital temperature controller."
+    formatLabel="Lie-in blanket, 120V"
+    price="$200-$600"
+    specs={[
+      { label: "Heat", value: "120-150F" },
+      { label: "Outlet", value: "Standard 120V" },
+      { label: "Posture", value: "Lying down" },
+      { label: "Storage", value: "Rolls up small" },
+    ]}
+    summary={[
+      "The most compact way to sweat: lie inside, set the temperature, and relax for 30-45 minutes, then roll it up and slide it under a bed. Ideal for apartments, dorms, and travel.",
+      "Look for a washable or wipeable inner layer and a temperature range you can actually feel. See our dedicated guide for budget vs premium picks and how to clean one.",
+    ]}
+    pros={[
+      "Smallest storage of any sauna",
+      "Lowest entry price; very portable",
+      "Simple to set up and use",
+    ]}
+    cons={[
+      "You must lie still the whole session",
+      "Restricts movement - poor if you may need out fast",
+      "Hands enclosed; can't easily read",
+    ]}
+    skipIf="you want to sit upright with hands free - choose a sit-in pod."
+    amazonSearch="infrared sauna blanket"
+    manufacturerUrl="/sauna-blanket/"
+  />
+
+  <Callout variant="note" title="Want the full blanket breakdown?">
+    <p>
+      Our dedicated <a href="/sauna-blanket/">best sauna blanket guide</a> covers budget vs premium
+      picks, exactly how hot they get, how to clean them, and who should not use one.
+    </p>
+  </Callout>
+
+  <h2 id="safety">Who should skip a portable sauna</h2>
+  <p>
+    Heat is not safe for everyone. Talk to a doctor first if you are pregnant or have heart disease,
+    low or unstable blood pressure, or take medications affecting heat tolerance or hydration. Don't
+    use one after alcohol, hydrate before and after, and stop if you feel dizzy. Blankets restrict
+    movement, so they are a poor choice if you might need to get out quickly. For the full safety
+    picture, see the <a href="/sauna-guide/safety/">sauna safety guide</a>.
+  </p>
+
+  <h2 id="bottom-line">The bottom line</h2>
+  <p>
+    For most people, a <a href="#pod-sitin">sit-in infrared pod</a> is the best portable sauna - it
+    feels the most like the real thing and still folds away. If storage or budget is tight, an
+    <a href="#blanket">infrared blanket</a> is the smallest, cheapest way in. Ready for something
+    permanent later? Compare full cabins in the <a href="/infrared-sauna/">best infrared sauna
+    guide</a> or browse every option in the <a href="/portable-sauna/">portable sauna guide</a>.
+  </p>
+</DecisionGuideLayout>

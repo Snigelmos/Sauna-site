@@ -39,13 +39,10 @@ export const SITE = {
     url: "/about/",
   },
   contactEmail: "hello@homesaunaguide.com",
-  // Privacy-friendly analytics. Set plausibleDomain to enable the script + the
-  // outbound-click tracker (booking/website/phone/directions/reviews). Leave
-  // empty to ship no third-party script; the tracker then no-ops safely.
-  analytics: {
-    plausibleDomain: "",
-    plausibleSrc: "https://plausible.io/js/script.tagged-events.js",
-  },
+  // Analytics: Vercel Web Analytics (cookieless) is wired via the <Analytics />
+  // component in BaseLayout and the outbound-click tracker reports custom events
+  // to it. There is nothing to configure here - enable Analytics in the Vercel
+  // project dashboard and it activates automatically on deploy.
   // Form backend for the "add your sauna" / "report error" pages. Set to a
   // Formspree endpoint (https://formspree.io/f/xxxx) to enable real forms;
   // when empty the pages fall back to a mailto link so nothing breaks.

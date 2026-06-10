@@ -1,0 +1,299 @@
+---
+import DecisionGuideLayout from "@layouts/DecisionGuideLayout.astro";
+import ComparisonTable from "@components/ComparisonTable.astro";
+import ProductCard from "@components/ProductCard.astro";
+import Callout from "@components/Callout.astro";
+
+const title = "Best Infrared Sauna for Home: Sizes, EMF & What to Buy";
+const description =
+  "How to choose the best infrared sauna for your home: full-spectrum vs far infrared, 1- vs 2- vs 4-person cabins, EMF explained without fear marketing, power and placement, and warranty - with the brands worth comparing.";
+const heroSubtitle =
+  "Infrared is the easiest sauna to live with: it plugs into a normal outlet, heats in minutes, and stays cool enough for long, comfortable sessions. Here is how to pick the right size and panel type - and how to read EMF claims honestly.";
+
+const pubDate = new Date("2026-06-10");
+const updatedDate = new Date("2026-06-10");
+const lastReviewed = new Date("2026-06-10");
+
+const methodologyNote =
+  "This guide synthesizes manufacturer specifications, independent infrared-sauna references, and EMF measurement guidance. We have not lab-tested individual cabins, so we recommend by size, panel type, and use-case rather than inventing star ratings, and we keep EMF and health claims conservative and cited. We flag detox and weight-loss marketing as unsupported rather than repeating it.";
+
+const sources = [
+  {
+    name: "Healing Sauna - Infrared sauna buying guide",
+    url: "https://www.healingsauna.com/infrared-sauna/buying-guide",
+    accessed: new Date("2026-06-10"),
+    note: "Cabin sizing, panel coverage, heat-up time, and warranty/return considerations.",
+  },
+  {
+    name: "Sun Home - Infrared vs traditional (best home sauna 2026)",
+    url: "https://sunhomesaunas.com/blogs/saunas/infrared-vs-traditional-sauna-best-home-sauna-2026",
+    accessed: new Date("2026-06-10"),
+    note: "Power draw, plug-in install, and full-spectrum vs far-infrared positioning.",
+  },
+  {
+    name: "Sauna Guide - Infrared vs traditional sauna",
+    url: "https://sauna.guide/guides/infrared-vs-traditional-sauna",
+    accessed: new Date("2026-06-10"),
+    note: "Operating temperatures and how radiant infrared heat differs from a rock heater.",
+  },
+  {
+    name: "International Agency for Research on Cancer - ELF magnetic fields (Group 2B)",
+    url: "https://monographs.iarc.who.int/list-of-classifications",
+    accessed: new Date("2026-06-10"),
+    note: "Classification context for the EMF discussion - 'possibly carcinogenic' on limited evidence.",
+  },
+  {
+    name: "Cleveland Clinic - Sauna benefits",
+    url: "https://health.clevelandclinic.org/sauna-benefits",
+    accessed: new Date("2026-06-10"),
+    note: "Clinic summary of benefits and who should avoid sauna use.",
+  },
+];
+
+const faq = [
+  {
+    q: "What is the best infrared sauna for home use?",
+    a: "The best infrared sauna is the one sized to your space and people, not the one with the most marketing. For most homes a 2-person cabin is the sweet spot - it fits a spare room or basement corner, runs on a standard outlet, and leaves room to stretch out. Choose a 1-person cabin for tight spaces and solo use, and a 3-4 person cabin only if you have the floor space and want to share. Across sizes, look for documented low-EMF panels with third-party testing, a clear warranty, and a real return policy.",
+  },
+  {
+    q: "Full-spectrum or far infrared - which do I need?",
+    a: "Far-infrared panels deliver the deep, comfortable warmth most people associate with infrared saunas and are all most buyers need. Full-spectrum adds near- and mid-infrared wavelengths, which some brands tie to specific recovery and skin claims; the evidence for those extra benefits is thinner and the cabins cost more. If budget matters, a quality far-infrared cabin is the sensible default; choose full-spectrum if you specifically want near-infrared and are willing to pay for it.",
+  },
+  {
+    q: "Do I need a special outlet for an infrared sauna?",
+    a: "Usually not. Most 1- and 2-person infrared cabins draw about 1.5-2 kW and plug into a standard 120V household outlet, ideally a dedicated circuit so you are not sharing it with other big loads. Larger 3-4 person cabins can need a 20A circuit or, occasionally, 240V - check the model's spec sheet. This plug-and-play simplicity is infrared's biggest practical advantage over traditional saunas.",
+  },
+  {
+    q: "Should I worry about EMF in an infrared sauna?",
+    a: "It is worth understanding, not panicking about. Cheap carbon-panel cabins can emit measurable low-frequency magnetic fields at the panel surface; reputable brands engineer 'low-EMF' panels that measure only a few milligauss where your body sits. The practical buyer rule: prefer cabins with third-party (accredited-lab) EMF testing covering both magnetic and electric fields measured at body distance, aim for under about 3 mG there, and be skeptical of vague 'low EMF' labels with no data. You can verify any cabin yourself with an inexpensive EMF meter.",
+  },
+  {
+    q: "Do infrared saunas detox you or help you lose weight?",
+    a: "No - those are the claims to ignore. The water weight you lose sweating returns as soon as you rehydrate, and your liver and kidneys handle detoxification, not sweat. Infrared saunas have real value for relaxation, comfort, and post-exercise recovery, and their lower temperature makes daily use easy. Buy one for how it feels and how often you'll use it, not for detox or fat-loss promises.",
+  },
+];
+
+const heroGuides = {
+  heading: "Jump to",
+  items: [
+    { award: "Size", title: "1 vs 2 vs 4 person", href: "#sizing" },
+    { award: "Panels", title: "Full-spectrum vs far", href: "#panels" },
+    { award: "EMF", title: "What to look for", href: "#emf" },
+    { award: "Picks", title: "By household", href: "#picks" },
+  ],
+};
+
+const sizeRows = [
+  ["1-person", "~300-600 W (1-2 panels)", "Closet, corner, solo daily use", '<span class="cmp-win">Smallest footprint</span>'],
+  ["2-person", "~1,200-1,800 W (3-4 panels)", "Spare room, basement, couples", '<span class="cmp-win">Best for most homes</span>'],
+  ["3-4 person", "~2,400-3,200 W (6-8 panels)", "Larger rooms, sharing, lie-down space", "May need a 20A or 240V circuit"],
+];
+
+const panelRows = [
+  ["Far infrared", "Deep, comfortable warmth; what most people picture", '<span class="cmp-win">Lower</span>', "Most buyers; daily relaxation & recovery"],
+  ["Full-spectrum", "Adds near- and mid-infrared wavelengths", "Higher", "Buyers who specifically want near-infrared"],
+];
+---
+
+<DecisionGuideLayout
+  title={title}
+  description={description}
+  hubSlug="home-sauna"
+  heroSubtitle={heroSubtitle}
+  image="/images/formats/infrared-cabin.webp"
+  imageAlt="An indoor infrared sauna cabin with a glass front door and radiant wall panels."
+  pubDate={pubDate}
+  updatedDate={updatedDate}
+  lastReviewed={lastReviewed}
+  methodologyNote={methodologyNote}
+  sources={sources}
+  faq={faq}
+  heroGuides={heroGuides}
+>
+  <p>
+    Infrared is the format most people actually stick with. It plugs into a normal outlet, heats up
+    in 10-20 minutes, and runs cool enough (around 120-140F) that a 30-45 minute session feels easy
+    rather than punishing. No 240V circuit, no electrician, no steam to manage. The trade-off is that
+    it does not deliver the high-heat, steamy ritual of a traditional sauna - if that matters to you,
+    read <a href="/infrared-vs-traditional-sauna/">infrared vs traditional</a> first.
+  </p>
+  <p>
+    Assuming infrared is your pick, the real decisions are size, panel type, EMF, and the fine print
+    on power, warranty, and returns. Here is how to weigh each one - then a few honest
+    recommendations by household rather than star-rated "winners."
+  </p>
+
+  <h2 id="sizing">1-person vs 2-person vs 4-person</h2>
+  <p>
+    Like every sauna, advertised capacity is optimistic - reduce it by a person if you want room to
+    stretch. For most homes a <strong>2-person cabin</strong> is the sweet spot: it fits a spare
+    room or basement corner, plugs into a standard outlet, and gives one person space to lie back.
+  </p>
+
+  <ComparisonTable
+    caption="Infrared sauna sizes compared by power draw, space, and who each suits"
+    headers={["Cabin size", "Typical power", "Space & use", "Verdict"]}
+    rows={sizeRows}
+  />
+
+  <h2 id="panels">Full-spectrum vs far infrared</h2>
+  <p>
+    Brands push full-spectrum hard, but most buyers are well served by quality far infrared. Here is
+    the honest difference.
+  </p>
+
+  <ComparisonTable
+    caption="Far infrared vs full-spectrum infrared compared by heat, cost, and best fit"
+    headers={["Panel type", "What it gives", "Cost", "Best for"]}
+    rows={panelRows}
+  />
+
+  <h2 id="emf">EMF, explained without the fear marketing</h2>
+  <p>
+    "Low EMF" is the most over-used phrase in infrared marketing. Here is what is actually true:
+    cheap carbon-panel cabins can emit measurable low-frequency magnetic fields at the panel surface,
+    and extremely-low-frequency magnetic fields are classified as a "possible" carcinogen on limited
+    evidence. Reputable brands engineer panels that measure only a few milligauss where your body
+    sits. This is worth understanding - not panicking about.
+  </p>
+
+  <Callout variant="tip" title="A practical EMF buyer rule">
+    <ul class="m-0 list-disc pl-5">
+      <li>Prefer cabins with <strong>third-party (accredited-lab) EMF testing</strong>, not just a "low EMF" sticker.</li>
+      <li>The data should cover <strong>both magnetic and electric fields</strong>, measured <strong>where the body sits</strong> - not at the wall.</li>
+      <li>Aim for under about <strong>3 mG at body distance</strong>.</li>
+      <li>You can verify any cabin yourself with an inexpensive EMF meter (around $175).</li>
+      <li>Practical habit: don't press your bare back flat against a panel for a full 45-minute daily session.</li>
+    </ul>
+  </Callout>
+
+  <h2 id="checklist">Power, warranty &amp; placement checklist</h2>
+  <ul>
+    <li><strong>Power:</strong> most 1-2 person cabins use a standard 120V outlet; give it a dedicated circuit. Confirm the spec for 3-4 person cabins.</li>
+    <li><strong>Heat-up:</strong> 10-20 minutes is normal; faster is a nice-to-have, not essential.</li>
+    <li><strong>Warranty:</strong> look for multi-year coverage on heaters/panels and the cabin; read what is actually covered.</li>
+    <li><strong>Return policy:</strong> a real trial window matters - a sauna is hard to evaluate until you have used it for a few weeks.</li>
+    <li><strong>Placement:</strong> interior, level floor, near an outlet, with clearance to open the door fully. Not a damp garage or outdoors unless rated for it.</li>
+    <li><strong>Wood &amp; build:</strong> hemlock and basswood are common; check for low-VOC glues and solid panel construction.</li>
+  </ul>
+
+  <h2 id="picks">Best infrared saunas by household</h2>
+  <p>
+    Treat these as size-and-use starting points. Where we mention brands -
+    <strong>Sun Home, Clearlight, Sunlighten, and HigherDose</strong> are the names most often
+    cross-shopped - compare their published EMF data, warranty, and return policy before buying.
+  </p>
+
+  <ProductCard
+    id="ir-1person"
+    name="1-person far-infrared cabin"
+    bestFor="Best for small spaces & solo use"
+    saunaIcon="infrared-cabin"
+    formatLabel="Far infrared, 120V plug-in"
+    price="$1,500-$3,000"
+    specs={[
+      { label: "Power", value: "~300-600 W" },
+      { label: "Outlet", value: "Standard 120V" },
+      { label: "Heat-up", value: "10-15 min" },
+      { label: "Temp", value: "~120-140F" },
+    ]}
+    summary={[
+      "The easiest entry to a permanent cabin: a single-person far-infrared unit fits a closet-sized footprint or a corner, plugs into a normal outlet, and is ready in minutes. Ideal for one daily user in an apartment or small home.",
+      "Look for documented low-EMF panels and a sensible warranty; you do not need full-spectrum at this size unless you specifically want near-infrared.",
+    ]}
+    pros={[
+      "Smallest footprint; fits almost anywhere",
+      "Standard outlet, no electrician",
+      "Lowest running cost of any cabin",
+    ]}
+    cons={[
+      "Tight - genuinely one person",
+      "No lie-down space",
+      "Far infrared only at this size, typically",
+    ]}
+    skipIf="more than one person will use it at once - step up to a 2-person cabin."
+    amazonSearch="1 person far infrared sauna home"
+  />
+
+  <ProductCard
+    id="ir-2person"
+    name="2-person far-infrared cabin"
+    bestFor="Best infrared sauna for most homes"
+    saunaIcon="infrared-cabin"
+    formatLabel="Far infrared, 120V plug-in"
+    price="$2,000-$4,500"
+    specs={[
+      { label: "Power", value: "~1,200-1,800 W" },
+      { label: "Outlet", value: "Standard 120V" },
+      { label: "Heat-up", value: "10-20 min" },
+      { label: "Temp", value: "~120-145F" },
+    ]}
+    summary={[
+      "The default recommendation. A 2-person cabin fits a spare room or basement corner, still runs on a standard outlet, and gives a solo user room to stretch out - the most flexible size for the money.",
+      "This is where brands like Sun Home, Clearlight, and Sunlighten compete hardest; compare published low-EMF data, warranty length, and return window rather than the headline price alone.",
+    ]}
+    pros={[
+      "Fits most homes; room to recline solo",
+      "Standard outlet, plug-and-play",
+      "Widest model and price choice",
+    ]}
+    cons={[
+      "Needs a dedicated outlet ideally",
+      "Optimistic '2-person' for two adults",
+      "Full-spectrum versions cost noticeably more",
+    ]}
+    skipIf="you only ever use it alone in a tiny space - a 1-person cabin saves room and money."
+    amazonSearch="2 person far infrared sauna home"
+  />
+
+  <ProductCard
+    id="ir-4person"
+    name="3-4 person infrared cabin"
+    bestFor="Best for sharing & lie-down space"
+    saunaIcon="infrared-cabin"
+    formatLabel="Far or full-spectrum, may need 20A/240V"
+    price="$3,500-$6,000+"
+    specs={[
+      { label: "Power", value: "~2,400-3,200 W" },
+      { label: "Outlet", value: "20A or 240V (check spec)" },
+      { label: "Heat-up", value: "15-25 min" },
+      { label: "Temp", value: "~120-150F" },
+    ]}
+    summary={[
+      "For households that want to share, or one person who wants to lie fully flat. The extra panel count raises power needs, so confirm whether the model needs a 20A circuit or even 240V before you buy.",
+      "Full-spectrum is more common at this tier; only pay for it if you specifically want near-infrared. Otherwise a large far-infrared cabin delivers the same comfortable heat for less.",
+    ]}
+    pros={[
+      "Room to share or lie flat",
+      "More panel coverage = even heat",
+      "Full-spectrum options available",
+    ]}
+    cons={[
+      "Largest footprint; needs real floor space",
+      "May require a dedicated 20A or 240V circuit",
+      "Highest purchase and running cost",
+    ]}
+    skipIf="space or budget is tight - a 2-person cabin suits most homes better."
+    amazonSearch="4 person infrared sauna home"
+  />
+
+  <Callout variant="note" title="Cheaper ways into infrared">
+    <p>
+      Not ready for a cabin? A <a href="/portable-infrared-sauna/">portable infrared sauna</a> pod or
+      a <a href="/sauna-blanket/">sauna blanket</a> delivers infrared heat for a few hundred dollars,
+      folds away after use, and travels - a smart way to test the habit before you commit to a cabin.
+    </p>
+  </Callout>
+
+  <h2 id="bottom-line">The bottom line</h2>
+  <p>
+    For most homes, a <a href="#ir-2person">2-person far-infrared cabin</a> with documented low-EMF
+    panels is the best balance of space, comfort, and cost. Go smaller with a
+    <a href="#ir-1person">1-person cabin</a> for tight rooms, or larger with a
+    <a href="#ir-4person">3-4 person cabin</a> if you have the floor space and a suitable circuit.
+    Want the high-heat, steamy alternative instead? Compare
+    <a href="/infrared-vs-traditional-sauna/">infrared vs traditional</a>, or see all formats in the
+    <a href="/home-sauna/">best home sauna guide</a>. Curious what infrared actually does for you?
+    Read the cited <a href="/sauna-guide/infrared-sauna-benefits/">infrared sauna benefits</a> guide.
+  </p>
+</DecisionGuideLayout>

@@ -1,0 +1,392 @@
+---
+import DecisionGuideLayout from "@layouts/DecisionGuideLayout.astro";
+import ComparisonTable from "@components/ComparisonTable.astro";
+import ProductCard from "@components/ProductCard.astro";
+import Callout from "@components/Callout.astro";
+
+const title = "Best Sauna Heater: How to Size & Choose Electric vs Wood";
+const description =
+  "An honest guide to choosing a sauna heater: electric vs wood-burning, how to size the kW to your room, the 240V circuit and wire gauge you need, stones, controls, and clearances - with the brands worth comparing (Harvia, HUUM, Finlandia).";
+const heroSubtitle =
+  "The heater is the heart of a traditional sauna - and the part people get wrong most often. The real decisions are electric vs wood, the right kW for your room's volume, and the wiring it demands. Here is how to get all three right.";
+
+const pubDate = new Date("2026-06-10");
+const updatedDate = new Date("2026-06-10");
+const lastReviewed = new Date("2026-06-10");
+
+const methodologyNote =
+  "This guide synthesizes heater manufacturer specifications, sauna-builder references, and electrical and building-code guidance. Heater-sizing and circuit figures are general planning rules of thumb, not a substitute for the heater's own manual or a licensed electrician. We have not bench-tested every heater, so we recommend by type, size, and use-case rather than inventing star ratings, and we link to each maker so you can verify specs yourself.";
+
+const sources = [
+  {
+    name: "Haven of Heat - How to size a sauna (why person capacity is misleading)",
+    url: "https://havenofheat.com/blogs/sauna-guides/how-to-size-a-sauna-why-person-capacity-is-misleading",
+    accessed: new Date("2026-06-10"),
+    note: "Volume math (L x W x H) and the ~1 kW per 45-50 cu ft heater-sizing rule used in the table below.",
+  },
+  {
+    name: "Haven of Heat - Sauna electrical requirements (240V vs 120V, breaker & wire gauge)",
+    url: "https://havenofheat.com/blogs/sauna-guides/sauna-electrical-requirements-complete-wiring-guide-240v-vs-120v-breaker-sizing-wire-gauge",
+    accessed: new Date("2026-06-10"),
+    note: "Breaker and wire-gauge sizing by heater kW, plus GFCI and dedicated-circuit requirements.",
+  },
+  {
+    name: "Backyard Sauna Pro - Sauna electrical requirements",
+    url: "https://backyardsaunapro.com/guides/sauna-electrical-requirements/",
+    accessed: new Date("2026-06-10"),
+    note: "Cross-check on circuit sizing and why most home heaters need a dedicated 240V line.",
+  },
+  {
+    name: "ThermalFinn - Sauna build guide (heaters, stones & sizing)",
+    url: "https://thermalfinn.com/sauna-builds/",
+    accessed: new Date("2026-06-10"),
+    note: "Stone mass, heater placement, and how room build quality changes the kW you need.",
+  },
+  {
+    name: "Sauna Guide - Infrared vs traditional sauna",
+    url: "https://sauna.guide/guides/infrared-vs-traditional-sauna",
+    accessed: new Date("2026-06-10"),
+    note: "Operating temperatures and the heat mechanism for traditional electric and wood heaters.",
+  },
+  {
+    name: "Sauna Kits - How much is a sauna heater",
+    url: "https://saunakits.com/blogs/news/how-much-is-a-sauna-heater",
+    accessed: new Date("2026-06-10"),
+    note: "2026 price bands for residential electric and wood-burning sauna heaters.",
+  },
+];
+
+const faq = [
+  {
+    q: "What size sauna heater do I need?",
+    a: "Size the heater to your room's volume, not its advertised person capacity. Measure length x width x height in feet to get cubic feet, then allow roughly 1 kW per 45-50 cubic feet. A typical 4x6 ft home sauna (about 168 cu ft) wants a 4.5-6 kW heater; a 5x7 ft room (about 245 cu ft) wants 6-8 kW; a 6x8 ft room wants 8-9 kW. Add 15-25% if you have a lot of glass, an uninsulated or log/concrete room, or a cold climate - glass alone adds about 6 cubic feet of effective volume per square foot.",
+  },
+  {
+    q: "Electric or wood-burning sauna heater?",
+    a: "Electric is the low-maintenance default: flip a switch, heat in 30-45 minutes, precise temperature control - but it needs a dedicated 240V circuit installed by a licensed electrician. Wood-burning needs no heater circuit and gives the most authentic loyly and an off-grid option, but requires a code-compliant chimney, heat shielding, fire-rated clearances, a 60-90 minute heat-up, and more ongoing maintenance. Choose electric for indoor and convenient daily use; choose wood for outdoor, off-grid, or atmosphere.",
+  },
+  {
+    q: "Does a sauna heater need a 240V circuit?",
+    a: "Almost always, yes. Residential electric sauna heaters above about 3 kW need a dedicated 240V circuit sized to the heater - for example a 6 kW heater on a 30A breaker with #10 wire, or an 8-9 kW heater on a 40A breaker with #8 wire - protected by a GFCI breaker and installed by a licensed electrician. Only small plug-in infrared panels run on a normal 120V outlet; traditional rock heaters do not.",
+  },
+  {
+    q: "How many stones does a sauna heater need, and which kind?",
+    a: "Use the amount the manufacturer specifies (often 30-100+ lbs depending on heater size) and only proper sauna stones - dense, non-porous igneous rock like peridotite or olivine diabase sold for saunas. Never use random landscaping rocks, river stones, or anything that can trap water and crack or explode when heated. Rinse new stones, stack them loosely so air flows, and re-stack them once a year as they settle and break down.",
+  },
+  {
+    q: "Can I install a sauna heater myself?",
+    a: "You can usually mount the heater and load the stones yourself, but the 240V electrical connection should be done by a licensed electrician and typically needs a permit and inspection. Getting the circuit, breaker size, wire gauge, and GFCI protection wrong is both a fire and shock risk, so this is the one part of a sauna build not to DIY unless you are qualified.",
+  },
+];
+
+const heroGuides = {
+  heading: "Jump to",
+  items: [
+    { award: "Decide", title: "Electric vs wood", href: "#type" },
+    { award: "Size it", title: "kW by room volume", href: "#sizing" },
+    { award: "Wire it", title: "Circuit & wiring", href: "#electrical" },
+    { award: "Tool", title: "Estimate your build", href: "/tools/sauna-cost-calculator/" },
+  ],
+};
+
+const typeRows = [
+  [
+    "Electric (rock heater)",
+    "150-195F",
+    '<span class="cmp-win">30-45 min</span>',
+    "Dedicated 240V circuit + electrician",
+    '<span class="cmp-win">Low (2-4 hrs/yr)</span>',
+    "Indoor, convenient daily use",
+  ],
+  [
+    "Wood-burning",
+    "150-195F+",
+    "60-90 min",
+    "Chimney, shielding, clearances; no heater circuit",
+    "Higher (15-30 hrs/yr)",
+    "Outdoor, off-grid, authentic loyly",
+  ],
+  [
+    "Infrared panels",
+    "110-150F",
+    '<span class="cmp-win">10-20 min</span>',
+    "Plugs into 120V outlet",
+    "Very low",
+    "Renters, daily radiant heat (not a rock sauna)",
+  ],
+];
+
+const sizeRows = [
+  ["4x6 ft (~168 cu ft)", "1-2", '<span class="cmp-win">4.5-6 kW</span>', "30A / #10", "25-35 min"],
+  ["5x7 ft (~245 cu ft)", "2-3", "6-8 kW", "30-40A / #10-#8", "30-45 min"],
+  ["6x8 ft (~336 cu ft)", "3-4", "8-9 kW", "40A / #8", "40-55 min"],
+  ["7x9 ft (~441 cu ft)", "4-6", "9-12 kW", "50-60A / #6", "45-65 min"],
+];
+---
+
+<DecisionGuideLayout
+  title={title}
+  description={description}
+  hubSlug="sauna-kits"
+  heroSubtitle={heroSubtitle}
+  image="/images/heroes/sauna-kits.webp"
+  imageAlt="An electric sauna heater topped with stones beside a tiered cedar bench."
+  pubDate={pubDate}
+  updatedDate={updatedDate}
+  lastReviewed={lastReviewed}
+  methodologyNote={methodologyNote}
+  sources={sources}
+  faq={faq}
+  heroGuides={heroGuides}
+>
+  <p>
+    The heater is what turns a wooden box into a sauna. Get it right and everything else - heat,
+    steam, comfort, running cost - falls into place. Get it wrong and you have a room that never
+    quite reaches temperature, or a tripping breaker and a frustrated electrician. "Best sauna
+    heater" is not really a brand question. It is three decisions stacked together:
+    <strong>electric or wood</strong>, the <strong>right kW for your room's volume</strong>, and the
+    <strong>circuit and wiring</strong> that heater demands.
+  </p>
+  <p>
+    Below we walk through each one honestly, then suggest heaters by use-case rather than ranking
+    gear we have not tested. When you want hard numbers for the whole project, the
+    <a href="/tools/sauna-cost-calculator/">sauna cost calculator</a> turns your choices into an
+    itemized range.
+  </p>
+
+  <h2 id="type">Electric vs wood-burning vs infrared</h2>
+  <p>
+    Three heat sources power home saunas, and they are not interchangeable. Electric rock heaters
+    are the default for indoor traditional saunas; wood stoves suit outdoor and off-grid builds; and
+    infrared "heaters" are really radiant panels for a different, cooler kind of cabin.
+  </p>
+
+  <ComparisonTable
+    caption="Sauna heater types compared by temperature, heat-up, install needs, maintenance, and best use"
+    headers={["Heater type", "Temp", "Heat-up", "Install needs", "Maintenance", "Best for"]}
+    rows={typeRows}
+  />
+
+  <Callout variant="note" title="Infrared panels are a different category">
+    <p>
+      If you are choosing radiant infrared panels rather than a rock heater, you are really choosing
+      a different kind of cabin. See our <a href="/infrared-sauna/">best infrared sauna guide</a> and
+      <a href="/infrared-vs-traditional-sauna/">infrared vs traditional comparison</a> - the rest of
+      this page is about traditional electric and wood-burning rock heaters.
+    </p>
+  </Callout>
+
+  <h2 id="sizing">How to size a sauna heater (kW by room volume)</h2>
+  <p>
+    This is the single most important number, and the one most people get wrong by trusting the
+    advertised "seats 4" rating. Size to <strong>volume</strong>, not people. Multiply your room's
+    length x width x height in feet to get cubic feet, then allow roughly
+    <strong>1 kW per 45-50 cubic feet</strong>. Then adjust up for anything that bleeds heat.
+  </p>
+
+  <ComparisonTable
+    caption="Sauna heater sizing by interior dimensions, realistic capacity, kW, circuit, and heat-up time"
+    headers={["Interior (7 ft ceiling)", "Realistic capacity", "Heater kW", "Circuit / wire", "Heat-up"]}
+    rows={sizeRows}
+  />
+
+  <Callout variant="tip" title="Add capacity for heat loss">
+    <p>
+      Size up by about 15-25% if your sauna has a large glass front or door, sits in a cold garage
+      or outdoors, or has uninsulated log or concrete walls. Glass adds roughly 6 cubic feet of
+      effective volume per square foot. An undersized heater never holds temperature; a slightly
+      oversized one simply reaches temperature faster and cycles off.
+    </p>
+  </Callout>
+
+  <h2 id="picks">Which sauna heater fits your build?</h2>
+  <p>
+    Use these as type-and-size starting points, not star-rated winners. Where we name brands, treat
+    them as well-regarded examples to compare, and check the maker's spec sheet and manual before you
+    buy and wire anything.
+  </p>
+
+  <ProductCard
+    id="electric-6kw"
+    name="6 kW electric rock heater"
+    bestFor="Best for most indoor home saunas"
+    saunaIcon="heater"
+    formatLabel="Electric, 240V, ~4x6-5x7 ft rooms"
+    price="$500-$1,000 + electrical"
+    specs={[
+      { label: "Output", value: "6 kW" },
+      { label: "Circuit", value: "30A / #10" },
+      { label: "Room", value: "~150-300 cu ft" },
+      { label: "Stones", value: "~40-60 lbs" },
+    ]}
+    summary={[
+      "The workhorse size for a typical indoor home sauna. A 6 kW heater heats a 4x6 to 5x7 ft room to a proper 175-195F in 30-45 minutes on a dedicated 30A/240V circuit with #10 wire and a GFCI breaker.",
+      "Harvia, HUUM, and Finlandia all make well-regarded 6 kW wall-mounted heaters; pick one with a stone capacity and control type (built-in dial vs separate digital controller) that suits your room.",
+    ]}
+    pros={[
+      "Right size for the most common home saunas",
+      "Fast, controllable heat with low maintenance",
+      "Wide model choice across trusted brands",
+    ]}
+    cons={[
+      "Needs a dedicated 240V circuit + electrician",
+      "Undersize it and the room never gets hot",
+      "Stones need re-stacking about once a year",
+    ]}
+    skipIf="your room is larger than ~300 cu ft or has a big glass front - size up to 8-9 kW."
+    amazonSearch="harvia 6kw electric sauna heater"
+    manufacturerUrl="https://sauna.guide/guides/infrared-vs-traditional-sauna"
+  />
+
+  <ProductCard
+    id="electric-8kw"
+    name="8-9 kW electric rock heater"
+    bestFor="Best for larger or glass-fronted rooms"
+    saunaIcon="heater"
+    formatLabel="Electric, 240V, ~6x8 ft rooms"
+    price="$700-$1,400 + electrical"
+    specs={[
+      { label: "Output", value: "8-9 kW" },
+      { label: "Circuit", value: "40A / #8" },
+      { label: "Room", value: "~300-400 cu ft" },
+      { label: "Stones", value: "~60-100 lbs" },
+    ]}
+    summary={[
+      "Step up to 8-9 kW for a 6x8 ft room, a glass-fronted cabin, or a cooler space like a garage. It needs a 40A/240V circuit with #8 wire, so confirm your panel has the spare capacity before buying.",
+      "Harvia and HUUM both offer 8-9 kW heaters with larger stone chambers; more stone mass means a softer, longer-lasting loyly when you throw water.",
+    ]}
+    pros={[
+      "Holds temperature in larger or leaky rooms",
+      "More stone mass = better, softer steam",
+      "Headroom for glass fronts and cold climates",
+    ]}
+    cons={[
+      "Needs a 40A circuit; may force a panel upgrade",
+      "Overkill (and wasteful) in a small 4x6 room",
+      "Higher running cost than a 6 kW unit",
+    ]}
+    skipIf="your room is under ~250 cu ft - a 6 kW heater is the more efficient match."
+    amazonSearch="harvia 8kw electric sauna heater"
+  />
+
+  <ProductCard
+    id="wood-stove"
+    name="Wood-burning sauna stove"
+    bestFor="Best for outdoor & off-grid"
+    saunaIcon="heater"
+    image="/images/formats/wood-stove.webp"
+    imageAlt="A black wood-burning sauna stove with a glowing fire door and stones on top."
+    formatLabel="Wood-fired, no heater circuit"
+    price="$700-$2,000 + chimney install"
+    specs={[
+      { label: "Temp", value: "150-195F+" },
+      { label: "Heat-up", value: "60-90 min" },
+      { label: "Power", value: "None (firewood)" },
+      { label: "Install", value: "Chimney + clearances" },
+    ]}
+    summary={[
+      "For outdoor, lakeside, or off-grid saunas, a wood stove gives the most authentic loyly and the crackle of a real fire with no electrical run at all. The trade-off is a code-compliant chimney with heat shielding and fire-rated clearances, a longer heat-up, and real ongoing maintenance.",
+      "Harvia, HUUM, and Kuuma make well-regarded wood stoves; Lamppa is a respected US maker. Match the stove's rated room volume to yours and budget for the chimney kit separately.",
+    ]}
+    pros={[
+      "Most authentic, intense heat and steam",
+      "No electrician or 240V circuit required",
+      "Works fully off-grid",
+    ]}
+    cons={[
+      "Chimney, shielding, and clearances add cost",
+      "Slowest heat-up; you tend the fire",
+      "Most maintenance and a permit, usually",
+    ]}
+    skipIf="the sauna is indoors or you want set-and-forget, push-button heat."
+    amazonSearch="harvia wood burning sauna stove"
+  />
+
+  <Callout variant="tip" title="Estimate the whole build">
+    <p>
+      The heater is one line item. To size the full project - shell, heater, stones, electrical,
+      foundation, and running cost - run the
+      <a href="/tools/sauna-cost-calculator/">sauna cost calculator</a>, then read the
+      <a href="/sauna-kits/">DIY sauna builds &amp; kits guide</a> for the rest of the room.
+    </p>
+  </Callout>
+
+  <h2 id="electrical">Circuit, wiring &amp; controls</h2>
+  <p>
+    This is where a sauna heater becomes an electrical project. Plan it before you buy, and budget
+    for a licensed electrician - it is the one part of a build that is genuinely dangerous to get
+    wrong.
+  </p>
+  <ul>
+    <li>
+      <strong>Dedicated 240V circuit.</strong> Any rock heater above about 3 kW needs its own 240V
+      circuit, sized to the heater: roughly 6 kW on a 30A breaker with #10 wire, 8-9 kW on 40A with
+      #8. Always follow the heater's manual and your local code over any rule of thumb.
+    </li>
+    <li>
+      <strong>GFCI protection.</strong> Sauna circuits should be GFCI-protected. Outdoor runs are
+      often trenched in conduit, which pushes the install cost higher.
+    </li>
+    <li>
+      <strong>Panel capacity.</strong> If your service has no spare capacity, a panel upgrade adds
+      roughly $1,500-$3,000 - frequently the biggest single surprise in a sauna project.
+    </li>
+    <li>
+      <strong>Controls.</strong> Heaters use either a built-in dial (simplest) or a separate digital
+      controller mounted outside the hot zone, often with a timer and a delayed start. Place sensors
+      and controllers per the manual, not wherever is convenient.
+    </li>
+  </ul>
+
+  <Callout variant="warning" title="Get a written quote first">
+    <p>
+      Before buying a heater, get a written quote from a licensed electrician. Run length, trenching,
+      and your panel's spare capacity vary enough to change which heater - or which sauna - makes
+      sense. The electrical work almost always needs a permit and inspection.
+    </p>
+  </Callout>
+
+  <h2 id="stones">Stones, ventilation &amp; clearances</h2>
+  <ul>
+    <li>
+      <strong>Use real sauna stones.</strong> Dense, non-porous igneous rock (peridotite, olivine
+      diabase) sold for saunas - never landscaping or river stones, which can trap water and crack
+      or explode. Use the weight the manual specifies, rinse them, and stack loosely so air and
+      water flow through.
+    </li>
+    <li>
+      <strong>Re-stack yearly.</strong> Stones settle and break down; restack them about once a year
+      and replace crumbled ones so airflow and steam stay good.
+    </li>
+    <li>
+      <strong>Ventilation.</strong> A traditional sauna needs an air inlet near the heater and an
+      outlet on the far wall so fresh air moves through. Poor ventilation makes a sauna feel stuffy
+      and stops it reaching temperature.
+    </li>
+    <li>
+      <strong>Clearances.</strong> Respect the heater's required clearances to benches, walls, and
+      the guard rail. These are safety minimums, not suggestions.
+    </li>
+  </ul>
+
+  <h2 id="mistakes">Common heater mistakes</h2>
+  <ul>
+    <li><strong>Undersizing.</strong> Trusting "seats 4" instead of sizing to cubic feet, so the room never gets properly hot.</li>
+    <li><strong>Ignoring glass and insulation.</strong> A glass door or uninsulated walls need a bigger heater than the bare volume suggests.</li>
+    <li><strong>Wrong stones.</strong> Using landscaping rock that cracks, or packing stones too tightly so steam and air cannot move.</li>
+    <li><strong>Bad ventilation.</strong> No inlet/outlet path, so the sauna feels stuffy and underperforms.</li>
+    <li><strong>DIY-ing the wiring.</strong> Guessing the breaker or wire gauge instead of using a licensed electrician.</li>
+  </ul>
+
+  <h2 id="bottom-line">The bottom line</h2>
+  <p>
+    For most indoor home saunas, a <a href="#electric-6kw">6 kW electric rock heater</a> on a
+    dedicated 240V circuit is the right call. Larger or glass-fronted rooms want
+    <a href="#electric-8kw">8-9 kW</a>. Building outdoors or off-grid? A
+    <a href="#wood-stove">wood-burning stove</a> earns its extra maintenance with authentic heat.
+    Whatever you choose, size it to your room's volume, use real stones, and get the 240V circuit
+    quoted and installed by a licensed electrician. Building the room too? Start with the
+    <a href="/sauna-kits/">DIY sauna builds guide</a>, and
+    <a href="/tools/sauna-cost-calculator/">estimate the full cost</a> before you buy.
+  </p>
+</DecisionGuideLayout>

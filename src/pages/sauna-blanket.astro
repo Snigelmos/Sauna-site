@@ -1,0 +1,281 @@
+---
+import DecisionGuideLayout from "@layouts/DecisionGuideLayout.astro";
+import ComparisonTable from "@components/ComparisonTable.astro";
+import ProductCard from "@components/ProductCard.astro";
+import Callout from "@components/Callout.astro";
+
+const title = "Best Sauna Blanket: How They Work & What to Buy";
+const description =
+  "An honest guide to the best sauna blanket: how hot they get, how long sessions take, how to clean them, and budget vs premium vs travel picks - plus who should not use one and how blankets compare to pods and cabins.";
+const heroSubtitle =
+  "A sauna blanket is the cheapest, smallest way to sweat at home: lie in, set the heat, relax, then roll it up. Here is how hot they really get, how to keep one clean, and which type fits your budget and space.";
+
+const pubDate = new Date("2026-06-10");
+const updatedDate = new Date("2026-06-10");
+const lastReviewed = new Date("2026-06-10");
+
+const methodologyNote =
+  "This guide synthesizes manufacturer specifications and independent references. We have not lab-tested every blanket, so we recommend by tier and use-case rather than inventing star ratings, and we keep heat and health claims conservative. Sauna blankets run far cooler than a traditional sauna and carry none of its long-term health-evidence base - we say so plainly.";
+
+const sources = [
+  {
+    name: "Healing Sauna - Infrared sauna buying guide",
+    url: "https://www.healingsauna.com/infrared-sauna/buying-guide",
+    accessed: new Date("2026-06-10"),
+    note: "Infrared heat mechanism, temperature ranges, and power for portable infrared products.",
+  },
+  {
+    name: "Sun Home - Infrared vs traditional (best home sauna 2026)",
+    url: "https://sunhomesaunas.com/blogs/saunas/infrared-vs-traditional-sauna-best-home-sauna-2026",
+    accessed: new Date("2026-06-10"),
+    note: "Why radiant infrared induces a sweat at a lower air temperature.",
+  },
+  {
+    name: "Cleveland Clinic - Sauna benefits",
+    url: "https://health.clevelandclinic.org/sauna-benefits",
+    accessed: new Date("2026-06-10"),
+    note: "Benefits summary and contraindications relevant to heat exposure.",
+  },
+];
+
+const faq = [
+  {
+    q: "What is the best sauna blanket?",
+    a: "The best sauna blanket is the one that matches how you'll use it. For most people a mid-tier blanket with a removable, washable insert and a clear temperature display is the sweet spot. Choose a premium blanket if you want the highest build quality, documented low-EMF construction, and the best warranty; choose a budget blanket if you mainly want to try the habit cheaply; and choose a lightweight travel blanket if you move it often. Across tiers, prioritize washability, temperature range, and warranty over marketing.",
+  },
+  {
+    q: "How hot does a sauna blanket get?",
+    a: "Most sauna blankets reach roughly 120-160F at their top setting, with adjustable levels below that. Because infrared heats your body directly rather than the surrounding air, you sweat at a comfortable temperature well below a traditional sauna's 150-195F. A typical session runs 30-45 minutes; start lower and shorter and build up.",
+  },
+  {
+    q: "How do you clean a sauna blanket?",
+    a: "Wipe the inside down with a damp cloth and mild soap or a diluted vinegar solution after every session, then let it air out fully before rolling it up - trapped moisture causes odor. Many blankets include a removable, machine-washable cotton or towel insert, and wearing long sleeves and leggings (or using a dedicated insert) keeps sweat off the blanket itself. Never submerge the blanket or its controller.",
+  },
+  {
+    q: "Sauna blanket vs portable sauna vs cabin - which should I get?",
+    a: "A blanket is the smallest, cheapest, and most portable - you lie still inside it and store it rolled up. A sit-in portable pod lets you sit upright with your hands and head free and feels more like a real sauna, at a bit more bulk. An infrared cabin is a permanent, lie-down or seated space for daily use and resale value, at much higher cost. Pick a blanket for minimum space and budget, a pod for a more sauna-like feel, or a cabin if you have the room and plan to use it daily.",
+  },
+  {
+    q: "Who should not use a sauna blanket?",
+    a: "Avoid heat exposure, or check with a doctor first, if you are pregnant, have heart disease, low or unstable blood pressure, or take medications affecting heat tolerance or hydration. Because a blanket encloses you and restricts movement, it is a poor choice if you might need to get out quickly. Never use one after alcohol, always hydrate before and after, and stop immediately if you feel dizzy, nauseous, or unwell.",
+  },
+];
+
+const heroGuides = {
+  heading: "Jump to",
+  items: [
+    { award: "How it works", title: "Heat & sessions", href: "#how" },
+    { award: "Compare", title: "Blanket vs pod vs cabin", href: "#vs" },
+    { award: "Care", title: "Cleaning", href: "#cleaning" },
+    { award: "Picks", title: "By budget", href: "#picks" },
+  ],
+};
+
+const vsRows = [
+  ["Sauna blanket", "Lie down, enclosed", '<span class="cmp-win">$200-$600</span>', '<span class="cmp-win">Rolls up smallest</span>', "Minimum space & budget, travel"],
+  ["Sit-in pod", "Sit upright, head & hands free", "$150-$400", "Folds to a bag", "A more sauna-like feel"],
+  ["Infrared cabin", "Seated/recline, permanent", "$1,500-$6,000", "Fixed footprint", "Daily use, lie-down room, resale"],
+];
+
+const tierRows = [
+  ["Budget", "$100-$250", "Basic display, thinner build", '<span class="cmp-win">Trying the habit cheaply</span>'],
+  ["Mid-tier", "$250-$450", "Washable insert, better heat control", '<span class="cmp-win">Most people</span>'],
+  ["Premium", "$450-$700", "Low-EMF build, best warranty & materials", "Frequent users who want the best"],
+];
+---
+
+<DecisionGuideLayout
+  title={title}
+  description={description}
+  hubSlug="portable-sauna"
+  heroSubtitle={heroSubtitle}
+  image="/images/formats/portable-blanket.webp"
+  imageAlt="An infrared sauna blanket laid flat with a digital temperature controller and a rolled towel insert."
+  pubDate={pubDate}
+  updatedDate={updatedDate}
+  lastReviewed={lastReviewed}
+  methodologyNote={methodologyNote}
+  sources={sources}
+  faq={faq}
+  heroGuides={heroGuides}
+>
+  <p>
+    A sauna blanket is the most affordable, space-efficient way to sweat at home. You lie inside it,
+    set a temperature, relax for half an hour, then wipe it down and roll it under the bed. No
+    installation, no circuit, no permanent footprint - and a price in the low hundreds rather than
+    thousands. For apartments, dorms, frequent travelers, and anyone curious whether a heat habit
+    will stick, it is the easiest possible entry point.
+  </p>
+  <p>
+    The trade-off is honest: you have to lie still, it gives radiant warmth rather than the intense
+    heat and steam of a traditional sauna, and it carries none of that format's long-term health
+    evidence. Here is how blankets actually work, how to keep one clean, and which tier fits you.
+  </p>
+
+  <h2 id="how">How a sauna blanket works</h2>
+  <ul>
+    <li><strong>Heat:</strong> infrared heating elements warm your body directly; most blankets reach about 120-160F, adjustable down.</li>
+    <li><strong>Sessions:</strong> 30-45 minutes is typical. Start cooler and shorter, then build up.</li>
+    <li><strong>Power:</strong> plugs into a standard 120V outlet; heats up in roughly 10-15 minutes.</li>
+    <li><strong>What you'll feel:</strong> a steady, comfortable sweat - not the fast, intense heat of a hot rock sauna.</li>
+    <li><strong>What it won't do:</strong> no steam, no high heat, and no detox or meaningful fat loss. The water weight returns when you rehydrate.</li>
+  </ul>
+
+  <Callout variant="tip" title="Wear a layer">
+    <p>
+      Wearing long sleeves and leggings (or using the blanket's cotton insert) keeps sweat off the
+      heating layer, makes cleanup far easier, and lets you turn the heat up comfortably. It is the
+      single best habit for keeping a blanket fresh and lasting.
+    </p>
+  </Callout>
+
+  <h2 id="vs">Blanket vs pod vs cabin</h2>
+  <p>
+    A blanket is the smallest and cheapest of the three infrared formats. If you would rather sit
+    upright, see the <a href="/portable-infrared-sauna/">portable infrared sauna guide</a>; for a
+    permanent unit, see the <a href="/infrared-sauna/">best infrared sauna guide</a>.
+  </p>
+
+  <ComparisonTable
+    caption="Sauna blanket vs sit-in pod vs infrared cabin compared by posture, price, storage, and best use"
+    headers={["Format", "Posture", "Price", "Storage", "Best for"]}
+    rows={vsRows}
+  />
+
+  <h2 id="cleaning">How to clean and care for it</h2>
+  <ul>
+    <li>Wipe the interior after every session with a damp cloth and mild soap or diluted vinegar.</li>
+    <li>Air it out fully before rolling it up - trapped moisture is what causes odor.</li>
+    <li>Use the removable, washable insert if it has one; launder it per the instructions.</li>
+    <li>Never submerge the blanket or its controller, and don't fold it over the controller cord.</li>
+    <li>Store it loosely rolled in a dry place, not crammed or creased over the heating elements.</li>
+  </ul>
+
+  <h2 id="picks">Best sauna blankets by budget</h2>
+  <p>
+    Tier-and-use starting points rather than star-rated winners. Where we name brands -
+    <strong>HigherDose, MiHigh, LifePro, and Therasage</strong> are the most cross-shopped - compare
+    temperature range, washability, EMF construction, and warranty before buying.
+  </p>
+
+  <ComparisonTable
+    caption="Sauna blanket tiers compared by price, what you get, and who each suits"
+    headers={["Tier", "Price", "What you get", "Best for"]}
+    rows={tierRows}
+  />
+
+  <ProductCard
+    id="blanket-budget"
+    name="Budget sauna blanket"
+    bestFor="Best for trying the habit"
+    saunaIcon="blanket"
+    formatLabel="Entry-tier, 120V"
+    price="$100-$250"
+    specs={[
+      { label: "Heat", value: "~120-150F" },
+      { label: "Outlet", value: "Standard 120V" },
+      { label: "Insert", value: "Sometimes" },
+      { label: "Warranty", value: "Shorter" },
+    ]}
+    summary={[
+      "The cheapest way to find out whether a heat habit sticks. A budget blanket still gets you a comfortable sweat; you trade away some build quality, a removable insert, and warranty length.",
+      "Check the actual temperature range and whether the inner layer can be wiped or washed - the thinnest models are harder to keep fresh.",
+    ]}
+    pros={[
+      "Lowest cost entry to infrared heat",
+      "Rolls up tiny; fully portable",
+      "Fine for occasional use",
+    ]}
+    cons={[
+      "Thinner build, shorter warranty",
+      "Often no washable insert",
+      "May run cooler than premium models",
+    ]}
+    skipIf="you'll use it several times a week - a mid-tier blanket lasts better."
+    amazonSearch="sauna blanket"
+  />
+
+  <ProductCard
+    id="blanket-mid"
+    name="Mid-tier sauna blanket"
+    bestFor="Best sauna blanket for most people"
+    saunaIcon="blanket"
+    image="/images/formats/portable-blanket.webp"
+    imageAlt="A mid-tier infrared sauna blanket with a backlit temperature controller and a cotton insert."
+    formatLabel="Washable insert, 120V"
+    price="$250-$450"
+    specs={[
+      { label: "Heat", value: "~120-160F" },
+      { label: "Outlet", value: "Standard 120V" },
+      { label: "Insert", value: "Removable, washable" },
+      { label: "Warranty", value: "Multi-year" },
+    ]}
+    summary={[
+      "The recommendation for most buyers: a clear temperature display, a removable washable insert that keeps it fresh, and a multi-year warranty - without paying the full premium price.",
+      "This tier is where HigherDose and MiHigh compete most directly; compare temperature range, insert design, and warranty rather than headline price.",
+    ]}
+    pros={[
+      "Best balance of price and quality",
+      "Washable insert = easy to keep fresh",
+      "Reliable temperature control",
+    ]}
+    cons={[
+      "Pricier than budget blankets",
+      "Still a lie-still experience",
+      "No steam or high heat",
+    ]}
+    skipIf="you only want an occasional novelty - a budget blanket is enough."
+    amazonSearch="higherdose sauna blanket"
+  />
+
+  <ProductCard
+    id="blanket-premium"
+    name="Premium sauna blanket"
+    bestFor="Best for frequent users"
+    saunaIcon="blanket"
+    formatLabel="Low-EMF build, 120V"
+    price="$450-$700"
+    specs={[
+      { label: "Heat", value: "~130-160F" },
+      { label: "Outlet", value: "Standard 120V" },
+      { label: "Build", value: "Low-EMF, premium materials" },
+      { label: "Warranty", value: "Longest" },
+    ]}
+    summary={[
+      "For people who'll use it most days and want the best build: premium materials, documented low-EMF construction, even heat, and the longest warranty.",
+      "Worth it only if you use it frequently and value the materials and support; otherwise a mid-tier blanket delivers the same sweat for less.",
+    ]}
+    pros={[
+      "Best materials and even heat",
+      "Documented low-EMF construction",
+      "Longest warranty and support",
+    ]}
+    cons={[
+      "Most expensive blanket tier",
+      "Diminishing returns vs mid-tier",
+      "Still no steam or high heat",
+    ]}
+    skipIf="you use it occasionally - a mid-tier blanket is the smarter value."
+    amazonSearch="low emf sauna blanket"
+  />
+
+  <h2 id="safety">Who should not use a sauna blanket</h2>
+  <p>
+    Heat is not safe for everyone, and a blanket encloses you. Check with a doctor first if you are
+    pregnant or have heart disease, low or unstable blood pressure, or take medications affecting
+    heat tolerance or hydration. Don't use one after alcohol, hydrate before and after, and stop if
+    you feel dizzy or unwell. Because it restricts movement, skip a blanket if you might need to get
+    out quickly. See the <a href="/sauna-guide/safety/">sauna safety guide</a> for the full picture.
+  </p>
+
+  <h2 id="bottom-line">The bottom line</h2>
+  <p>
+    For most people, a <a href="#blanket-mid">mid-tier sauna blanket</a> with a washable insert is
+    the best buy - comfortable heat, easy to keep fresh, and a fair price. Go
+    <a href="#blanket-budget">budget</a> to test the habit, or <a href="#blanket-premium">premium</a>
+    if you'll use it most days. Prefer to sit upright? Compare a
+    <a href="/portable-infrared-sauna/">sit-in portable sauna</a>. Ready for something permanent?
+    See the <a href="/infrared-sauna/">best infrared sauna guide</a> or the
+    <a href="/portable-sauna/">portable sauna hub</a>.
+  </p>
+</DecisionGuideLayout>

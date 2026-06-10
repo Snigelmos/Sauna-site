@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import { SEO } from "astro-seo";
+import Analytics from "@vercel/analytics/astro";
 import { SITE } from "@config/site";
 import SiteHeader from "@components/SiteHeader.astro";
 import SiteFooter from "@components/SiteFooter.astro";
@@ -74,14 +75,6 @@ const jsonLdArray = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     {jsonLdArray.map((data) => (
       <script is:inline type="application/ld+json" set:html={JSON.stringify(data)} />
     ))}
-    {SITE.analytics.plausibleDomain && (
-      <script
-        is:inline
-        defer
-        data-domain={SITE.analytics.plausibleDomain}
-        src={SITE.analytics.plausibleSrc}
-      ></script>
-    )}
   </head>
   <body class="bg-white text-ink-900">
     <a
@@ -95,8 +88,14 @@ const jsonLdArray = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     </main>
     <SiteFooter />
 
-    <!-- Outbound-click analytics: delegates clicks on [data-evt] elements to the
-         configured tool. No-ops safely when no analytics script is loaded. -->
+    <!-- Vercel Web Analytics: cookieless page views. Resolves only on Vercel; the
+         script no-ops locally and on other hosts. Enable Analytics in the Vercel
+         project dashboard to start collecting data. -->
+    <Analytics />
+
+    <!-- Outbound-click analytics: delegates clicks on [data-evt] elements and
+         reports them to Vercel as a custom event. No-ops safely when the Vercel
+         analytics queue is unavailable. -->
     <script is:inline>
       (function () {
         document.addEventListener(
@@ -106,20 +105,14 @@ const jsonLdArray = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
             if (!t) return;
             const name = t.getAttribute("data-evt");
             if (!name) return;
-            const props = {
+            const data = {
               label: t.getAttribute("data-evt-label") || "",
               href: t.getAttribute("href") || "",
             };
             try {
-              if (typeof window.plausible === "function") {
-                window.plausible(name, { props: props });
+              if (typeof window.va === "function") {
+                window.va("event", { name: name, ...data });
               }
-              (window.dataLayer = window.dataLayer || []).push({
-                event: "outbound_click",
-                evt_name: name,
-                evt_label: props.label,
-                evt_href: props.href,
-              });
             } catch (err) {
               /* analytics must never break navigation */
             }

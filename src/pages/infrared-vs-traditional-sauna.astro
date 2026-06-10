@@ -1,0 +1,223 @@
+---
+import DecisionGuideLayout from "@layouts/DecisionGuideLayout.astro";
+import ComparisonTable from "@components/ComparisonTable.astro";
+import Callout from "@components/Callout.astro";
+
+const title = "Infrared vs Traditional Sauna: Which Should You Buy?";
+const description =
+  "A clear, honest comparison of infrared vs traditional saunas: heat, humidity, temperature, install, operating cost, and the health evidence - plus which is better for apartments, basements, garages, and backyards.";
+const heroSubtitle =
+  "Both make you sweat; they get there in completely different ways. Infrared is the easy, low-temperature indoor option that plugs into a normal outlet. Traditional is the hot, steamy, classic sauna that needs a 240V circuit. Here is how to choose.";
+
+const pubDate = new Date("2026-06-10");
+const updatedDate = new Date("2026-06-10");
+const lastReviewed = new Date("2026-06-10");
+
+const methodologyNote =
+  "This comparison synthesizes manufacturer specifications, independent sauna references, electrical guidance, and peer-reviewed health research. We have not bench-tested every product, so we compare by format and use-case rather than inventing star ratings, and we keep health claims conservative and cited. The longevity research is overwhelmingly on traditional saunas - we say so rather than implying infrared shares the same evidence base.";
+
+const sources = [
+  {
+    name: "Sauna Guide - Infrared vs traditional sauna",
+    url: "https://sauna.guide/guides/infrared-vs-traditional-sauna",
+    accessed: new Date("2026-06-10"),
+    note: "Operating temperatures, heat mechanism, and how the two formats differ in everyday use.",
+  },
+  {
+    name: "Sun Home - Infrared vs traditional (best home sauna 2026)",
+    url: "https://sunhomesaunas.com/blogs/saunas/infrared-vs-traditional-sauna-best-home-sauna-2026",
+    accessed: new Date("2026-06-10"),
+    note: "Power draw, install differences, and the milder character of low-temperature infrared.",
+  },
+  {
+    name: "Haven of Heat - Sauna electrical requirements (240V vs 120V)",
+    url: "https://havenofheat.com/blogs/sauna-guides/sauna-electrical-requirements-complete-wiring-guide-240v-vs-120v-breaker-sizing-wire-gauge",
+    accessed: new Date("2026-06-10"),
+    note: "Why traditional electric heaters need a dedicated 240V circuit and infrared usually does not.",
+  },
+  {
+    name: "Laukkanen et al., JAMA Internal Medicine (2015)",
+    url: "https://jamanetwork.com/journals/jamainternalmedicine/fullarticle/2130724",
+    accessed: new Date("2026-06-10"),
+    note: "Observational cohort linking frequent traditional sauna use with lower cardiovascular and all-cause mortality.",
+  },
+  {
+    name: "Cleveland Clinic - Sauna benefits",
+    url: "https://health.clevelandclinic.org/sauna-benefits",
+    accessed: new Date("2026-06-10"),
+    note: "Clinic summary of benefits and contraindications worth knowing before you start.",
+  },
+];
+
+const faq = [
+  {
+    q: "Is an infrared or traditional sauna better?",
+    a: "Neither is universally better - they suit different homes and goals. Infrared runs cooler (110-150F), heats in 10-20 minutes, and usually plugs into a standard 120V outlet, which makes it the easiest daily-use option for apartments, basements, and renters. Traditional saunas run hotter (150-195F) with steam from water on the rocks, take 30-45 minutes to heat, and need a dedicated 240V circuit - but they deliver the classic high-heat experience and carry the strongest long-term health evidence. Choose infrared for convenience and easy install; choose traditional for heat, steam, and the most-studied format.",
+  },
+  {
+    q: "Does an infrared sauna get as hot as a traditional one?",
+    a: "No, and that is by design. Infrared air temperature is roughly 110-150F versus 150-195F for a traditional sauna. Infrared does not heat the air to feel hot - it uses radiant light to warm your body directly, so you sweat at a lower air temperature. If you love the intense, steamy heat of a classic sauna, infrared will feel mild by comparison.",
+  },
+  {
+    q: "Which is cheaper to run?",
+    a: "Infrared. A panel cabin draws about 1.5-3 kW and costs roughly $5-$15 a month with typical use, versus about $15-$30 for a 4.5-9 kW traditional heater. Infrared is also far cheaper to install because it usually needs no electrician - a major part of its total cost advantage.",
+  },
+  {
+    q: "Which has better health evidence?",
+    a: "Traditional saunas. The large observational studies linking frequent sauna use with lower cardiovascular and all-cause mortality were done almost entirely on hot, traditional Finnish saunas. Infrared has thinner, smaller-scale evidence - real benefits for relaxation and recovery, but not the same body of longevity data. Both are associations rather than proof of cause, and saunas are not safe for everyone, so anyone pregnant or with heart disease, unstable blood pressure, or on medication should check with a doctor first.",
+  },
+  {
+    q: "Can I put either in an apartment?",
+    a: "An infrared cabin, a portable infrared pod, or a sauna blanket is the realistic apartment choice because it runs on a normal 120V outlet and needs no installation. A traditional electric sauna needs a dedicated 240V circuit, which most rentals cannot provide - so traditional usually means a home you own with the panel capacity for it.",
+  },
+];
+
+const heroGuides = {
+  heading: "Jump to",
+  items: [
+    { award: "Compare", title: "Side by side", href: "#table" },
+    { award: "Decide", title: "By home type", href: "#by-home" },
+    { award: "Health", title: "What the evidence says", href: "#health" },
+    { award: "Verdict", title: "The bottom line", href: "#bottom-line" },
+  ],
+};
+
+const compareRows = [
+  ["Operating temp", "110-150F (radiant)", '<span class="cmp-win">150-195F</span> (some to 230F)'],
+  ["How it heats", '<span class="cmp-win">Radiant light heats your body</span>', "Heats the air and rocks; body from outside in"],
+  ["Humidity / loyly", "None (dry)", '<span class="cmp-win">Yes - water on rocks, 10-60% RH</span>'],
+  ["Heat-up time", '<span class="cmp-win">10-20 min</span>', "30-45 min"],
+  ["Session length", "30-45 min", "15-20 min per round"],
+  ["Power draw", '<span class="cmp-win">1.5-3 kW</span>', "4.5-9 kW"],
+  ["Electrical", '<span class="cmp-win">Usually 120V plug-in</span>', "240V dedicated circuit + electrician"],
+  ["Install cost", '<span class="cmp-win">$0-$500</span>', "$1,000-$3,000+"],
+  ["Typical price (2026)", "$1,500-$6,000", "$3,000-$14,000+"],
+  ["Monthly running", '<span class="cmp-win">$5-$15</span>', "$15-$30"],
+  ["Sweat character", "Lower volume, 'deeper' feeling", "High volume, fast onset"],
+  ["Health evidence", "Thinner, smaller studies", '<span class="cmp-win">Strongest long-term data</span>'],
+  ["Best for", "Daily indoor use, renters, recovery", "Heat/steam lovers, social, outdoor, max evidence"],
+];
+
+const matrixRows = [
+  ["Apartment / renter", '<span class="cmp-win">Infrared</span>', "Plug-in, no 240V, no install; or a blanket/pod to start"],
+  ["Finished basement", '<span class="cmp-win">Infrared</span> (or traditional if wired)', "Infrared is easiest; traditional needs a 240V run"],
+  ["Garage / cold room", "Either", "Traditional handles cold better; size the heater up"],
+  ["Backyard / outdoor", '<span class="cmp-win">Traditional</span>', "Barrel or cabin with electric or wood heat"],
+  ["Athlete / recovery", "Either", "Infrared for daily use; traditional for max heat"],
+  ["Lowest entry cost", '<span class="cmp-win">Infrared / blanket</span>', "Blankets from a few hundred dollars"],
+];
+---
+
+<DecisionGuideLayout
+  title={title}
+  description={description}
+  hubSlug="home-sauna"
+  heroSubtitle={heroSubtitle}
+  image="/images/heroes/sauna-guide.webp"
+  imageAlt="An infrared cabin with glowing panels beside a traditional cedar sauna with a rock heater."
+  pubDate={pubDate}
+  updatedDate={updatedDate}
+  lastReviewed={lastReviewed}
+  methodologyNote={methodologyNote}
+  sources={sources}
+  faq={faq}
+  heroGuides={heroGuides}
+>
+  <p>
+    It is the first question almost everyone asks: <strong>infrared or traditional?</strong> Both
+    make you sweat and both can be good for you, but they are fundamentally different machines. A
+    traditional sauna heats the <em>air</em> (and a pile of rocks) to a high temperature and lets you
+    pour water on for steam. An infrared sauna barely warms the air at all - it uses radiant light to
+    heat your <em>body</em> directly, so you sweat at a much lower temperature.
+  </p>
+  <p>
+    That one difference drives everything else: how hot it feels, how it installs, what it costs to
+    run, and which one fits your home. Here is the honest comparison, then a decision matrix by home
+    type so you can choose quickly.
+  </p>
+
+  <Callout variant="tip" title="The 10-second verdict">
+    <p>
+      Choose <strong>infrared</strong> if you want easy, low-temperature heat you will actually use
+      daily, especially in an apartment, basement, or any room without a 240V circuit. Choose
+      <strong>traditional</strong> if you want real high heat, steam, the classic sauna experience,
+      and the strongest health evidence - and you have the space and electrical for it.
+    </p>
+  </Callout>
+
+  <h2 id="table">Infrared vs traditional, side by side</h2>
+  <p>
+    Every row below comes down to the same root cause - radiant light versus hot air and steam.
+    There is no wrong answer here, just a trade between convenience and intensity.
+  </p>
+
+  <ComparisonTable
+    caption="Infrared vs traditional sauna compared across temperature, heat, humidity, install, cost, and evidence"
+    headers={["Factor", "Infrared", "Traditional"]}
+    rows={compareRows}
+  />
+
+  <h2 id="feel">How each one actually feels</h2>
+  <p>
+    <strong>Traditional</strong> is the sauna most people picture: 175-195F, wood walls, a rock
+    heater, and that wave of heat when you ladle water over the stones (loyly). Sweat comes fast and
+    heavy, sessions are short (15-20 minutes with cool-down rounds), and it feels intense and
+    immersive. <strong>Infrared</strong> feels milder and quieter - the air stays around 120-140F, so
+    you can sit comfortably for 30-45 minutes while the radiant heat warms you from the inside. Many
+    people find infrared easier to tolerate and easier to make a daily habit; purists find it lacks
+    the punch and ritual of steam.
+  </p>
+
+  <h2 id="install">Installation &amp; running cost</h2>
+  <p>
+    This is where the practical decision is usually made. An infrared cabin typically
+    <strong>plugs into a normal 120V outlet</strong> and is essentially plug-and-play, with little or
+    no electrician cost and about $5-$15 a month to run. A traditional electric sauna needs a
+    <strong>dedicated 240V circuit</strong> sized to the heater, installed by a licensed electrician,
+    which can add $1,000-$3,000+ before you account for a possible panel upgrade. If you are weighing
+    the wiring, our <a href="/sauna-heater/">sauna heater guide</a> covers circuit and breaker sizing,
+    and the <a href="/tools/sauna-cost-calculator/">cost calculator</a> estimates the full build for
+    either format.
+  </p>
+
+  <h2 id="by-home">Which is better for your home?</h2>
+  <p>
+    The right choice is mostly about your space and electrical situation, not a universal winner.
+  </p>
+
+  <ComparisonTable
+    caption="Infrared vs traditional sauna recommendation by home type and goal"
+    headers={["Your situation", "Lean toward", "Why"]}
+    rows={matrixRows}
+  />
+
+  <h2 id="health">What the health evidence actually says</h2>
+  <p>
+    Be careful here, because marketing blurs it. The headline longevity findings - large Finnish
+    cohort studies associating frequent sauna use with lower cardiovascular and all-cause mortality -
+    were done on <strong>traditional, high-heat saunas</strong>, not infrared. Infrared has real,
+    documented benefits for relaxation, comfort, and post-exercise recovery, but its evidence base is
+    thinner and smaller-scale. Both bodies of research show association, not proof of cause.
+  </p>
+  <p>
+    The honest takeaway: do not buy infrared expecting the same longevity data as traditional, and do
+    not buy either expecting detox or weight-loss miracles - those claims are not supported. Pick on
+    lifestyle fit, because the sauna you will actually use several times a week is the one that helps
+    you. For the full, cited picture, see our
+    <a href="/sauna-guide/infrared-sauna-benefits/">infrared sauna benefits</a> and
+    <a href="/sauna-guide/benefits/">sauna benefits</a> guides. Saunas are not for everyone: if you
+    are pregnant, have heart disease, unstable blood pressure, or take medications, talk to a
+    physician first.
+  </p>
+
+  <h2 id="bottom-line">The bottom line</h2>
+  <p>
+    If you live in an apartment or want a low-effort daily habit, go <strong>infrared</strong> - see
+    our <a href="/infrared-sauna/">best infrared sauna guide</a>, or start even cheaper with a
+    <a href="/portable-infrared-sauna/">portable infrared sauna</a> or
+    <a href="/sauna-blanket/">sauna blanket</a>. If you want true high heat, steam, and the
+    best-studied format - and you have the space and 240V - go <strong>traditional</strong>, indoors
+    or as an <a href="/outdoor-sauna/">outdoor sauna</a>. Still weighing all the formats? Start with
+    the <a href="/home-sauna/">best home sauna guide</a>.
+  </p>
+</DecisionGuideLayout>

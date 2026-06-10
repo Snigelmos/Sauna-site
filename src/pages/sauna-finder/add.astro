@@ -36,7 +36,7 @@ const inputClass =
     <section>
       <h2 class="text-xl font-bold text-ink-900">Submit a new sauna</h2>
       {endpoint ? (
-        <form action={endpoint} method="POST" class="mt-5 space-y-4" data-netlify="true" name="sauna-submission">
+        <form action={endpoint} method="POST" class="mt-5 space-y-4" name="sauna-submission">
           <input type="hidden" name="form-type" value="new-sauna" />
           <input type="hidden" name="_subject" value="Sauna finder: new sauna" />
           <div>
@@ -97,7 +97,7 @@ const inputClass =
       <h2 class="text-xl font-bold text-ink-900">Report an error</h2>
       <p class="mt-2 text-sm text-ink-600">Something not right on a sauna page? Tell us what - and we'll fix it.</p>
       {endpoint ? (
-        <form action={endpoint} method="POST" class="mt-5 space-y-4" data-netlify="true" name="sauna-report">
+        <form action={endpoint} method="POST" class="mt-5 space-y-4" name="sauna-report">
           <input type="hidden" name="form-type" value="report" />
           <input type="hidden" name="_subject" value="Sauna finder: error report" />
           <div>

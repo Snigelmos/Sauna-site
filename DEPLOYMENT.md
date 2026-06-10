@@ -52,8 +52,15 @@ Keep these aligned with the chosen canonical domain (currently the placeholder `
 These ship as safe placeholders and degrade gracefully; finalize when ready:
 
 - Amazon Associates tag: `src/config/affiliate.ts` -> `AFFILIATE.amazonTag` (currently `PLACEHOLDER-20`; links render untagged until set).
-- Analytics: `src/config/site.ts` -> `analytics.plausibleDomain` (empty = no analytics script). Decision pending: Plausible (already wired) vs Vercel Web Analytics (as used on the camping guide).
-- Form backend: `src/config/site.ts` -> `forms.saunaSubmissionEndpoint` (empty = the add/report forms fall back to a mailto link). Use a Formspree endpoint; note `data-netlify` attributes in `add.astro` are no-ops on Vercel.
+- Form backend: `src/config/site.ts` -> `forms.saunaSubmissionEndpoint` (empty = the add/report forms fall back to a mailto link). Use a Formspree endpoint (`https://formspree.io/f/xxxx`).
+
+## Analytics
+
+Analytics is Vercel Web Analytics (cookieless), wired via the `<Analytics />` component in `src/layouts/BaseLayout.astro`. The outbound-click tracker reports custom events to it. There is nothing to configure in the codebase and no domain to paste:
+
+1. After importing the project, open the Vercel project -> Analytics tab and enable Web Analytics.
+2. It activates automatically on the next production deploy; the script no-ops locally and on non-Vercel hosts.
+3. Page-view analytics are included on all plans; custom events (outbound clicks) may require a paid plan.
 
 ## Pre-Publish Checks
 
