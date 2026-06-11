@@ -9,7 +9,7 @@
  * via the manufacturer link once those programs are live.
  */
 export const AFFILIATE = {
-  amazonTag: "PLACEHOLDER-20" as string,
+  amazonTag: "thehomerecovery-20" as string,
   storefrontDomain: "amazon.com",
   disclosure:
     "We may earn a commission when you buy through links on this page, at no extra cost to you. Commissions never influence which products we recommend or how we describe them, and we tell you when we have not tested something first-hand.",
