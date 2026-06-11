@@ -1,0 +1,186 @@
+---
+import GuideArticleLayout from "@layouts/GuideArticleLayout.astro";
+import ComparisonTable from "@components/ComparisonTable.astro";
+import Callout from "@components/Callout.astro";
+
+const title = "Cold Plunge vs Sauna: Which Should You Choose? (Or Both)";
+const description =
+  "Cold plunge vs sauna, compared honestly: what each does, how strong the evidence is, who should be cautious, and which to pick if you can only do one - plus why most people end up doing both.";
+const intro =
+  "They sound like rivals, but a cold plunge and a sauna do almost opposite things. Here is how they really compare - and how to decide between them, or combine them.";
+
+const updatedDate = new Date("2026-06-11");
+const pubDate = new Date("2026-06-11");
+
+const sources = [
+  {
+    name: "Laukkanen et al., 2015, JAMA Internal Medicine - Sauna bathing and cardiovascular and all-cause mortality",
+    url: "https://jamanetwork.com/journals/jamainternalmedicine/fullarticle/2130724",
+  },
+  {
+    name: "Cain et al., 2025, PLOS One - Effects of cold-water immersion on health and wellbeing",
+    url: "https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0317615",
+  },
+  {
+    name: "Harvard Health - Cold plunges: healthy or harmful for your heart?",
+    url: "https://www.health.harvard.edu/heart-health/cold-plunges-healthy-or-harmful-for-your-heart",
+  },
+  {
+    name: "Cleveland Clinic - What to know about cold plunges",
+    url: "https://health.clevelandclinic.org/what-to-know-about-cold-plunges",
+  },
+];
+
+const faq = [
+  {
+    q: "Is a sauna or cold plunge better for you?",
+    a: "They do different things, so 'better' depends on your goal. The strongest long-term health evidence is on regular traditional sauna use (large observational studies link it with lower cardiovascular and all-cause mortality). Cold plunging has thinner, earlier evidence - some support for sleep, recovery, and stress resilience, but not the mood or immunity claims often made for it. If you want the more-proven habit, that is the sauna.",
+  },
+  {
+    q: "Should I do a cold plunge or sauna for muscle recovery?",
+    a: "Both can help soreness, but timing matters. A cold plunge can reduce next-day soreness, yet doing it right after strength training may blunt muscle-building adaptations. Heat does not appear to blunt that signal, so on lifting days a sauna is often the safer recovery choice. For general soreness on non-lifting days, either works.",
+  },
+  {
+    q: "Can you do a sauna and cold plunge together?",
+    a: "Yes - alternating hot and cold (contrast therapy) is the most popular way to use both, usually sauna first then a short cold bout, repeated a couple of times. The key safety rule is to transition gradually rather than going straight from extreme heat into extreme cold.",
+  },
+  {
+    q: "Which is safer, a sauna or a cold plunge?",
+    a: "For healthy adults, both are generally well tolerated in moderation, but the risks differ. Saunas mainly stress you through heat and dehydration; cold plunges add the cold-shock response (a sudden gasp and heart-rate and blood-pressure spike) that can be hazardous for people with heart, rhythm, or circulation conditions. Anyone with those conditions, high blood pressure, diabetes, or who is pregnant should check with a doctor before either - and be especially cautious with cold.",
+  },
+];
+
+const rows = [
+  [
+    "What it is",
+    "Dry or steamy heat, ~45-90&deg;C (110-195&deg;F)",
+    "Cold-water immersion, ~10-15&deg;C (50-59&deg;F) to start",
+  ],
+  [
+    "Main effect on the body",
+    "Blood vessels dilate; heart rate rises like light exercise",
+    "Cold-shock response; vessels constrict; blood pressure spikes",
+  ],
+  [
+    "Strength of evidence",
+    "Strongest - large long-term observational studies",
+    "Early - few small, mostly short-term trials",
+  ],
+  [
+    "Best supported for",
+    "Cardiovascular health, relaxation, longevity signal",
+    "Sleep, recovery/soreness, possibly stress resilience",
+  ],
+  [
+    "Overclaimed for",
+    "Detox, weight loss (ignore these)",
+    "Instant mood boost, immunity, fat loss (unproven)",
+  ],
+  [
+    "Who should be cautious",
+    "Pregnancy, heart conditions, unstable blood pressure",
+    "Heart/rhythm/circulation conditions, diabetes, pregnancy",
+  ],
+  [
+    "Cheapest way to start",
+    "Portable infrared or a hot shower",
+    "A cold shower - no tub required",
+  ],
+];
+---
+
+<GuideArticleLayout
+  title={title}
+  description={description}
+  eyebrow="Comparison"
+  intro={intro}
+  heroImage="/images/heroes/cold-plunge.webp"
+  heroImageAlt="A cedar sauna and a cold plunge tub side by side, warm light against cold water."
+  updatedDate={updatedDate}
+  pubDate={pubDate}
+  parentLabel="Cold plunge"
+  parentHref="/cold-plunge/"
+  healthDisclaimer="This is general educational information, not medical advice. Neither heat nor cold immersion is safe for everyone; check with a doctor before starting if you have a heart, blood-pressure, rhythm, or circulation condition, diabetes, or are pregnant."
+  faq={faq}
+  sources={sources}
+>
+  <p>
+    "Cold plunge vs sauna" frames the two as competitors, but they are closer to opposites that
+    happen to pair well. A sauna heats you; a cold plunge chills you. Each stresses your body in a
+    different direction, and your body adapts to both. So the real questions are: which has the better
+    evidence, which fits your goal, and should you actually be choosing at all?
+  </p>
+
+  <h2>The honest headline</h2>
+  <p>
+    If you want the habit with the <strong>strongest evidence</strong>, it is the sauna. Large,
+    long-term observational studies - led by
+    <a href="https://jamanetwork.com/journals/jamainternalmedicine/fullarticle/2130724" rel="noopener nofollow" target="_blank">Laukkanen et al. (2015)</a> -
+    link frequent traditional sauna use with lower cardiovascular and all-cause mortality. Cold
+    plunging's evidence is younger and thinner: a
+    <a href="https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0317615" rel="noopener nofollow" target="_blank">2025 review</a>
+    found modest, time-dependent benefits for sleep, recovery, and stress, but little support for the
+    mood and immunity claims. Neither is a cure-all, and both have caveats - but on weight of
+    evidence, the sauna leads.
+  </p>
+
+  <h2>Side by side</h2>
+  <ComparisonTable
+    caption="Cold plunge vs sauna compared by effect, evidence, best use, cautions, and cost to start"
+    headers={["", "Sauna", "Cold plunge"]}
+    rows={rows}
+  />
+
+  <h2>What each is best at</h2>
+  <p>
+    <strong>Reach for the sauna</strong> if your priority is long-term cardiovascular health,
+    relaxation and winding down, or recovery after strength training (heat does not appear to blunt
+    muscle growth). It is also the gentler on-ramp for most beginners. See
+    <a href="/sauna-guide/benefits/">sauna benefits</a> for the evidence in full.
+  </p>
+  <p>
+    <strong>Reach for the cold plunge</strong> if you want a sharp alertness reset, help with
+    next-day soreness on non-lifting days, or you simply enjoy the post-cold clarity and find it helps
+    your sleep. Just respect the safety rules in <a href="/cold-plunge/how-to/">how to cold plunge</a>
+    - the first minute is where the real risk lives.
+  </p>
+
+  <h2>If you can only do one</h2>
+  <p>
+    For most people most of the time, choose the <strong>sauna</strong>: it has the stronger evidence,
+    it is easier to do consistently, and it is more forgiving if you have minor health considerations
+    (though pregnancy and heart conditions still warrant a doctor's input). Pick the
+    <strong>cold plunge</strong> only as your single tool if your specific goal is acute recovery or
+    you genuinely prefer cold - and only after clearing it with a clinician if you have any heart,
+    rhythm, or circulation condition.
+  </p>
+
+  <Callout variant="tip" title="Most people don't actually choose">
+    <p>
+      The "vs" is a bit of a false choice. The classic move is to do <strong>both</strong>, alternating
+      hot and cold - which is exactly what <a href="/cold-plunge/contrast-therapy/">contrast therapy at
+      home</a> is. You get the sauna's heat benefits and the cold's alertness reset in one session, and
+      you can start with nothing more than a sauna and a cold shower.
+    </p>
+  </Callout>
+
+  <h2>A word on safety either way</h2>
+  <p>
+    Both are real physiological stressors. Saunas mainly tax you through heat and fluid loss; cold
+    plunges add the cold-shock response that the
+    <a href="https://health.clevelandclinic.org/what-to-know-about-cold-plunges" rel="noopener nofollow" target="_blank">Cleveland Clinic</a>
+    and <a href="https://www.health.harvard.edu/heart-health/cold-plunges-healthy-or-harmful-for-your-heart" rel="noopener nofollow" target="_blank">Harvard Health</a>
+    flag as risky for anyone with heart-rhythm or circulation problems. If you have a heart condition,
+    high or unstable blood pressure, diabetes, or are pregnant, talk to a doctor before starting
+    either - and be especially careful with cold.
+  </p>
+
+  <h2>The bottom line</h2>
+  <p>
+    A sauna and a cold plunge are not rivals so much as two halves of a recovery routine. If you only
+    have the appetite (or budget) for one, start with the sauna and its stronger evidence - the
+    <a href="/home-sauna/">best home sauna guide</a> will help you pick a format. When you are ready to
+    add cold, the <a href="/cold-plunge/how-to/">how-to</a> and
+    <a href="/cold-plunge/contrast-therapy/">contrast therapy</a> guides take it from there.
+  </p>
+</GuideArticleLayout>
