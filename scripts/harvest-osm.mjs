@@ -27,7 +27,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 
 const USER_AGENT =
-  "bastukartan-harvester/1.0 (sauna finder pilot; contact: hello@homesaunaguide.com)";
+  "bastukartan-harvester/1.0 (sauna finder pilot; contact: hello@thehomerecovery.com)";
 
 const ENDPOINTS = [
   "https://overpass-api.de/api/interpreter",

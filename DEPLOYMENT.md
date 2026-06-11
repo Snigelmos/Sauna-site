@@ -1,6 +1,6 @@
 # Deployment Runbook
 
-Admin-only launch notes for getting Home Sauna Guide onto Vercel at `https://www.homesaunaguide.com`. Mirrors the Off-Grid Vehicle Camping guide setup.
+Admin-only launch notes for getting Home Sauna Guide onto Vercel at `https://www.thehomerecovery.com`. Mirrors the Off-Grid Vehicle Camping guide setup.
 
 ## Current Hosting Target
 
@@ -26,7 +26,7 @@ The project is static Astro output (`output: "static"`), so it does not need ser
    - Build command: `npm run build`
    - Output directory: `dist`
 4. Deploy. Verify the Vercel preview URL (see Pre-Publish Checks).
-5. Add the production domain `homesaunaguide.com` and the `www` variant.
+5. Add the production domain `thehomerecovery.com` and the `www` variant.
 6. Set apex -> `www` (or your chosen canonical) redirect.
 7. Wait for HTTPS certificates to become active, then promote to production.
 
@@ -41,7 +41,7 @@ If using Cloudflare, keep proxying off until the Vercel certificate and redirect
 
 ## Domain Metadata (finalize before assigning the production domain)
 
-Keep these aligned with the chosen canonical domain (currently the placeholder `www.homesaunaguide.com`):
+Keep these aligned with the chosen canonical domain (currently `www.thehomerecovery.com`):
 
 - `astro.config.mjs` -> `site`
 - `src/config/site.ts` -> `SITE.url`
@@ -51,7 +51,7 @@ Keep these aligned with the chosen canonical domain (currently the placeholder `
 
 These ship as safe placeholders and degrade gracefully; finalize when ready:
 
-- Amazon Associates tag: `src/config/affiliate.ts` -> `AFFILIATE.amazonTag` (currently `PLACEHOLDER-20`; links render untagged until set).
+- Amazon Associates tag: `src/config/affiliate.ts` -> `AFFILIATE.amazonTag` (set to `thehomerecovery-20`; if reset to `PLACEHOLDER-20`, links render untagged).
 - Form backend: `src/config/site.ts` -> `forms.saunaSubmissionEndpoint` (empty = the add/report forms fall back to a mailto link). Use a Formspree endpoint (`https://formspree.io/f/xxxx`).
 
 ## Analytics
@@ -77,6 +77,6 @@ Run before assigning the production domain or requesting indexing:
 
 Use DNS TXT verification if possible. After launch, submit:
 
-- `https://www.homesaunaguide.com/sitemap-index.xml`
+- `https://www.thehomerecovery.com/sitemap-index.xml`
 
 Request indexing for the homepage first, then the priority hub/guide pages.

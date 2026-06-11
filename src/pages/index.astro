@@ -16,8 +16,11 @@ const jsonLd = buildGraph([
   organizationNode(),
   websiteNode(),
   itemListNode({
-    name: "Home sauna categories",
-    items: HUBS.map((h) => ({ name: h.title, url: h.href })),
+    name: "Home sauna and recovery guides",
+    items: [
+      ...HUBS.map((h) => ({ name: h.title, url: h.href })),
+      { name: "Cold plunge & contrast therapy", url: "/cold-plunge/" },
+    ],
   }),
 ]);
 
@@ -238,6 +241,12 @@ const guideTopics = [
         <li>
           <a href="/cold-plunge/contrast-therapy/" class="group flex items-center justify-between gap-3 rounded-2xl border border-white/15 bg-white/5 px-5 py-4 no-underline transition-colors hover:bg-white/10">
             <span class="font-semibold text-white">Contrast therapy at home</span>
+            <span aria-hidden="true" class="text-sand-200 group-hover:translate-x-0.5">&rarr;</span>
+          </a>
+        </li>
+        <li>
+          <a href="/cold-plunge/cold-plunge-vs-sauna/" class="group flex items-center justify-between gap-3 rounded-2xl border border-white/15 bg-white/5 px-5 py-4 no-underline transition-colors hover:bg-white/10">
+            <span class="font-semibold text-white">Cold plunge vs sauna</span>
             <span aria-hidden="true" class="text-sand-200 group-hover:translate-x-0.5">&rarr;</span>
           </a>
         </li>

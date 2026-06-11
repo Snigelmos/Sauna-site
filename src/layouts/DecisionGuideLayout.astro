@@ -31,6 +31,8 @@ export interface Props {
   ogImage?: string;
   image?: string;
   imageAlt?: string;
+  /** Whether this guide contains affiliate links. Controls the disclosure. */
+  hasAffiliate?: boolean;
   /** Optional hero CTAs / further-reading bubbles. */
   heroGuides?: {
     heading?: string;
@@ -53,6 +55,7 @@ const {
   image,
   imageAlt,
   heroGuides,
+  hasAffiliate = true,
 } = Astro.props;
 
 const hub = HUBS.find((h) => h.slug === hubSlug);
@@ -141,6 +144,13 @@ const breadcrumbCrumbs = crumbItems.map((c, i) =>
         <span class="text-xs text-ink-500">Reviewed {dateFmt.format(lastReviewed)}</span>
       </div>
 
+      {hasAffiliate && (
+        <p class="decision-disclosure-band mt-5" aria-label="Affiliate disclosure">
+          <strong>Disclosure:</strong> Some links on this page are affiliate links - we may earn a commission at no extra cost to you. Commissions never change our recommendations.
+          <a class="decision-disclosure-band__link" href="/disclosure/">Read the full disclosure</a>.
+        </p>
+      )}
+
       <div class="prose prose-lg mt-8 max-w-none">
         <slot />
       </div>
@@ -199,10 +209,12 @@ const breadcrumbCrumbs = crumbItems.map((c, i) =>
         </ol>
       </section>
 
-      <p class="decision-disclosure-band decision-disclosure-band--foot">
-        <strong>Disclosure:</strong> Some links on this page are affiliate links. Commissions never change our recommendations.
-        <a class="decision-disclosure-band__link" href="/disclosure/">Read the full disclosure</a>.
-      </p>
+      {hasAffiliate && (
+        <p class="decision-disclosure-band decision-disclosure-band--foot">
+          <strong>Disclosure:</strong> Some links on this page are affiliate links. Commissions never change our recommendations.
+          <a class="decision-disclosure-band__link" href="/disclosure/">Read the full disclosure</a>.
+        </p>
+      )}
     </div>
 
     <aside class="space-y-4 lg:sticky lg:top-24 lg:self-start">

@@ -14,10 +14,12 @@ import { HUBS } from "@config/site";
     <div class="mx-auto mt-8 flex max-w-2xl flex-wrap justify-center gap-3">
       <a href="/" class="page-chip no-underline">Home</a>
       <a href="/home-sauna/" class="page-chip no-underline">Best home sauna</a>
-      <a href="/tools/sauna-cost-calculator/" class="page-chip no-underline">Cost calculator</a>
       {HUBS.map((h) => (
         <a href={h.href} class="page-chip no-underline">{h.title}</a>
       ))}
+      <a href="/sauna-guide/" class="page-chip no-underline">Sauna guide</a>
+      <a href="/cold-plunge/" class="page-chip no-underline">Cold plunge</a>
+      <a href="/tools/sauna-cost-calculator/" class="page-chip no-underline">Cost calculator</a>
     </div>
   </section>
 </BaseLayout>

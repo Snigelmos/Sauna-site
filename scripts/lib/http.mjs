@@ -18,7 +18,7 @@ export const ROOT = path.resolve(__dirname, "../..");
 const CACHE_DIR = path.resolve(ROOT, "data/raw/.cache");
 
 export const USER_AGENT =
-  "bastukartan-harvester/1.0 (sauna finder pilot; contact: hello@homesaunaguide.com)";
+  "bastukartan-harvester/1.0 (sauna finder pilot; contact: hello@thehomerecovery.com)";
 
 export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 

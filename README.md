@@ -39,8 +39,8 @@ research/            citation-grade source dossiers (not deployed)
 
 ## Configuration
 
-- **Brand / domain / hubs:** `src/config/site.ts` (placeholders: "Home Sauna Guide", `homesaunaguide.com`).
-- **Affiliate:** set `amazonTag` in `src/config/affiliate.ts`. While it stays `PLACEHOLDER-20`, links render without a fake tag.
+- **Brand / domain / hubs:** `src/config/site.ts` (brand "Home Sauna Guide", domain `thehomerecovery.com`).
+- **Affiliate:** `amazonTag` in `src/config/affiliate.ts` is set to `thehomerecovery-20`. If reset to `PLACEHOLDER-20`, links render without a tag.
 - **Images:** the GPT image API can replace the SVG placeholders/hero art later; nothing is hot-linked.
 
 ## Editorial guardrails

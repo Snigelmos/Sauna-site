@@ -3,6 +3,7 @@
  * domain, or hub structure changes. Brand name is still "Home Sauna Guide"
  * (broaden later); the live domain is thehomerecovery.com - swap them here and
  * everything else (OG tags, schema, footer, canonical URLs) updates automatically.
+ * The site now also covers recovery (cold plunge, contrast therapy) alongside saunas.
  *
  * Authorship is a neutral editorial-team byline on purpose: we do not fabricate
  * a named person, credentials, first-hand testing, or expert review.
@@ -12,7 +13,7 @@ export const SITE = {
   shortName: "HSG",
   url: "https://www.thehomerecovery.com",
   description:
-    "Independent buyer guides for home saunas: infrared cabins, outdoor and barrel saunas, portable saunas, sauna blankets, heaters, and DIY kits. We compare formats by home type, budget, space, and electrical needs - no fabricated testing, no fake ratings.",
+    "Independent guides to home saunas and recovery: infrared, traditional, outdoor and portable saunas, plus cold plunge and contrast therapy - compared honestly, no hype.",
   defaultImage: "/images/og/og-default.png",
   locale: "en_US",
   language: "en",
