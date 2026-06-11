@@ -1,0 +1,157 @@
+---
+import GuideArticleLayout from "@layouts/GuideArticleLayout.astro";
+
+const title = "Cold Plunge Benefits: What the 2025 Evidence Actually Shows";
+const description =
+  "An honest, cited look at cold plunge and cold-water immersion benefits - what a 2025 review of 3,177 people found for stress, sleep, and recovery, the mood and immunity claims that are not supported, and who should be cautious.";
+const intro =
+  "Cold plunging is having a moment, and the claims have run well ahead of the science. Here is what the best current evidence supports, what it does not, and how to read the hype.";
+
+const updatedDate = new Date("2026-06-11");
+const pubDate = new Date("2026-06-11");
+
+const sources = [
+  {
+    name: "Cain et al., 2025, PLOS One - Effects of cold-water immersion on health and wellbeing: a systematic review and meta-analysis",
+    url: "https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0317615",
+  },
+  {
+    name: "University of South Australia / ScienceDaily - The big chill: is cold-water immersion good for our health? (summary of the 2025 review)",
+    url: "https://www.sciencedaily.com/releases/2025/01/250131110704.htm",
+  },
+  {
+    name: "Harvard Health - Cold plunges: healthy or harmful for your heart?",
+    url: "https://www.health.harvard.edu/heart-health/cold-plunges-healthy-or-harmful-for-your-heart",
+  },
+  {
+    name: "Cleveland Clinic - What to know about cold plunges",
+    url: "https://health.clevelandclinic.org/what-to-know-about-cold-plunges",
+  },
+  {
+    name: "Mayo Clinic Health System - Cold-water plunging health benefits",
+    url: "https://www.mayoclinichealthsystem.org/hometown-health/speaking-of-health/cold-plunge-after-workouts",
+  },
+];
+
+const faq = [
+  {
+    q: "Does a cold plunge actually reduce stress?",
+    a: "The best current evidence is mixed and time-dependent. A 2025 systematic review in PLOS One (11 studies, 3,177 people) found a meaningful drop in stress about 12 hours after cold-water immersion, but no significant effect immediately, at 1 hour, 24 hours, or 48 hours. So a plunge is not a reliable instant stress reliever, though many people report feeling calmer and clearer afterward.",
+  },
+  {
+    q: "Do cold plunges boost your immune system or mood?",
+    a: "The 2025 review found little evidence to support immunity or mood improvements - two of the most popular claims. One narrative finding (a 29% reduction in sickness absence among regular cold-shower takers) is interesting but not strong proof. Treat 'boosts immunity' and 'instant mood lift' as unproven for now.",
+  },
+  {
+    q: "Is a cold plunge good for muscle recovery?",
+    a: "Cold-water immersion does appear to reduce exercise-induced muscle soreness, which is why athletes have used ice baths for years. The catch: cold immersion right after strength training may blunt some muscle-building adaptations. If your goal is muscle growth, avoid plunging in the few hours after a hard lifting session - and lean on heat (a sauna) instead, which does not appear to blunt that signal.",
+  },
+  {
+    q: "Is cold plunging safe?",
+    a: "For healthy adults who start gently it is generally tolerable, but it carries real risks: the cold-shock response (gasping and a heart-rate and blood-pressure spike), hypothermia, and cardiovascular strain. It is not safe for everyone. If you have heart disease, high blood pressure, a heart-rhythm disorder, circulation problems, diabetes, or are pregnant, talk to a doctor first. See our how-to guide for safe temperatures and times.",
+  },
+];
+---
+
+<GuideArticleLayout
+  title={title}
+  description={description}
+  eyebrow="Evidence"
+  intro={intro}
+  heroImage="/images/heroes/cold-plunge.webp"
+  heroImageAlt="A wooden cold plunge tub of clear water beside a sauna in soft daylight."
+  updatedDate={updatedDate}
+  pubDate={pubDate}
+  parentLabel="Cold plunge"
+  parentHref="/cold-plunge/"
+  healthDisclaimer="Health information here is general and educational, kept conservative and cited - not medical advice. Cold-water immersion is not safe for everyone; check with a doctor before starting if you have a heart, blood-pressure, circulation, or other health condition, or are pregnant."
+  faq={faq}
+  sources={sources}
+>
+  <p>
+    Cold plunging - sitting in water around 10-15&deg;C (50-59&deg;F) for a minute or a few - has
+    gone from athlete recovery tool to wellness trend, and with it has come a wave of confident
+    claims: melts fat, fixes your mood, supercharges immunity. The honest picture is more modest. The
+    practice has some real, if early, benefits, and a few popular claims the evidence simply does not
+    support yet.
+  </p>
+  <p>
+    One framing first: most cold-plunge research is <strong>small and short-term</strong>, often in
+    young, mostly male participants. The most useful single source right now is a
+    <a href="https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0317615" rel="noopener nofollow" target="_blank">2025 systematic review and meta-analysis in PLOS One</a>
+    that pooled 11 studies and 3,177 people. It is the lens for most of what follows - and even its
+    authors call for larger, better trials.
+  </p>
+
+  <h2>Stress: a delayed effect, not an instant fix</h2>
+  <p>
+    The 2025 review found a significant <em>reduction</em> in stress about <strong>12 hours</strong>
+    after cold-water immersion - but no significant effect immediately afterward, or at 1, 24, or 48
+    hours. That is a more interesting and more honest result than "cold water calms you down." It
+    suggests cold exposure works partly as a <em>hormetic stressor</em>: a short, sharp challenge your
+    body adapts to, with benefits showing up later rather than in the moment. Plenty of people do
+    report feeling alert and clear-headed right after a plunge, which is real and worthwhile - just
+    not the same as a measured stress reduction.
+  </p>
+
+  <h2>Sleep and quality of life: promising</h2>
+  <p>
+    Across the pooled studies, cold-water immersion was associated with improvements in
+    <strong>sleep quality</strong> and self-reported <strong>quality of life</strong>. These are
+    encouraging signals rather than settled facts - the studies are few and the samples small - but
+    they are among the more consistent findings, and they line up with what regular plungers tend to
+    describe.
+  </p>
+
+  <h2>Mood and immunity: not supported (yet)</h2>
+  <p>
+    Two of the loudest claims are the weakest. The review found <strong>little evidence</strong> that
+    cold-water immersion boosts mood or immunity. There was one intriguing narrative finding - regular
+    cold-shower takers had about a <strong>29% reduction in sickness absence</strong> from work - but
+    that is not strong proof of an immune effect, and the meta-analysis of immune markers showed no
+    significant change. <a href="https://www.health.harvard.edu/heart-health/cold-plunges-healthy-or-harmful-for-your-heart" rel="noopener nofollow" target="_blank">Harvard Health</a>
+    reaches the same conclusion: the proof behind the big claims is shaky.
+  </p>
+
+  <h2>Recovery and soreness: the oldest, most credible use</h2>
+  <p>
+    Athletes have used ice baths for decades for a reason. As the
+    <a href="https://www.mayoclinichealthsystem.org/hometown-health/speaking-of-health/cold-plunge-after-workouts" rel="noopener nofollow" target="_blank">Mayo Clinic Health System</a>
+    notes, cold-water immersion appears to reduce the exercise-induced muscle damage and inflammation
+    that drive next-day soreness, helping restore performance. There is an important caveat: doing it
+    <em>right after resistance training</em> may blunt some of the muscle-building (hypertrophy and
+    strength) adaptations you trained for. So if you lift for size or strength, keep the plunge away
+    from the hour or two after that session - and remember that <strong>heat</strong> does not appear
+    to blunt the muscle-building signal, which is one reason a <a href="/sauna-guide/benefits/">sauna</a>
+    can be the friendlier recovery tool on lifting days.
+  </p>
+
+  <h2>The inflammation point cuts both ways</h2>
+  <p>
+    The review measured a clear <strong>spike</strong> in inflammation immediately and one hour after
+    immersion - the body reacting to a stressor. Over time, that repeated, controlled stress is
+    thought to drive helpful adaptation. But the short-term spike is exactly why people with
+    pre-existing conditions need to be careful: the same jolt that helps a healthy athlete adapt can
+    be a genuine strain elsewhere. This is why "reduces inflammation" is too simple a headline - it
+    goes <em>up</em> acutely before any longer-term benefit.
+  </p>
+
+  <h2>What to ignore</h2>
+  <ul>
+    <li><strong>Fat loss / "brown fat" weight-loss claims.</strong> Cold exposure can nudge metabolism, but there is no good evidence it is a meaningful weight-loss method. Treat it as marketing.</li>
+    <li><strong>"Detox."</strong> Like saunas, cold plunges do not detox you - your liver and kidneys do that.</li>
+    <li><strong>Guaranteed mood or immunity boosts.</strong> Popular, but not supported by the current pooled evidence.</li>
+    <li><strong>Colder is always better.</strong> Lower temperatures raise risk faster than benefit. There is no proven "optimal" extreme.</li>
+  </ul>
+
+  <h2>The honest bottom line</h2>
+  <p>
+    Cold plunging looks like a modest, real tool for sleep, recovery, and possibly stress resilience -
+    not a cure-all, and not risk-free. If you enjoy it and you are healthy, the downside of a sensible
+    routine is small. If you have a heart, blood-pressure, rhythm, or circulation condition, diabetes,
+    or are pregnant, the calculus changes and you should talk to a doctor first. When you are ready,
+    our <a href="/cold-plunge/how-to/">how to cold plunge</a> guide covers safe temperatures and
+    times, and <a href="/cold-plunge/contrast-therapy/">contrast therapy at home</a> shows how to pair
+    it with a sauna.
+  </p>
+</GuideArticleLayout>

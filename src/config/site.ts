@@ -1,8 +1,8 @@
 /*
  * Site identity and hub config. This is the ONE file to edit when the brand,
- * domain, or hub structure changes. Brand name and domain are placeholders
- * (Home Sauna Guide / homesaunaguide.com) - swap them here and everything else
- * (OG tags, schema, footer, canonical URLs) updates automatically.
+ * domain, or hub structure changes. Brand name is still "Home Sauna Guide"
+ * (broaden later); the live domain is thehomerecovery.com - swap them here and
+ * everything else (OG tags, schema, footer, canonical URLs) updates automatically.
  *
  * Authorship is a neutral editorial-team byline on purpose: we do not fabricate
  * a named person, credentials, first-hand testing, or expert review.
@@ -10,7 +10,7 @@
 export const SITE = {
   name: "Home Sauna Guide",
   shortName: "HSG",
-  url: "https://www.homesaunaguide.com",
+  url: "https://www.thehomerecovery.com",
   description:
     "Independent buyer guides for home saunas: infrared cabins, outdoor and barrel saunas, portable saunas, sauna blankets, heaters, and DIY kits. We compare formats by home type, budget, space, and electrical needs - no fabricated testing, no fake ratings.",
   defaultImage: "/images/og/og-default.png",
@@ -38,7 +38,7 @@ export const SITE = {
     image: "/logo.svg",
     url: "/about/",
   },
-  contactEmail: "hello@homesaunaguide.com",
+  contactEmail: "hello@thehomerecovery.com",
   // Analytics: Vercel Web Analytics (cookieless) is wired via the <Analytics />
   // component in BaseLayout and the outbound-click tracker reports custom events
   // to it. There is nothing to configure here - enable Analytics in the Vercel

@@ -1,0 +1,136 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Breadcrumbs from "@components/Breadcrumbs.astro";
+import {
+  breadcrumbNode,
+  buildGraph,
+  itemListNode,
+  organizationNode,
+  websiteNode,
+} from "@components/schema/helpers";
+
+const title = "Cold Plunge & Contrast Therapy: An Honest, Cited Guide";
+const description =
+  "A people-first guide to cold plunging and hot-cold contrast therapy: what the 2025 evidence actually shows, how to start safely, who should avoid it, and how to pair a cold plunge with your sauna. Conservative and cited - no hype.";
+
+const articles = [
+  {
+    title: "Cold plunge benefits",
+    blurb:
+      "What the 2025 research actually supports - stress, sleep, recovery - and the mood and immunity claims the evidence does not back up yet.",
+    href: "/cold-plunge/benefits/",
+    tag: "Evidence",
+  },
+  {
+    title: "How to cold plunge",
+    blurb:
+      "Getting started safely: water temperature, how long, how often, breathing through the cold-shock response, and the warning signs to get out.",
+    href: "/cold-plunge/how-to/",
+    tag: "How-to",
+  },
+  {
+    title: "Contrast therapy at home (sauna + cold)",
+    blurb:
+      "How to pair hot and cold: sauna-first vs cold-first, home setup by budget, and when a sauna and a cold shower is already enough.",
+    href: "/cold-plunge/contrast-therapy/",
+    tag: "Routine",
+  },
+];
+
+const crumbItems = [
+  { label: "Home", url: "/" },
+  { label: "Cold plunge", url: "/cold-plunge/" },
+];
+
+const jsonLd = buildGraph([
+  organizationNode(),
+  websiteNode(),
+  breadcrumbNode(crumbItems),
+  itemListNode({
+    name: "Cold plunge & contrast therapy guides",
+    items: articles.map((a) => ({ name: a.title, url: a.href })),
+  }),
+]);
+---
+
+<BaseLayout title={title} description={description} type="website" ogImage="/images/heroes/cold-plunge.webp" jsonLd={jsonLd}>
+  <section class="relative isolate overflow-hidden border-b border-ink-100 bg-night-950 text-white">
+    <img
+      src="/images/heroes/cold-plunge.webp"
+      alt=""
+      aria-hidden="true"
+      width="1920"
+      height="1080"
+      fetchpriority="high"
+      class="absolute inset-0 -z-10 h-full w-full object-cover object-[center_40%] opacity-90"
+    />
+    <div aria-hidden="true" class="absolute inset-0 -z-10 bg-gradient-to-br from-night-950/95 via-night-950/70 to-night-950/35"></div>
+    <div aria-hidden="true" class="absolute inset-0 -z-10 bg-gradient-to-t from-night-950/85 via-night-950/20 to-transparent"></div>
+    <div aria-hidden="true" class="absolute -top-32 right-[-10%] -z-10 h-[32rem] w-[32rem] rounded-full bg-brand-600/20 blur-3xl"></div>
+    <div class="editorial-container py-14 md:py-20">
+      <p class="text-xs font-semibold tracking-[0.18em] text-sand-200 uppercase">Recovery, paired with your sauna</p>
+      <h1 class="mt-3 max-w-3xl text-4xl font-bold leading-[1.05] tracking-tight md:text-6xl">
+        Cold plunging and contrast therapy, without the hype
+      </h1>
+      <p class="mt-5 max-w-2xl text-lg leading-8 text-white/85">
+        Cold plunging is the natural other half of a sauna habit. Here is what the latest research
+        actually supports, how to start without hurting yourself, and how to pair hot and cold at
+        home. We keep the health information conservative and cited - and we are honest about how
+        early the evidence still is.
+      </p>
+    </div>
+  </section>
+
+  <section class="editorial-container py-10 md:py-14">
+    <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Cold plunge" }]} />
+
+    <div class="mt-8 grid gap-6 sm:grid-cols-2">
+      {
+        articles.map((a) => (
+          <a
+            href={a.href}
+            class="group flex flex-col rounded-2xl border border-ink-100 bg-white p-6 no-underline shadow-sm transition-shadow hover:shadow-md"
+          >
+            <span class="text-xs font-semibold uppercase tracking-[0.12em] text-brand-700">{a.tag}</span>
+            <h2 class="mt-2 text-xl font-bold text-ink-900 group-hover:text-brand-700">{a.title}</h2>
+            <p class="mt-2 text-sm leading-relaxed text-ink-700">{a.blurb}</p>
+            <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-700">
+              Read more <span aria-hidden="true">&rarr;</span>
+            </span>
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="mt-10 rounded-2xl border border-ink-100 bg-sand-50 p-6 md:flex md:items-center md:justify-between md:gap-6">
+      <div>
+        <h2 class="text-lg font-semibold text-ink-900">Cold plunge pairs best with a sauna</h2>
+        <p class="mt-1 text-sm text-ink-700">
+          Most people start cold plunging to round out a heat routine. If you are still choosing a
+          sauna, start with the formats and what they cost to run.
+        </p>
+      </div>
+      <div class="mt-4 flex flex-wrap gap-3 md:mt-0">
+        <a
+          href="/home-sauna/"
+          class="inline-flex items-center rounded-full bg-brand-700 px-5 py-2.5 text-sm font-semibold text-white no-underline hover:bg-brand-800"
+        >
+          Compare home saunas
+        </a>
+        <a
+          href="/sauna-guide/"
+          class="inline-flex items-center rounded-full border border-ink-200 px-5 py-2.5 text-sm font-semibold text-ink-800 no-underline hover:border-brand-300 hover:bg-white"
+        >
+          Sauna guide
+        </a>
+      </div>
+    </div>
+
+    <p class="mt-8 border-t border-ink-100 pt-6 text-xs text-ink-500">
+      Cold-water immersion is not safe for everyone. If you have a heart condition, high blood
+      pressure, a heart-rhythm disorder, circulation problems, diabetes, or are pregnant - or take
+      medication that affects your heart or circulation - talk to a doctor before trying it. This is
+      general educational information, not medical advice.
+    </p>
+  </section>
+</BaseLayout>

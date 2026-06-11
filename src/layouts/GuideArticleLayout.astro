@@ -30,6 +30,11 @@ export interface Props {
   sources?: { name: string; url: string }[];
   heroImage?: string;
   heroImageAlt?: string;
+  /** Parent hub this article belongs to. Defaults to the Sauna guide. */
+  parentLabel?: string;
+  parentHref?: string;
+  /** Closing health disclaimer. Defaults to the sauna wording. */
+  healthDisclaimer?: string;
 }
 
 const {
@@ -43,12 +48,15 @@ const {
   sources = [],
   heroImage,
   heroImageAlt = "",
+  parentLabel = "Sauna guide",
+  parentHref = "/sauna-guide/",
+  healthDisclaimer = "Health information here is general and educational, kept conservative and cited - not medical advice. Check with a doctor before starting sauna use if you have a health condition.",
 } = Astro.props;
 
 const pageUrl = absUrl(Astro.url.pathname);
 const crumbItems = [
   { label: "Home", url: "/" },
-  { label: "Sauna guide", url: "/sauna-guide/" },
+  { label: parentLabel, url: parentHref },
   { label: title, url: Astro.url.pathname },
 ];
 
@@ -92,8 +100,8 @@ const breadcrumbCrumbs = crumbItems.map((c, i) =>
       )
     }
     <div class="editorial-container py-12 md:py-16">
-      <a href="/sauna-guide/" class="text-sm font-semibold text-sand-100 no-underline hover:text-white">
-        &larr; Sauna guide
+      <a href={parentHref} class="text-sm font-semibold text-sand-100 no-underline hover:text-white">
+        &larr; {parentLabel}
       </a>
       <p class="mt-5 text-xs font-semibold tracking-[0.18em] text-sand-200 uppercase">{eyebrow}</p>
       <h1 class="mt-3 max-w-3xl text-3xl font-bold leading-[1.08] tracking-tight md:text-5xl">
@@ -137,10 +145,7 @@ const breadcrumbCrumbs = crumbItems.map((c, i) =>
 
     <div class="mt-8 max-w-3xl border-t border-ink-100 pt-5">
       <LastUpdated date={updatedDate} />
-      <p class="mt-2 text-xs text-ink-500">
-        Health information here is general and educational, kept conservative and cited - not medical
-        advice. Check with a doctor before starting sauna use if you have a health condition.
-      </p>
+      <p class="mt-2 text-xs text-ink-500">{healthDisclaimer}</p>
     </div>
   </article>
 </BaseLayout>

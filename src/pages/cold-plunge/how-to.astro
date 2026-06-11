@@ -1,0 +1,164 @@
+---
+import GuideArticleLayout from "@layouts/GuideArticleLayout.astro";
+import Callout from "@components/Callout.astro";
+
+const title = "How to Cold Plunge Safely: Temperature, Time, and Technique";
+const description =
+  "A beginner-friendly, safety-first guide to cold plunging: what temperature to start at, how long to stay in, how often, how to breathe through the cold-shock response, who should avoid it, and the warning signs to get out.";
+const intro =
+  "Cold plunging is simple, but the first thirty seconds are where people get it wrong. Here is how to start gently, stay safe, and build up sensibly.";
+
+const updatedDate = new Date("2026-06-11");
+const pubDate = new Date("2026-06-11");
+
+const sources = [
+  {
+    name: "Cleveland Clinic - What to know about cold plunges",
+    url: "https://health.clevelandclinic.org/what-to-know-about-cold-plunges",
+  },
+  {
+    name: "NewYork-Presbyterian Health Matters - Are cold plunges good for your health?",
+    url: "https://www.nyp.org/healthmatters/what-to-know-about-cold-plunges",
+  },
+  {
+    name: "Mayo Clinic Health System - Cold-water plunging health benefits",
+    url: "https://www.mayoclinichealthsystem.org/hometown-health/speaking-of-health/cold-plunge-after-workouts",
+  },
+  {
+    name: "Harvard Health - Cold plunges: healthy or harmful for your heart?",
+    url: "https://www.health.harvard.edu/heart-health/cold-plunges-healthy-or-harmful-for-your-heart",
+  },
+];
+
+const faq = [
+  {
+    q: "What temperature should a cold plunge be?",
+    a: "For beginners, 10-15°C (50-59°F) is a sensible starting range, per the Cleveland Clinic. Avoid going below about 4°C (40°F) - colder water raises risk faster than it adds benefit. Use a thermometer rather than guessing, especially in natural water.",
+  },
+  {
+    q: "How long should you stay in a cold plunge?",
+    a: "Start with 30 seconds to a minute or two while you acclimate. A session should generally never exceed about 5 minutes for most people, and you should get out sooner if you feel numb, dizzy, or unwell. Time in cold water is not a contest - longer is not better.",
+  },
+  {
+    q: "How often should you cold plunge?",
+    a: "There is no proven optimal frequency. A few times a week is a reasonable starting point. Consistency at a comfortable dose matters more than chasing extreme cold or long sessions. Pay attention to how you recover and sleep, and adjust.",
+  },
+  {
+    q: "Should I cold plunge before or after a sauna?",
+    a: "Most people do the sauna first, then cool down with the cold - the classic hot-then-cold rhythm. Either order can feel good; the key safety rule is to rewarm gradually afterward and never go straight from extreme cold into extreme heat. Our contrast therapy guide covers the routine in detail.",
+  },
+];
+---
+
+<GuideArticleLayout
+  title={title}
+  description={description}
+  eyebrow="How-to"
+  intro={intro}
+  heroImage="/images/heroes/cold-plunge.webp"
+  heroImageAlt="A person's view of a cold plunge tub of clear water with a thermometer at the edge."
+  updatedDate={updatedDate}
+  pubDate={pubDate}
+  parentLabel="Cold plunge"
+  parentHref="/cold-plunge/"
+  healthDisclaimer="This is general educational information, not medical advice. Cold-water immersion is not safe for everyone; check with a doctor before starting if you have a heart, blood-pressure, rhythm, or circulation condition, diabetes, or are pregnant."
+  faq={faq}
+  sources={sources}
+>
+  <p>
+    Cold plunging is mechanically simple - get in cold water, stay calm, get out, rewarm. The risk is
+    not the cold itself so much as the body's <strong>cold-shock response</strong> in the first 30-60
+    seconds: an involuntary gasp, a jump in heart rate and blood pressure, and a strong urge to
+    hyperventilate. Manage that first minute well and the rest is easy. This guide is about doing it
+    safely, not pushing limits.
+  </p>
+
+  <Callout variant="warning" title="Check with a doctor first if any of these apply">
+    <p>
+      Cold-water immersion is not for everyone. The Cleveland Clinic, Harvard Health, and others
+      advise medical clearance first if you have <strong>heart disease, high blood pressure, a
+      heart-rhythm disorder such as atrial fibrillation, circulation problems (e.g. peripheral artery
+      disease or Raynaud's), diabetes or peripheral neuropathy</strong>, are <strong>pregnant</strong>,
+      or take medication that affects your heart rate or circulation (such as beta-blockers). Sudden
+      immersion in very cold water can be dangerous, so when in doubt, ask your clinician before you
+      start.
+    </p>
+  </Callout>
+
+  <h2>Step 1: Set a safe temperature</h2>
+  <p>
+    Beginners should start around <strong>10-15&deg;C (50-59&deg;F)</strong>, the range the
+    <a href="https://health.clevelandclinic.org/what-to-know-about-cold-plunges" rel="noopener nofollow" target="_blank">Cleveland Clinic</a>
+    suggests, and avoid going below about <strong>4&deg;C (40&deg;F)</strong>. Colder is not a badge
+    of honour; it just shortens the safe window and raises the risk of cold shock and numbness. Use a
+    thermometer - tap-cold water, a tub of ice, and a natural lake can be wildly different, and a
+    frozen lake is far colder than it looks.
+  </p>
+
+  <h2>Step 2: Prepare and enter slowly</h2>
+  <p>
+    Before you get in, take a few slow breaths to settle your heart rate. Then enter
+    <strong>gradually</strong> rather than jumping - lowering in lets you meet the cold-shock response
+    in stages instead of all at once. Get to roughly chest depth if you are comfortable; you do not
+    need to submerge your head.
+  </p>
+
+  <h2>Step 3: Control your breathing</h2>
+  <p>
+    The single most important skill is breathing. When the cold hits, your body wants to gasp and
+    breathe fast. Counter it with slow, deliberate exhales until the urge settles - usually within 30
+    seconds or so. Calm breathing is both what makes the plunge tolerable and what keeps it safe,
+    because uncontrolled hyperventilation is what makes cold water genuinely dangerous.
+  </p>
+
+  <Callout variant="warning" title="Never plunge alone in deep or open water">
+    <p>
+      In open water or a deep tub, the gasp reflex and a sudden heart-rate spike can be hazardous.
+      Have someone nearby, never plunge after alcohol, and avoid moving water with a current.
+    </p>
+  </Callout>
+
+  <h2>Step 4: Watch the clock</h2>
+  <p>
+    Start with <strong>30 seconds to a minute or two</strong>. As you acclimate over weeks you can
+    extend a little, but a session should generally stay <strong>under about 5 minutes</strong>. Cold
+    numbs you, which can mask how cold you actually are, so the clock matters more than how you feel.
+  </p>
+
+  <h2>Step 5: Rewarm gradually</h2>
+  <p>
+    Get out before you are shivering hard. Dry off, add layers, and let your body warm
+    <strong>gradually</strong> with movement and warm (not scalding) drinks. As
+    <a href="https://www.nyp.org/healthmatters/what-to-know-about-cold-plunges" rel="noopener nofollow" target="_blank">NewYork-Presbyterian</a>
+    notes, rewarming too fast - for example jumping straight into very hot water - can rush blood away
+    from the heart and risk tissue injury on numb skin. If you are doing
+    <a href="/cold-plunge/contrast-therapy/">contrast therapy</a> with a sauna, build in that gentle
+    transition rather than going extreme-to-extreme.
+  </p>
+
+  <Callout variant="warning" title="Get out immediately if you notice any of these">
+    <p>
+      Dizziness or light-headedness, chest pain or palpitations, breathing you cannot control,
+      persistent numbness or loss of coordination, or confusion. These are signs to end the session
+      and rewarm - and to seek help if they do not quickly pass.
+    </p>
+  </Callout>
+
+  <h2>A sensible beginner routine</h2>
+  <ul>
+    <li><strong>Temperature:</strong> 12-15&deg;C (54-59&deg;F) to start.</li>
+    <li><strong>Time:</strong> 30-60 seconds, building slowly over weeks.</li>
+    <li><strong>Frequency:</strong> 2-4 times a week; consistency over intensity.</li>
+    <li><strong>Technique:</strong> enter slowly, breathe out slowly, stay calm, rewarm gently.</li>
+    <li><strong>Timing vs. lifting:</strong> if muscle growth is the goal, keep plunges away from the hour or two after strength training - see <a href="/cold-plunge/benefits/">cold plunge benefits</a>.</li>
+  </ul>
+
+  <Callout variant="tip" title="Pair it with your sauna">
+    <p>
+      The most popular way to use a cold plunge is alongside heat. Our
+      <a href="/cold-plunge/contrast-therapy/">contrast therapy at home</a> guide covers sauna-first
+      vs. cold-first, home setups by budget, and when a sauna plus a cold shower is already enough. If
+      you are still choosing the heat side, start with the <a href="/home-sauna/">home sauna guide</a>.
+    </p>
+  </Callout>
+</GuideArticleLayout>

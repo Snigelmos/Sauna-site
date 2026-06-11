@@ -5,7 +5,7 @@ import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  site: "https://www.homesaunaguide.com",
+  site: "https://www.thehomerecovery.com",
   output: "static",
   integrations: [
     mdx(),

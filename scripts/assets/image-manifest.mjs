@@ -105,6 +105,15 @@ export const images = [
     alt: "Water ladled over hot sauna stones creating steam, with cedar benches and a birch whisk.",
   },
   {
+    id: "cold-plunge",
+    tier: 2,
+    kind: "hero",
+    out: "images/heroes/cold-plunge.webp",
+    prompt:
+      "A serene outdoor recovery scene at dusk: a wooden cold plunge tub of clear still water beside a small cedar sauna with a warmly glowing window, faint steam drifting from the sauna into cool blue evening air, a folded towel on the deck. Calm contrast of warm amber light and cold blue water. Architectural wellness photography, uncluttered left side for headline text.",
+    alt: "A wooden cold plunge tub of clear water beside a cedar sauna at dusk with soft steam.",
+  },
+  {
     id: "guide-benefits",
     tier: 2,
     kind: "hero",

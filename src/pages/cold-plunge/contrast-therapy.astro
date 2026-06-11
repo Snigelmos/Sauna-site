@@ -1,0 +1,155 @@
+---
+import GuideArticleLayout from "@layouts/GuideArticleLayout.astro";
+import Callout from "@components/Callout.astro";
+
+const title = "Contrast Therapy at Home: How to Pair a Sauna and a Cold Plunge";
+const description =
+  "A practical guide to hot-cold contrast therapy at home: sauna-first vs cold-first, how to build a setup by budget, the safety rules that matter, and when a sauna plus a cold shower is already enough.";
+const intro =
+  "Hot then cold is the oldest recovery ritual there is. Here is how to do contrast therapy at home sensibly - including the budget version that needs no cold plunge tub at all.";
+
+const updatedDate = new Date("2026-06-11");
+const pubDate = new Date("2026-06-11");
+
+const sources = [
+  {
+    name: "Cleveland Clinic - What to know about cold plunges",
+    url: "https://health.clevelandclinic.org/what-to-know-about-cold-plunges",
+  },
+  {
+    name: "Harvard Health - Cold plunges: healthy or harmful for your heart?",
+    url: "https://www.health.harvard.edu/heart-health/cold-plunges-healthy-or-harmful-for-your-heart",
+  },
+  {
+    name: "Cain et al., 2025, PLOS One - Effects of cold-water immersion on health and wellbeing",
+    url: "https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0317615",
+  },
+];
+
+const faq = [
+  {
+    q: "What is contrast therapy?",
+    a: "Contrast therapy means alternating heat (a sauna, hot bath, or hot shower) with cold (a cold plunge, cold shower, or cold bath), usually finishing on cold. People use it for recovery and because the hot-cold cycle feels good. The evidence for specific health outcomes is still early, so treat it as an enjoyable routine rather than a proven medical treatment.",
+  },
+  {
+    q: "Should you do the sauna or the cold first?",
+    a: "Most people go hot first, then cold, often repeating for a couple of rounds and finishing on cold. There is no strict rule, and either order can feel good. The safety priority is the transition: move between hot and cold gradually rather than slamming from one extreme straight into the other.",
+  },
+  {
+    q: "Do I need a cold plunge tub for contrast therapy?",
+    a: "No. A sauna (or hot shower) followed by a cold shower is a perfectly good entry point and costs nothing extra. A dedicated cold plunge tub adds colder, more consistent, full-body immersion, which some people prefer - but it is an upgrade, not a requirement. Start with what you have.",
+  },
+  {
+    q: "Is contrast therapy safe?",
+    a: "For healthy adults who ease in, it is generally tolerable, but it combines two stressors - heat and cold - so the cautions for both apply. If you have heart disease, high or unstable blood pressure, a heart-rhythm disorder, circulation problems, diabetes, or are pregnant, check with a doctor first, and never go directly from extreme heat into extreme cold or vice versa.",
+  },
+];
+---
+
+<GuideArticleLayout
+  title={title}
+  description={description}
+  eyebrow="Routine"
+  intro={intro}
+  heroImage="/images/heroes/cold-plunge.webp"
+  heroImageAlt="A cedar sauna beside a cold plunge tub on a wooden deck in soft light."
+  updatedDate={updatedDate}
+  pubDate={pubDate}
+  parentLabel="Cold plunge"
+  parentHref="/cold-plunge/"
+  healthDisclaimer="This is general educational information, not medical advice. Contrast therapy combines heat and cold stress; check with a doctor before starting if you have a heart, blood-pressure, rhythm, or circulation condition, diabetes, or are pregnant."
+  faq={faq}
+  sources={sources}
+>
+  <p>
+    Contrast therapy is just heat and cold, alternated - a sauna or hot shower followed by a cold
+    plunge or cold shower, usually finishing on the cold. It is the natural pairing for anyone who
+    already has or wants a <a href="/home-sauna/">home sauna</a>, and it is the most popular reason
+    people add a cold plunge in the first place. This guide keeps the claims modest and focuses on how
+    to actually do it at home - including the version that needs no special gear.
+  </p>
+
+  <Callout variant="note" title="What the evidence does and doesn't say">
+    <p>
+      People feel good after contrast therapy, and cold-water immersion shows early, modest benefits
+      for sleep, recovery, and possibly stress resilience (see <a href="/cold-plunge/benefits/">cold
+      plunge benefits</a>). But research specifically on hot-cold <em>contrast</em> protocols is
+      thin, and claims about detox, fat loss, or curing inflammation are not supported. Do it because
+      you enjoy it and it helps you recover, not because of a miracle promise.
+    </p>
+  </Callout>
+
+  <h2>Sauna-first or cold-first?</h2>
+  <p>
+    The classic rhythm is <strong>hot, then cold, then repeat</strong>, finishing on cold. Warm up in
+    the sauna until you are properly hot and relaxed, cool off in the cold for a short bout, rest a
+    minute, and go again for two to three rounds. Some people prefer to start with a brief cold dip to
+    wake up and then warm through - that is fine too. What matters far more than the order is the
+    <strong>transition</strong>: don't sprint from an 80&deg;C sauna straight into a 5&deg;C plunge, or
+    from the cold straight back into scalding heat. Step the temperatures, let your breathing settle,
+    and give your circulation a moment to adjust.
+  </p>
+
+  <h2>A simple home routine</h2>
+  <ul>
+    <li><strong>Round structure:</strong> 10-15 minutes warming, then 30-90 seconds cold, rest 1-2 minutes. Repeat 2-3 times.</li>
+    <li><strong>Finish:</strong> end on cold if you want the alert, "switched-on" feeling; end warm if you want to wind down for sleep.</li>
+    <li><strong>Cold temperature:</strong> 10-15&deg;C (50-59&deg;F) to start - see <a href="/cold-plunge/how-to/">how to cold plunge</a> for the full safety detail.</li>
+    <li><strong>Hydrate</strong> through the session, and stop if you feel dizzy, chest tightness, or breathing you can't control.</li>
+  </ul>
+
+  <h2>Home setups, by budget</h2>
+  <p>
+    You can do contrast therapy at almost any budget. The cold side scales up the same way the hot
+    side does.
+  </p>
+
+  <h3>Starter: sauna (or hot shower) + cold shower - $0 extra</h3>
+  <p>
+    The simplest contrast setup uses things you already have: warm up, then finish with a cold shower
+    for 30-90 seconds. It delivers most of the experience, it is the easiest to do consistently, and
+    it is the safest way to learn how your body reacts before you invest in anything. If you are still
+    choosing the heat side, the <a href="/portable-sauna/">portable sauna and blanket</a> options are
+    the lowest-cost way in, and the <a href="/sauna-guide/how-to-use/">how to use a sauna</a> guide
+    covers the warm-up.
+  </p>
+
+  <h3>Mid-range: chest freezer or stock-tank plunge + your sauna</h3>
+  <p>
+    A converted chest freezer (with proper, safe wiring and a cover) or an insulated stock-tank tub
+    gives you colder, full-body immersion for a fraction of a purpose-built unit. It is more of a
+    project, but it is how a lot of people get a real plunge at home without a four-figure spend. Pair
+    it with whatever sauna you have.
+  </p>
+
+  <h3>Premium: dedicated cold plunge tub + a built sauna</h3>
+  <p>
+    Purpose-built cold plunge tubs with a chiller and filtration give you consistent temperature,
+    clean water, and no daily ice - the convenience upgrade. They pair naturally with an
+    <a href="/outdoor-sauna/">outdoor sauna</a>, which already gets the heat (and the splash) out of
+    the house. This is the most expensive route and worth it mainly if you will use it often. If you
+    are pricing a build, the <a href="/tools/sauna-cost-calculator/">sauna cost calculator</a> covers
+    the heat side; budget the plunge and any electrical separately.
+  </p>
+
+  <Callout variant="warning" title="Two stressors, double the caution">
+    <p>
+      Contrast therapy stacks heat stress and cold stress. The cold-shock response and the
+      cardiovascular strain of cold water (per the <a href="https://health.clevelandclinic.org/what-to-know-about-cold-plunges" rel="noopener nofollow" target="_blank">Cleveland Clinic</a>
+      and <a href="https://www.health.harvard.edu/heart-health/cold-plunges-healthy-or-harmful-for-your-heart" rel="noopener nofollow" target="_blank">Harvard Health</a>)
+      mean anyone with a heart condition, high or unstable blood pressure, a rhythm disorder,
+      circulation problems, diabetes, or who is pregnant should clear it with a doctor first. Skip it
+      after alcohol, and never plunge alone in deep or open water.
+    </p>
+  </Callout>
+
+  <h2>When a sauna and a shower is already enough</h2>
+  <p>
+    For most people, a regular sauna habit finished with a cold shower captures the enjoyable,
+    recovery-friendly heart of contrast therapy without a dedicated plunge. Buy the tub later, if at
+    all - only once you are plunging consistently and want colder, full-body, no-fuss immersion. The
+    heat side is where the strongest long-term health evidence sits anyway; start there with the
+    <a href="/sauna-guide/benefits/">sauna benefits</a> guide and the
+    <a href="/home-sauna/">best home sauna</a> decision guide, and add cold when it earns its place.
+  </p>
+</GuideArticleLayout>
