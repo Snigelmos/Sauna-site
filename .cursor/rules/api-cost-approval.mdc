@@ -1,0 +1,30 @@
+---
+description: Require a cost estimate and explicit user approval before ANY paid API call (OpenAI etc.)
+alwaysApply: true
+---
+
+# Spend approval — never spend without an estimate and my OK
+
+Applies to EVERY chat in EVERY folder. Before triggering ANY action that costs
+money on a paid API (OpenAI text/image generation, etc.):
+
+1. ESTIMATE first. State the expected USD cost (per item and total) before running anything.
+2. WAIT for my explicit approval. Do not make the paid call until I say yes.
+3. Only then run it WITH the explicit confirmation the tool requires.
+
+## Shared budget — all folders share ONE daily cap
+- Policy: `~/.seo-pipeline/budget.json` (`daily_usd_cap`, `require_approval`).
+- Live daily tally: `~/.seo-pipeline/.spend_ledger.json` (one shared file, keyed by date).
+- Default cap is **$1.00/day across ALL folders combined**. Never raise it without asking me.
+
+## How to actually spend (only after I approve)
+- Image script (e.g. Sauna): `node scripts/gen-images.mjs ... --yes`. Omit `--yes`
+  or add `--dry` to get an estimate with no charge.
+- Content API CLI: add `--yes`. HTTP API: add `"confirm": true`. Without these you
+  get an estimate-only response and nothing is charged.
+- Prefer the cheapest option that works: `--quality low`, `n=1`, fewer items.
+
+## Hard rules
+- Never bypass these guardrails. Never hardcode `confirm:true` / `--yes` into scripts or defaults.
+- If a tool has no estimate/approval mechanism, STOP and tell me before spending.
+- Default image quality for tests is "low" unless I explicitly ask for higher.

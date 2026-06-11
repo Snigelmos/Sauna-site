@@ -13,7 +13,9 @@ Before generating anything, check the server:
 Invoke-RestMethod -Uri "http://127.0.0.1:8077/health" -Method Get
 ```
 
-To generate Pinterest content with one low-cost test image:
+Generating costs money, so this is a TWO-STEP flow: estimate, then approve.
+
+Step 1 — estimate only (NO `confirm`; nothing is charged):
 
 ```powershell
 $body = @{
@@ -30,11 +32,32 @@ Invoke-RestMethod `
   -Body $body
 ```
 
+This returns `requires_approval: true` with `estimated_usd`. Show me that estimate.
+
+Step 2 — ONLY after I approve, resend with `confirm = $true` to actually generate:
+
+```powershell
+$body = @{
+  topic = "REPLACE_WITH_TOPIC"
+  n = 1
+  with_images = $true
+  image_quality = "low"
+  confirm = $true
+} | ConvertTo-Json
+
+Invoke-RestMethod `
+  -Uri "http://127.0.0.1:8077/bundle" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body $body
+```
+
 Rules:
 
 - Do not ask for the OpenAI API key. It is already stored in the API project.
+- NEVER send `confirm = $true` until you have shown me the estimate and I have approved it.
 - Keep tests cheap: use `n = 1` and `image_quality = "low"` unless the user asks otherwise.
-- The API has a shared `$1/day` cap across all chats/folders.
+- Shared `$1/day` cap across ALL chats/folders, enforced via `~/.seo-pipeline/budget.json` + `~/.seo-pipeline/.spend_ledger.json`.
 - Return the generated title, description, hashtags, board, image path, and bundle folder path.
 - If the API is not reachable, tell the user to start it from `Affiliate pages master`:
 
