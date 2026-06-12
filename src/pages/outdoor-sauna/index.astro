@@ -3,6 +3,14 @@ import DecisionGuideLayout from "@layouts/DecisionGuideLayout.astro";
 import ComparisonTable from "@components/ComparisonTable.astro";
 import ProductCard from "@components/ProductCard.astro";
 import Callout from "@components/Callout.astro";
+import { amazonSearchUrl } from "@config/affiliate";
+
+/* Tagged "Check price" affiliate link for a comparison-table cell, built from a
+ * brand+model Amazon search so it always resolves to a real listing (no guessed
+ * ASINs). Many premium outdoor brands sell mainly direct, so the search surfaces
+ * the closest Amazon listings - verify on the maker's own site. */
+const buyLink = (query: string, label: string) =>
+  `<a class="cmp-buy" href="${amazonSearchUrl(query)}" target="_blank" rel="nofollow sponsored noopener" data-evt="affiliate_click" data-evt-label="${label}">Check price &rarr;</a>`;
 
 const title = "Best Outdoor Sauna: Barrel vs Cabin, Electric vs Wood";
 const description =
@@ -15,7 +23,7 @@ const updatedDate = new Date("2026-06-08");
 const lastReviewed = new Date("2026-06-08");
 
 const methodologyNote =
-  "This guide synthesizes manufacturer specifications, independent expert reviews, building-code and electrical references, and verified owner feedback from sauna communities. We have not heat-tested every product, so we recommend by shape, heat source, and use-case rather than inventing star ratings. Where we name brands, we link to the maker's spec sheet so you can verify claims yourself.";
+  "This guide synthesizes manufacturer specifications, independent expert reviews, building-code and electrical references, and verified owner feedback from sauna communities. We have not heat-tested every product, so we recommend by shape, heat source, and use-case rather than inventing star ratings. Where we name brands, we link to the maker's spec sheet so you can verify claims yourself. In the model comparison, the kit price is a planning range that excludes foundation and electrical, and the price links open an Amazon search for that model (an affiliate link, at no extra cost to you); several premium outdoor brands sell mainly direct, so confirm the exact configuration and what's included on the maker's own site before buying.";
 
 const sources = [
   {
@@ -100,6 +108,7 @@ const heroGuides = {
   items: [
     { award: "Compare", title: "Barrel vs cabin", href: "#shapes" },
     { award: "Decide", title: "Electric vs wood", href: "#heat" },
+    { award: "Models", title: "10 saunas compared", href: "#best-outdoor" },
     { award: "Plan", title: "Foundation & electrical", href: "#install" },
     { award: "Tool", title: "Estimate your build", href: "/tools/sauna-cost-calculator/" },
   ],
@@ -148,6 +157,84 @@ const heatRows = [
     "Chimney, clearances, no heater circuit",
     "Higher (15-30 hrs/yr)",
     "Authentic loyly, off-grid, atmosphere",
+  ],
+];
+
+/* Ten outdoor saunas buyers actually cross-shop, from budget Amazon barrels to
+ * premium direct-sale cabins. Price is the kit only and excludes foundation and
+ * the electrical run; confirm shape, wood, heater, and what's included on the
+ * maker's own site, since several of these sell mainly direct. */
+const outdoorHeaders = ["Outdoor sauna", "Shape", "Notable for", "Approx. kit price", "Where to buy"];
+const outdoorRows = [
+  [
+    "ALEKO Barrel",
+    "Barrel",
+    '<span class="cmp-win">Best value; widely available on Amazon</span>',
+    "$3,000-5,000",
+    buyLink("ALEKO barrel sauna outdoor", "ALEKO Barrel"),
+  ],
+  [
+    "Golden Designs Barrel",
+    "Barrel",
+    "Budget barrel with electric or wood options",
+    "$4,000-6,000",
+    buyLink("Golden Designs barrel sauna outdoor", "Golden Designs Barrel"),
+  ],
+  [
+    "Almost Heaven Salem",
+    "Barrel",
+    '<span class="cmp-win">Popular US-made cedar barrel</span>',
+    "$5,000-8,000",
+    buyLink("Almost Heaven barrel sauna", "Almost Heaven Salem"),
+  ],
+  [
+    "Redwood Outdoors Thermowood",
+    "Barrel",
+    "Thermowood shell that weathers well",
+    "$4,500-7,000",
+    buyLink("Redwood Outdoors thermowood barrel sauna", "Redwood Outdoors Thermowood"),
+  ],
+  [
+    "SaunaLife Model G",
+    "Cabin",
+    "Garden cabin with full headroom",
+    "$6,000-12,000",
+    buyLink("SaunaLife outdoor sauna cabin", "SaunaLife Model G"),
+  ],
+  [
+    "Dundalk LeisureCraft",
+    "Barrel / cabin",
+    "Premium Canadian cedar, many configs",
+    "$6,000-13,000",
+    buyLink("Dundalk LeisureCraft sauna", "Dundalk LeisureCraft"),
+  ],
+  [
+    "Scandia Barrel",
+    "Barrel / cabin",
+    "US-made; electric or wood",
+    "$5,000-9,000",
+    buyLink("Scandia barrel sauna", "Scandia Barrel"),
+  ],
+  [
+    "Harvia Outdoor Cabin",
+    "Cabin",
+    "Complete cabin from a major heater maker",
+    "$6,000-12,000",
+    buyLink("Harvia outdoor sauna cabin", "Harvia Outdoor Cabin"),
+  ],
+  [
+    "Smartmak Outdoor",
+    "Cabin",
+    "Budget cube cabin with glass front",
+    "$3,500-6,000",
+    buyLink("Smartmak outdoor sauna", "Smartmak Outdoor"),
+  ],
+  [
+    "Thermory Cabin",
+    "Cabin / pod",
+    "Premium thermowood, design-led pods",
+    "$7,000-15,000",
+    buyLink("Thermory sauna cabin", "Thermory Cabin"),
   ],
 ];
 ---
@@ -221,6 +308,29 @@ const heatRows = [
       the yard - frequently a trenched run, which can be the single largest line item in the whole
       project. A wood stove skips the circuit entirely but adds a code-compliant chimney, heat
       shielding, and fire-rated clearances. Price both before you fall in love with a heater.
+    </p>
+  </Callout>
+
+  <h2 id="best-outdoor">Best outdoor saunas compared (2026)</h2>
+  <p>
+    Ten outdoor saunas buyers actually cross-shop, from budget Amazon barrels to premium direct-sale
+    cabins. We have not heat-tested these, so this is a spec-and-reputation comparison rather than a
+    star-rated ranking - settle barrel vs cabin and electric vs wood first, then weigh wood quality,
+    the included heater, and price. Kit prices exclude the foundation and electrical run.
+  </p>
+
+  <ComparisonTable
+    caption="Ten outdoor saunas compared by shape, standout feature, approximate kit price, and where to buy"
+    headers={outdoorHeaders}
+    rows={outdoorRows}
+  />
+
+  <Callout variant="note" title="How to read this table">
+    <p>
+      The kit price is for the sauna only - add the foundation ($300-$2,000) and, for electric, the
+      240V run ($800-$2,500), or a chimney for wood. "Check price" opens an Amazon search for that
+      model; premium makers like Almost Heaven, Dundalk LeisureCraft, and SaunaLife sell largely
+      direct, so confirm the exact configuration, wood, and included heater on the maker's own site.
     </p>
   </Callout>
 

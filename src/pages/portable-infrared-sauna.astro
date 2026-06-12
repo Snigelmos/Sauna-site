@@ -3,6 +3,13 @@ import DecisionGuideLayout from "@layouts/DecisionGuideLayout.astro";
 import ComparisonTable from "@components/ComparisonTable.astro";
 import ProductCard from "@components/ProductCard.astro";
 import Callout from "@components/Callout.astro";
+import { amazonSearchUrl } from "@config/affiliate";
+
+/* Tagged "Check price" affiliate link for a comparison-table cell, built from a
+ * brand+model Amazon search so it always resolves to a real listing (no guessed
+ * ASINs). Swap to a specific product URL later. */
+const buyLink = (query: string, label: string) =>
+  `<a class="cmp-buy" href="${amazonSearchUrl(query)}" target="_blank" rel="nofollow sponsored noopener" data-evt="affiliate_click" data-evt-label="${label}">Check price &rarr;</a>`;
 
 const title = "Best Portable Infrared Sauna: Pods & Blankets Compared";
 const description =
@@ -15,7 +22,7 @@ const updatedDate = new Date("2026-06-10");
 const lastReviewed = new Date("2026-06-10");
 
 const methodologyNote =
-  "This guide synthesizes manufacturer specifications and independent portable-sauna references. We have not lab-tested every unit, so we recommend by type and use-case rather than inventing star ratings, and we keep heat and health claims conservative. Portable infrared pods and blankets run cooler than cabins and far cooler than traditional saunas - we say so rather than implying equivalence.";
+  "This guide synthesizes manufacturer specifications and independent portable-sauna references. We have not lab-tested every unit, so we recommend by type and use-case rather than inventing star ratings, and we keep heat and health claims conservative. Portable infrared pods and blankets run cooler than cabins and far cooler than traditional saunas - we say so rather than implying equivalence. In the model comparison, price is a planning range and the price links open an Amazon search for that model (an affiliate link, at no extra cost to you); confirm the heat type (some portable pods are steam, not infrared), temperature range, and warranty on the listing before buying.";
 
 const sources = [
   {
@@ -66,6 +73,7 @@ const heroGuides = {
   items: [
     { award: "Decide", title: "Pod vs blanket", href: "#pod-vs-blanket" },
     { award: "Expect", title: "Heat & sessions", href: "#what-to-expect" },
+    { award: "Compare", title: "10 models compared", href: "#best-portable" },
     { award: "Picks", title: "By need", href: "#picks" },
     { award: "Safety", title: "Who should skip", href: "#safety" },
   ],
@@ -95,6 +103,83 @@ const typeRows = [
     "Permanent footprint",
     "$1,500-$6,000",
     "Daily use, resale, lie-down room",
+  ],
+];
+
+/* Ten portable infrared options buyers actually cross-shop - six sit-in pods
+ * and four lie-in blankets, all real brands. Price is a planning range; confirm
+ * heat type (infrared vs steam), temperature range, and warranty on the listing. */
+const portableHeaders = ["Portable sauna", "Type", "Notable for", "Approx. price", "Where to buy"];
+const portableRows = [
+  [
+    "SereneLife Portable Infrared",
+    "Sit-in pod",
+    '<span class="cmp-win">Best-known budget infrared pod</span>',
+    "$150-250",
+    buyLink("SereneLife portable infrared sauna", "SereneLife Portable Infrared"),
+  ],
+  [
+    "Durasage Oversized Infrared",
+    "Sit-in pod",
+    "Roomy pod with a foot heater pad",
+    "$160-280",
+    buyLink("Durasage oversized portable infrared sauna", "Durasage Oversized Infrared"),
+  ],
+  [
+    "Durherm Portable Infrared",
+    "Sit-in pod",
+    "Higher heat output than most pods",
+    "$200-350",
+    buyLink("Durherm portable infrared sauna", "Durherm Portable Infrared"),
+  ],
+  [
+    "Smartmak Full-Body",
+    "Sit-in pod",
+    "Arm openings keep hands free",
+    "$200-320",
+    buyLink("Smartmak portable infrared sauna", "Smartmak Full-Body"),
+  ],
+  [
+    "OppsDecor Portable",
+    "Sit-in pod",
+    "Budget pod, foldable chair included",
+    "$130-220",
+    buyLink("OppsDecor portable infrared sauna", "OppsDecor Portable"),
+  ],
+  [
+    "ZONEGRACE Portable",
+    "Sit-in pod",
+    "Oversized interior for taller users",
+    "$180-300",
+    buyLink("ZONEGRACE portable infrared sauna", "ZONEGRACE Portable"),
+  ],
+  [
+    "HigherDOSE Infrared Blanket",
+    "Blanket",
+    "Premium lie-in alternative",
+    "$500-700",
+    buyLink("HigherDOSE infrared sauna blanket", "HigherDOSE Infrared Blanket"),
+  ],
+  [
+    "MiHIGH Infrared Blanket",
+    "Blanket",
+    "Lightweight lie-in blanket",
+    "$500-650",
+    buyLink("MiHIGH infrared sauna blanket", "MiHIGH Infrared Blanket"),
+  ],
+  [
+    "LifePro Rejuvawrap",
+    "Blanket",
+    '<span class="cmp-win">Best value lie-in blanket</span>',
+    "$200-350",
+    buyLink("LifePro Rejuvawrap sauna blanket", "LifePro Rejuvawrap"),
+  ],
+  [
+    "MaxKare Sauna Blanket",
+    "Blanket",
+    "Cheapest lie-in option",
+    "$120-200",
+    buyLink("MaxKare sauna blanket", "MaxKare Sauna Blanket"),
   ],
 ];
 ---
@@ -158,6 +243,29 @@ const typeRows = [
     <li><strong>Cleaning:</strong> wipe the interior after each use; many blankets have a removable, washable insert. Sweat and humidity build up, so air it out.</li>
     <li><strong>Limits:</strong> no steam, no high heat, and not the long-term health evidence base of a traditional sauna. Great for relaxation and recovery; not a detox or weight-loss device.</li>
   </ul>
+
+  <h2 id="best-portable">Best portable infrared saunas compared (2026)</h2>
+  <p>
+    Ten portable options buyers actually cross-shop - six sit-in pods and four lie-in blankets. We
+    have not lab-tested each one, so this is a spec-and-reputation comparison rather than a star-rated
+    ranking. Decide pod vs blanket first, then weigh heat output, build quality, and price. Prices are
+    planning ranges.
+  </p>
+
+  <ComparisonTable
+    caption="Ten portable infrared saunas compared by type, standout feature, approximate price, and where to buy"
+    headers={portableHeaders}
+    rows={portableRows}
+  />
+
+  <Callout variant="note" title="How to read this table">
+    <p>
+      A few "portable saunas" on Amazon are actually <strong>steam</strong> units with a small water
+      boiler, not infrared - the experience and cleanup differ, so confirm the heat type on the
+      listing. "Check price" opens an Amazon search for that model; verify the temperature range,
+      frame quality, and warranty before buying.
+    </p>
+  </Callout>
 
   <h2 id="picks">Best portable infrared saunas by need</h2>
   <p>

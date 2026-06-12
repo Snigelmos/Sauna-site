@@ -3,6 +3,13 @@ import DecisionGuideLayout from "@layouts/DecisionGuideLayout.astro";
 import ComparisonTable from "@components/ComparisonTable.astro";
 import ProductCard from "@components/ProductCard.astro";
 import Callout from "@components/Callout.astro";
+import { amazonSearchUrl } from "@config/affiliate";
+
+/* Tagged "Check price" affiliate link for a comparison-table cell, built from a
+ * brand+model Amazon search so it always resolves to a real listing (no guessed
+ * ASINs). Swap to a specific product URL later. */
+const buyLink = (query: string, label: string) =>
+  `<a class="cmp-buy" href="${amazonSearchUrl(query)}" target="_blank" rel="nofollow sponsored noopener" data-evt="affiliate_click" data-evt-label="${label}">Check price &rarr;</a>`;
 
 const title = "Best Sauna Blanket: How They Work & What to Buy";
 const description =
@@ -15,7 +22,7 @@ const updatedDate = new Date("2026-06-10");
 const lastReviewed = new Date("2026-06-10");
 
 const methodologyNote =
-  "This guide synthesizes manufacturer specifications and independent references. We have not lab-tested every blanket, so we recommend by tier and use-case rather than inventing star ratings, and we keep heat and health claims conservative. Sauna blankets run far cooler than a traditional sauna and carry none of its long-term health-evidence base - we say so plainly.";
+  "This guide synthesizes manufacturer specifications and independent references. We have not lab-tested every blanket, so we recommend by tier and use-case rather than inventing star ratings, and we keep heat and health claims conservative. Sauna blankets run far cooler than a traditional sauna and carry none of its long-term health-evidence base - we say so plainly. In the model comparison, price is a planning range and the price links open an Amazon search for that model (an affiliate link, at no extra cost to you); confirm temperature range, washable insert, EMF construction, and warranty on the listing before buying.";
 
 const sources = [
   {
@@ -82,6 +89,7 @@ const heroGuides = {
   items: [
     { award: "How it works", title: "Heat & sessions", href: "#how" },
     { award: "Compare", title: "Blanket vs pod vs cabin", href: "#vs" },
+    { award: "Models", title: "10 blankets compared", href: "#best-blankets" },
     { award: "Care", title: "Cleaning", href: "#cleaning" },
     { award: "Picks", title: "By budget", href: "#picks" },
   ],
@@ -97,6 +105,83 @@ const tierRows = [
   ["Budget", "$100-$250", "Basic display, thinner build", '<span class="cmp-win">Trying the habit cheaply</span>'],
   ["Mid-tier", "$250-$450", "Washable insert, better heat control", '<span class="cmp-win">Most people</span>'],
   ["Premium", "$450-$700", "Low-EMF build, best warranty & materials", "Frequent users who want the best"],
+];
+
+/* Ten sauna blankets buyers actually cross-shop, from budget to premium.
+ * Price is a planning range; confirm temperature range, washable insert, EMF
+ * construction, and warranty on the listing before buying. */
+const blanketHeaders = ["Blanket", "Tier", "Notable for", "Approx. price", "Where to buy"];
+const blanketRows = [
+  [
+    "HigherDOSE Infrared Blanket",
+    "Premium",
+    '<span class="cmp-win">Charcoal, clay & amethyst layers; the popular pick</span>',
+    "$500-700",
+    buyLink("HigherDOSE infrared sauna blanket", "HigherDOSE Infrared Blanket"),
+  ],
+  [
+    "MiHIGH Infrared Blanket",
+    "Mid-premium",
+    "Lightweight with a simple one-dial controller",
+    "$500-650",
+    buyLink("MiHIGH infrared sauna blanket", "MiHIGH Infrared Blanket"),
+  ],
+  [
+    "Sun Home Infrared Blanket",
+    "Premium",
+    "Low-EMF build with full-body heat coverage",
+    "$500-700",
+    buyLink("Sun Home infrared sauna blanket", "Sun Home Infrared Blanket"),
+  ],
+  [
+    "BON CHARGE Infrared Blanket",
+    "Premium",
+    "Low-EMF, non-toxic materials focus",
+    "$500-700",
+    buyLink("BON CHARGE infrared sauna blanket", "BON CHARGE Infrared Blanket"),
+  ],
+  [
+    "LifePro Rejuvawrap",
+    "Mid",
+    '<span class="cmp-win">Best value; washable insert, frequent sales</span>',
+    "$200-350",
+    buyLink("LifePro Rejuvawrap sauna blanket", "LifePro Rejuvawrap"),
+  ],
+  [
+    "Gobi Heat Sauna Blanket",
+    "Mid",
+    "Adjustable heat zones",
+    "$300-450",
+    buyLink("Gobi Heat sauna blanket", "Gobi Heat Sauna Blanket"),
+  ],
+  [
+    "MaxKare Sauna Blanket",
+    "Budget",
+    '<span class="cmp-win">Cheapest way to try the habit</span>',
+    "$120-200",
+    buyLink("MaxKare sauna blanket", "MaxKare Sauna Blanket"),
+  ],
+  [
+    "SereneLife Sauna Blanket",
+    "Budget",
+    "Simple and widely available",
+    "$130-220",
+    buyLink("SereneLife sauna blanket", "SereneLife Sauna Blanket"),
+  ],
+  [
+    "HealthyLine Sauna Blanket",
+    "Premium",
+    "Gemstone (jade/tourmaline) heat layer",
+    "$400-600",
+    buyLink("HealthyLine sauna blanket", "HealthyLine Sauna Blanket"),
+  ],
+  [
+    "Therasage TheraFusion",
+    "Premium",
+    "Infrared with negative-ion marketing (verify claims)",
+    "$600-900",
+    buyLink("Therasage sauna blanket", "Therasage TheraFusion"),
+  ],
 ];
 ---
 
@@ -166,6 +251,29 @@ const tierRows = [
     <li>Never submerge the blanket or its controller, and don't fold it over the controller cord.</li>
     <li>Store it loosely rolled in a dry place, not crammed or creased over the heating elements.</li>
   </ul>
+
+  <h2 id="best-blankets">Best sauna blankets compared (2026)</h2>
+  <p>
+    Ten blankets buyers actually cross-shop, from sub-$200 budget models to premium low-EMF builds.
+    We have not lab-tested each one, so this is a spec-and-reputation comparison rather than a
+    star-rated ranking - decide your tier first, then weigh temperature range, the washable insert,
+    and warranty. Prices are planning ranges.
+  </p>
+
+  <ComparisonTable
+    caption="Ten sauna blankets compared by tier, standout feature, approximate price, and where to buy"
+    headers={blanketHeaders}
+    rows={blanketRows}
+  />
+
+  <Callout variant="note" title="How to read this table">
+    <p>
+      The <em>Notable for</em> column flags each blanket's standout trait. "Check price" opens an
+      Amazon search for that model - confirm the temperature range, whether the insert is removable
+      and washable, the EMF construction, and the warranty on the listing before buying. Treat
+      negative-ion and detox marketing with healthy scepticism.
+    </p>
+  </Callout>
 
   <h2 id="picks">Best sauna blankets by budget</h2>
   <p>

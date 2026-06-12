@@ -3,6 +3,13 @@ import DecisionGuideLayout from "@layouts/DecisionGuideLayout.astro";
 import ComparisonTable from "@components/ComparisonTable.astro";
 import ProductCard from "@components/ProductCard.astro";
 import Callout from "@components/Callout.astro";
+import { amazonSearchUrl } from "@config/affiliate";
+
+/* Tagged "Check price" affiliate link for a comparison-table cell, built from a
+ * brand+model Amazon search so it always resolves to a real listing (no guessed
+ * ASINs that could 404 or mislink). Swap to a specific product URL later. */
+const buyLink = (query: string, label: string) =>
+  `<a class="cmp-buy" href="${amazonSearchUrl(query)}" target="_blank" rel="nofollow sponsored noopener" data-evt="affiliate_click" data-evt-label="${label}">Check price &rarr;</a>`;
 
 const title = "Best Infrared Sauna for Home: Sizes, EMF & What to Buy";
 const description =
@@ -15,7 +22,7 @@ const updatedDate = new Date("2026-06-10");
 const lastReviewed = new Date("2026-06-10");
 
 const methodologyNote =
-  "This guide synthesizes manufacturer specifications, independent infrared-sauna references, and EMF measurement guidance. We have not lab-tested individual cabins, so we recommend by size, panel type, and use-case rather than inventing star ratings, and we keep EMF and health claims conservative and cited. We flag detox and weight-loss marketing as unsupported rather than repeating it.";
+  "This guide synthesizes manufacturer specifications, independent infrared-sauna references, and EMF measurement guidance. We have not lab-tested individual cabins, so we recommend by size, panel type, and use-case rather than inventing star ratings, and we keep EMF and health claims conservative and cited. We flag detox and weight-loss marketing as unsupported rather than repeating it. In the model comparison, capacity and price are planning ranges, and the price links open an Amazon search for that model (an affiliate link, at no extra cost to you); premium brands that sell mainly direct will surface the closest Amazon listings, so always confirm panel type, EMF data, and warranty on the maker's own page before buying.";
 
 const sources = [
   {
@@ -95,6 +102,7 @@ const heroGuides = {
     { award: "Size", title: "1 vs 2 vs 4 person", href: "#sizing" },
     { award: "Panels", title: "Full-spectrum vs far", href: "#panels" },
     { award: "EMF", title: "What to look for", href: "#emf" },
+    { award: "Compare", title: "10 cabins compared", href: "#best-cabins" },
     { award: "Picks", title: "By household", href: "#picks" },
   ],
 };
@@ -108,6 +116,85 @@ const sizeRows = [
 const panelRows = [
   ["Far infrared", "Deep, comfortable warmth; what most people picture", '<span class="cmp-win">Lower</span>', "Most buyers; daily relaxation & recovery"],
   ["Full-spectrum", "Adds near- and mid-infrared wavelengths", "Higher", "Buyers who specifically want near-infrared"],
+];
+
+/* Ten infrared cabins buyers actually cross-shop, from budget far-infrared to
+ * premium full-spectrum. Capacity and price are planning ranges; confirm the
+ * exact model, panel type, EMF data, and warranty on the listing and maker's
+ * site. Premium brands (Sun Home, Clearlight, Sunlighten) sell largely direct,
+ * so their "Check price" search surfaces the closest Amazon listings. */
+const cabinHeaders = ["Cabin", "Capacity", "Notable for", "Approx. price", "Where to buy"];
+const cabinRows = [
+  [
+    "JNH Lifestyles Joyous",
+    "2-person",
+    '<span class="cmp-win">Best value far-infrared cabin</span>',
+    "$1,600-2,200",
+    buyLink("JNH Lifestyles Joyous 2 person infrared sauna", "JNH Lifestyles Joyous"),
+  ],
+  [
+    "Dynamic Andora",
+    "2-person",
+    "Popular mid-range far infrared in hemlock",
+    "$1,800-2,600",
+    buyLink("Dynamic Andora 2 person infrared sauna", "Dynamic Andora"),
+  ],
+  [
+    "Maxxus Seattle",
+    "3-person",
+    "Roomy far-infrared cabin for sharing",
+    "$2,400-3,200",
+    buyLink("Maxxus 3 person infrared sauna", "Maxxus Seattle"),
+  ],
+  [
+    "LifePro Infrared Sauna",
+    "1-2 person",
+    "Budget far infrared, frequent sales",
+    "$1,500-2,500",
+    buyLink("LifePro infrared sauna cabin", "LifePro Infrared Sauna"),
+  ],
+  [
+    "Durherm Far Infrared",
+    "2-person",
+    "Carbon + ceramic far-infrared panels",
+    "$2,000-3,000",
+    buyLink("Durherm far infrared sauna", "Durherm Far Infrared"),
+  ],
+  [
+    "Sun Home Luminar",
+    "2-person",
+    '<span class="cmp-win">Full-spectrum with published low-EMF data</span>',
+    "$4,000-6,000",
+    buyLink("Sun Home Luminar infrared sauna", "Sun Home Luminar"),
+  ],
+  [
+    "Clearlight Sanctuary",
+    "1-2 person",
+    "Full-spectrum; strong warranty",
+    "$4,000-7,000",
+    buyLink("Clearlight Sanctuary infrared sauna", "Clearlight Sanctuary"),
+  ],
+  [
+    "Sunlighten mPulse",
+    "1-3 person",
+    "Programmable full-spectrum (premium)",
+    "$5,000-9,000",
+    buyLink("Sunlighten mPulse infrared sauna", "Sunlighten mPulse"),
+  ],
+  [
+    "HigherDOSE Full Spectrum",
+    "1-person",
+    "Full-spectrum with chromotherapy",
+    "$3,000-4,000",
+    buyLink("HigherDOSE full spectrum infrared sauna", "HigherDOSE Full Spectrum"),
+  ],
+  [
+    "SaunaSpace Faraday",
+    "1-person",
+    "Near-infrared incandescent; EMF-shielded",
+    "$3,000-5,500",
+    buyLink("SaunaSpace Faraday near infrared sauna", "SaunaSpace Faraday"),
+  ],
 ];
 ---
 
@@ -192,6 +279,29 @@ const panelRows = [
     <li><strong>Placement:</strong> interior, level floor, near an outlet, with clearance to open the door fully. Not a damp garage or outdoors unless rated for it.</li>
     <li><strong>Wood &amp; build:</strong> hemlock and basswood are common; check for low-VOC glues and solid panel construction.</li>
   </ul>
+
+  <h2 id="best-cabins">Best infrared saunas compared (2026)</h2>
+  <p>
+    Ten cabins buyers actually cross-shop, from budget far-infrared to premium full-spectrum. We have
+    not lab-tested these, so this is a spec-and-reputation comparison, not a star-rated ranking - pick
+    your size and panel type first, then weigh price against published EMF data, warranty, and return
+    policy. Prices are planning ranges for the cabin only.
+  </p>
+
+  <ComparisonTable
+    caption="Ten infrared sauna cabins compared by capacity, standout feature, approximate price, and where to buy"
+    headers={cabinHeaders}
+    rows={cabinRows}
+  />
+
+  <Callout variant="note" title="How to read this table">
+    <p>
+      Capacity is the maker's rating (assume one fewer adult for comfort). The <em>Notable for</em>
+      column flags each cabin's standout trait. "Check price" opens an Amazon search for that model;
+      premium brands like Sun Home, Clearlight, and Sunlighten sell mainly direct, so confirm the exact
+      configuration, third-party EMF data, and warranty on the maker's own site before buying.
+    </p>
+  </Callout>
 
   <h2 id="picks">Best infrared saunas by household</h2>
   <p>
