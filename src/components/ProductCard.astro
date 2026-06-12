@@ -28,6 +28,10 @@ export interface Props {
   skipIf?: string;
   /** Amazon search query used for the affiliate button URL. */
   amazonSearch?: string;
+  /** Direct Amazon product URL. Takes precedence over `amazonSearch` when set,
+   *  so a specific product/ASIN link can be dropped in later. Gets the affiliate
+   *  tag appended automatically via decorateAmazonUrl in AffiliateButton. */
+  amazonHref?: string;
   /** Optional manufacturer page (rendered as a small secondary link, not affiliate). */
   manufacturerUrl?: string;
 }
@@ -47,6 +51,7 @@ const {
   cons,
   skipIf,
   amazonSearch,
+  amazonHref,
   manufacturerUrl,
 } = Astro.props;
 ---
@@ -120,11 +125,13 @@ const {
   }
 
   {
-    (amazonSearch || manufacturerUrl) && (
+    (amazonHref || amazonSearch || manufacturerUrl) && (
       <div class="product-card__cta">
-        {amazonSearch && (
+        {amazonHref ? (
+          <AffiliateButton href={amazonHref} store="amazon" productName={name} variant="primary" />
+        ) : amazonSearch ? (
           <AffiliateButton amazonSearch={amazonSearch} productName={name} variant="primary" />
-        )}
+        ) : null}
         {manufacturerUrl && (
           <a
             href={manufacturerUrl}

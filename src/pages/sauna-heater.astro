@@ -3,6 +3,14 @@ import DecisionGuideLayout from "@layouts/DecisionGuideLayout.astro";
 import ComparisonTable from "@components/ComparisonTable.astro";
 import ProductCard from "@components/ProductCard.astro";
 import Callout from "@components/Callout.astro";
+import { amazonSearchUrl } from "@config/affiliate";
+
+/* Builds a compact, tagged affiliate "Check price" link for a comparison-table
+ * cell. We use a brand+model Amazon search (not a guessed ASIN) so the link
+ * always resolves to a real listing and never 404s; swap in a specific product
+ * URL later if we confirm a stable ASIN. */
+const buyLink = (query: string, label: string) =>
+  `<a class="cmp-buy" href="${amazonSearchUrl(query)}" target="_blank" rel="nofollow sponsored noopener" data-evt="affiliate_click" data-evt-label="${label}">Check price &rarr;</a>`;
 
 const title = "Best Sauna Heater: How to Size & Choose Electric vs Wood";
 const description =
@@ -15,7 +23,7 @@ const updatedDate = new Date("2026-06-10");
 const lastReviewed = new Date("2026-06-10");
 
 const methodologyNote =
-  "This guide synthesizes heater manufacturer specifications, sauna-builder references, and electrical and building-code guidance. Heater-sizing and circuit figures are general planning rules of thumb, not a substitute for the heater's own manual or a licensed electrician. We have not bench-tested every heater, so we recommend by type, size, and use-case rather than inventing star ratings, and we link to each maker so you can verify specs yourself.";
+  "This guide synthesizes heater manufacturer specifications, sauna-builder references, and electrical and building-code guidance. Heater-sizing and circuit figures are general planning rules of thumb, not a substitute for the heater's own manual or a licensed electrician. We have not bench-tested every heater, so we recommend by type, size, and use-case rather than inventing star ratings, and we link to each maker so you can verify specs yourself. In the model comparison, output and price are planning ranges across each model's size variants, and the price links open an Amazon search for that model (an affiliate link, at no extra cost to you) - confirm the exact variant, kW, and current price on the listing before buying.";
 
 const sources = [
   {
@@ -100,6 +108,7 @@ const heroGuides = {
   items: [
     { award: "Decide", title: "Electric vs wood", href: "#type" },
     { award: "Size it", title: "kW by room volume", href: "#sizing" },
+    { award: "Compare", title: "10 heaters compared", href: "#best-electric" },
     { award: "Wire it", title: "Circuit & wiring", href: "#electrical" },
     { award: "Tool", title: "Estimate your build", href: "/tools/sauna-cost-calculator/" },
   ],
@@ -137,6 +146,84 @@ const sizeRows = [
   ["5x7 ft (~245 cu ft)", "2-3", "6-8 kW", "30-40A / #10-#8", "30-45 min"],
   ["6x8 ft (~336 cu ft)", "3-4", "8-9 kW", "40A / #8", "40-55 min"],
   ["7x9 ft (~441 cu ft)", "4-6", "9-12 kW", "50-60A / #6", "45-65 min"],
+];
+
+/* Ten well-regarded electric rock heaters compared on the specs that actually
+ * drive the buying decision. Output and price are planning ranges across each
+ * model's size variants - always confirm the exact model's spec sheet. Prices
+ * are heater-only and exclude the 240V electrical install. */
+const electricHeaterHeaders = ["Heater", "Output", "Notable for", "Approx. price", "Where to buy"];
+const electricHeaterRows = [
+  [
+    "Harvia KIP",
+    "4.5-8 kW",
+    '<span class="cmp-win">Best value; simple built-in dial controls</span>',
+    "$400-700",
+    buyLink("Harvia KIP electric sauna heater", "Harvia KIP"),
+  ],
+  [
+    "Harvia Cilindro",
+    "6-10.5 kW",
+    "Tall cylindrical body holds extra stone for soft, long-lasting loyly",
+    "$900-1,500",
+    buyLink("Harvia Cilindro sauna heater", "Harvia Cilindro"),
+  ],
+  [
+    "Harvia Virta Combi",
+    "6.8-9 kW",
+    "Built-in steam generator for a humid loyly without a separate steamer",
+    "$1,200-1,900",
+    buyLink("Harvia Virta Combi sauna heater", "Harvia Virta Combi"),
+  ],
+  [
+    "Harvia The Wall",
+    "6-9 kW",
+    "Slim glass-front design pick for a modern cabin",
+    "$1,300-2,100",
+    buyLink("Harvia The Wall sauna heater", "Harvia The Wall"),
+  ],
+  [
+    "HUUM DROP",
+    "4.5-9 kW",
+    '<span class="cmp-win">Minimalist teardrop design; separate UKU controller</span>',
+    "$900-1,300",
+    buyLink("HUUM DROP electric sauna heater", "HUUM DROP"),
+  ],
+  [
+    "HUUM HIVE",
+    "6-18 kW",
+    "Very large stone capacity for big or commercial rooms",
+    "$1,300-2,400",
+    buyLink("HUUM HIVE sauna heater", "HUUM HIVE"),
+  ],
+  [
+    "Finlandia FLB",
+    "4.5-10.5 kW",
+    "Wide size range; long-running US-market staple",
+    "$700-1,200",
+    buyLink("Finlandia FLB sauna heater", "Finlandia FLB"),
+  ],
+  [
+    "Scandia Electric",
+    "3-9 kW",
+    '<span class="cmp-win">Budget-friendly; smallest 3 kW runs on some 240V circuits</span>',
+    "$500-950",
+    buyLink("Scandia electric sauna heater", "Scandia Electric"),
+  ],
+  [
+    "Tylo Sense",
+    "6-10.7 kW",
+    "Premium build with integrated digital control and app options",
+    "$1,200-2,300",
+    buyLink("Tylo Sense electric sauna heater", "Tylo Sense"),
+  ],
+  [
+    "Amerec Designer",
+    "4.5-9 kW",
+    "Commercial-grade stainless build with separate controller",
+    "$700-1,400",
+    buyLink("Amerec Designer sauna heater", "Amerec Designer"),
+  ],
 ];
 ---
 
@@ -212,6 +299,31 @@ const sizeRows = [
       or outdoors, or has uninsulated log or concrete walls. Glass adds roughly 6 cubic feet of
       effective volume per square foot. An undersized heater never holds temperature; a slightly
       oversized one simply reaches temperature faster and cycles off.
+    </p>
+  </Callout>
+
+  <h2 id="best-electric">Best electric sauna heaters compared (2026)</h2>
+  <p>
+    Once you have sized the kW to your room above, the brand decision comes down to controls, stone
+    capacity, and build quality. These are ten well-regarded electric rock heaters that cover the
+    range from budget to premium. We have not bench-tested each one, so this is a spec-and-reputation
+    comparison rather than a star-rated ranking - match the output to your room first, then pick the
+    model whose controls and price suit you.
+  </p>
+
+  <ComparisonTable
+    caption="Ten electric sauna heaters compared by output, standout feature, approximate heater-only price, and where to buy"
+    headers={electricHeaterHeaders}
+    rows={electricHeaterRows}
+  />
+
+  <Callout variant="note" title="How to read this table">
+    <p>
+      Output and price are planning ranges across each model's size variants; the price is for the
+      heater only and excludes the 240V electrical install. The <em>Notable for</em> column flags the
+      one thing each heater is genuinely known for. "Check price" opens an Amazon search for that
+      model - confirm the exact variant, kW, stone capacity, and control type on the listing and the
+      maker's manual before buying.
     </p>
   </Callout>
 

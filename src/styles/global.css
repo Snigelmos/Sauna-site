@@ -464,6 +464,24 @@ img {
   font-weight: 700;
 }
 
+/* Compact in-table affiliate link, e.g. a "Check price" cell in a comparison. */
+.cmp-buy {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  white-space: nowrap;
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: var(--color-ember-700);
+  text-decoration: none;
+}
+
+.cmp-buy:hover,
+.cmp-buy:focus-visible {
+  color: var(--color-ember-700);
+  text-decoration: underline;
+}
+
 /* Switch to cards whenever the available column is too tight for the table
    (the guide content column is ~44rem, so dense tables become cards there). */
 @container (max-width: 760px) {
