@@ -29,3 +29,6 @@ data/raw/
 
 # raw AI-image originals (only the optimized files in public/images/ are committed)
 assets/generated/
+
+# social publishing artifacts (generated CSV + job files; pin images under public/ stay committed)
+social/
