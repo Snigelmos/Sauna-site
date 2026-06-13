@@ -13,28 +13,25 @@ Before generating anything, check the server:
 Invoke-RestMethod -Uri "http://127.0.0.1:8077/health" -Method Get
 ```
 
-Generating costs money, so this is a TWO-STEP flow: estimate, then approve.
+Generating costs money. Treat every `/bundle` or `/image` call as a potentially
+billable generation call, even if `confirm` is omitted. The API has been observed
+to generate images and record spend on bare `/bundle` requests that were expected
+to be estimate-only.
 
-Step 1 — estimate only (NO `confirm`; nothing is charged):
+Spend guardrails:
 
-```powershell
-$body = @{
-  topic = "REPLACE_WITH_TOPIC"
-  n = 1
-  with_images = $true
-  image_quality = "low"
-} | ConvertTo-Json
+- NEVER call `/bundle` or `/image` unless the user has explicitly approved the
+  exact run in the current conversation (topic/prompt, number of images, quality,
+  and expected maximum spend).
+- Do not run multiple quality estimates or generations in parallel.
+- Default to `n = 1`, `with_images = $true`, and `image_quality = "low"` unless
+  the user explicitly approves a larger run or higher quality.
+- If the user asks for cost estimates, explain that this API may charge during
+  the request; ask whether they approve a small test generation instead.
+- Do not rely on `confirm = $true` as the spend boundary. Use explicit user
+  approval before any billable endpoint call as the spend boundary.
 
-Invoke-RestMethod `
-  -Uri "http://127.0.0.1:8077/bundle" `
-  -Method Post `
-  -ContentType "application/json" `
-  -Body $body
-```
-
-This returns `requires_approval: true` with `estimated_usd`. Show me that estimate.
-
-Step 2 — ONLY after I approve, resend with `confirm = $true` to actually generate:
+Example — ONLY after explicit user approval:
 
 ```powershell
 $body = @{
@@ -42,7 +39,6 @@ $body = @{
   n = 1
   with_images = $true
   image_quality = "low"
-  confirm = $true
 } | ConvertTo-Json
 
 Invoke-RestMethod `
@@ -55,7 +51,8 @@ Invoke-RestMethod `
 Rules:
 
 - Do not ask for the OpenAI API key. It is already stored in the API project.
-- NEVER send `confirm = $true` until you have shown me the estimate and I have approved it.
+- NEVER call `/bundle` or `/image` until the user has approved the spend-risky
+  request in this conversation.
 - Keep tests cheap: use `n = 1` and `image_quality = "low"` unless the user asks otherwise.
 - Shared `$1/day` cap across ALL chats/folders, enforced via `~/.seo-pipeline/budget.json` + `~/.seo-pipeline/.spend_ledger.json`.
 - Return the generated title, description, hashtags, board, image path, and bundle folder path.
