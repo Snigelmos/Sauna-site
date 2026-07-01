@@ -1,89 +1,5 @@
 [
   {
-    "slug": "skjulstabastun",
-    "name": "Skjulstabastun",
-    "type": "allman",
-    "tagline": "Public sauna in Eskilstuna.",
-    "description": "Skjulstabastun is a public sauna in Eskilstuna. Check current opening hours, prices and booking directly with Skjulstabastun.",
-    "address": "Eskilstuna",
-    "city": "Eskilstuna",
-    "region": "Södermanlands län",
-    "country": "Sweden",
-    "lat": 59.3396755,
-    "lng": 16.4885185,
-    "website": "https://www.skjulstabastun.se",
-    "phone": "+46 70 892 10 00",
-    "email": "bokning@skjulstabastun.se",
-    "bookable": false,
-    "bookingMethod": "drop-in",
-    "priceModel": "per-person",
-    "currency": "SEK",
-    "amenities": {},
-    "openingHours": [
-      {
-        "days": "Tis",
-        "hours": "14:00-19:00"
-      },
-      {
-        "days": "Fre",
-        "hours": "14:00-19:00"
-      },
-      {
-        "days": "Sön",
-        "hours": "09:00-12:00"
-      }
-    ],
-    "hours": [
-      {
-        "dow": 2,
-        "open": "14:00",
-        "close": "19:00"
-      },
-      {
-        "dow": 5,
-        "open": "14:00",
-        "close": "19:00"
-      },
-      {
-        "dow": 0,
-        "open": "09:00",
-        "close": "12:00"
-      }
-    ],
-    "instructions": [],
-    "verified": false,
-    "confidence": 0.65,
-    "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-06-09"
-  },
-  {
-    "slug": "lisskas-bastu",
-    "name": "Lisskas Bastu",
-    "type": "allman",
-    "tagline": "Public sauna in Gagnefs.",
-    "description": "Lisskas Bastu is a public sauna in Gagnefs. Check current opening hours, prices and booking directly with Lisskas Bastu.",
-    "address": "Gagnefs",
-    "city": "Gagnefs",
-    "region": "Dalarnas län",
-    "country": "Sweden",
-    "lat": 60.5158735,
-    "lng": 14.8090072,
-    "website": "https://boka.se/lisskasbastu/",
-    "phone": "+46705602338",
-    "bookable": true,
-    "bookingMethod": "online",
-    "bookingUrl": "https://boka.se/lisskasbastu/boka/bastubokning?articleId=f387e629",
-    "priceModel": "per-person",
-    "currency": "SEK",
-    "amenities": {},
-    "openingHours": [],
-    "instructions": [],
-    "verified": false,
-    "confidence": 0.65,
-    "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-06-09"
-  },
-  {
     "slug": "hagabadet-goteborg",
     "name": "Hagabadet",
     "type": "spa",
@@ -172,35 +88,6 @@
     "verified": true
   },
   {
-    "slug": "guldkroksbadet",
-    "name": "Guldkroksbadet",
-    "type": "spa",
-    "tagline": "Spa and bath with sauna in Hjo.",
-    "description": "Guldkroksbadet is a spa and bath with sauna in Hjo. Check current opening hours, prices and booking directly with Guldkroksbadet.",
-    "address": "Hamnen",
-    "city": "Hjo",
-    "region": "Västra Götalands län",
-    "country": "Sweden",
-    "lat": 58.303453,
-    "lng": 14.2938095,
-    "website": "https://hjo.se/Kultur_turism_fritid/friluftsliv-och-motion/guldkroksbadet2/",
-    "bookable": true,
-    "bookingMethod": "online",
-    "bookingUrl": "https://hjo.se/Kultur_turism_fritid/boka-lokal/",
-    "priceModel": "per-person",
-    "priceFrom": 201,
-    "currency": "SEK",
-    "amenities": {},
-    "openingHours": [],
-    "instructions": [],
-    "photo": "https://hjo.se/contentassets/40fc709e393e4f1aba161acc316b41f4/6455_20220701_132705.jpg",
-    "photoCredit": "Photo: hjo.se",
-    "verified": false,
-    "confidence": 0.55,
-    "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-06-09"
-  },
-  {
     "slug": "jarfallabadet",
     "name": "Järfällabadet",
     "type": "spa",
@@ -279,7 +166,7 @@
     "verified": false,
     "confidence": 0.65,
     "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-06-09"
+    "lastVerified": "2026-07-01"
   },
   {
     "slug": "landskrona-kallbadhus",
@@ -297,7 +184,6 @@
     "bookable": false,
     "bookingMethod": "drop-in",
     "priceModel": "per-person",
-    "priceFrom": 40,
     "currency": "SEK",
     "amenities": {
       "coldPlunge": true
@@ -354,40 +240,10 @@
       }
     ],
     "instructions": [],
-    "photo": "https://cms.landskrona.se/wp-content/uploads/2025/03/250318-kallbadhuset-morgon_7_toppbild-300x94.jpg",
-    "photoCredit": "Photo: landskrona.se",
     "verified": false,
     "confidence": 0.55,
     "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-06-09"
-  },
-  {
-    "slug": "cs-bastun",
-    "name": "CS-bastun",
-    "type": "allman",
-    "tagline": "Public sauna in Landvetter.",
-    "description": "CS-bastun is a public sauna in Landvetter. Check current opening hours, prices and booking directly with CS-bastun.",
-    "address": "Landvetter",
-    "city": "Landvetter",
-    "region": "Västra Götalands län",
-    "country": "Sweden",
-    "lat": 57.7128205,
-    "lng": 12.2665578,
-    "website": "https://chalmersstudentkar.se/cs-sauna/",
-    "bookable": true,
-    "bookingMethod": "online",
-    "bookingUrl": "https://chalmersstudentkar.se/bokning/",
-    "priceModel": "per-person",
-    "currency": "SEK",
-    "amenities": {},
-    "openingHours": [],
-    "instructions": [],
-    "photo": "https://chalmersstudentkar.se/wp-content/uploads/2025/01/Header_cs-sauna-1024x476.png",
-    "photoCredit": "Photo: chalmersstudentkar.se",
-    "verified": false,
-    "confidence": 0.55,
-    "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-06-09"
+    "lastVerified": "2026-07-01"
   },
   {
     "slug": "ribersborgs-kallbadhus-malmo",
@@ -461,177 +317,12 @@
     },
     "openingHours": [],
     "instructions": [],
+    "photo": "http://static1.squarespace.com/static/61fce49867f86e24f19c8f01/t/61ffdb2acc856f210233553e/1644157738922/logga-kallis-org-vektor-sv.png?format=1500w",
+    "photoCredit": "Photo: ribersborgskallbadhus.se",
     "verified": false,
     "confidence": 0.45,
     "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-06-09"
-  },
-  {
-    "slug": "hellasgardens-bastu",
-    "name": "Hellasgårdens Bastu",
-    "type": "allman",
-    "tagline": "Public sauna in Nacka.",
-    "description": "Hellasgårdens Bastu is a public sauna in Nacka. Check current opening hours, prices and booking directly with Hellasgårdens Bastu.",
-    "address": "Nacka",
-    "city": "Nacka",
-    "region": "Stockholms län",
-    "country": "Sweden",
-    "lat": 59.2904946,
-    "lng": 18.1600946,
-    "website": "https://hellasgarden.se/",
-    "bookable": true,
-    "bookingMethod": "online",
-    "bookingUrl": "https://hellasgarden.se/konferens/",
-    "priceModel": "per-person",
-    "priceFrom": 50,
-    "currency": "SEK",
-    "amenities": {},
-    "openingHours": [],
-    "instructions": [],
-    "verified": false,
-    "confidence": 0.55,
-    "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-06-09"
-  },
-  {
-    "slug": "bastun-vid-ovre-glottern",
-    "name": "Bastun vid Övre Glottern",
-    "type": "allman",
-    "tagline": "Public sauna in Norrköpings.",
-    "description": "Bastun vid Övre Glottern is a public sauna in Norrköpings. Check current opening hours, prices and booking directly with Bastun vid Övre Glottern.",
-    "address": "Norrköpings",
-    "city": "Norrköpings",
-    "region": "Östergötlands län",
-    "country": "Sweden",
-    "lat": 58.7116859,
-    "lng": 16.2037625,
-    "website": "https://minasidor.norrkoping.se/oversikt/overview/818",
-    "bookable": false,
-    "bookingMethod": "drop-in",
-    "priceModel": "per-person",
-    "currency": "SEK",
-    "amenities": {},
-    "openingHours": [
-      {
-        "days": "Mån-Sön",
-        "hours": "06:00-24:00"
-      }
-    ],
-    "hours": [
-      {
-        "dow": 1,
-        "open": "06:00",
-        "close": "24:00"
-      },
-      {
-        "dow": 2,
-        "open": "06:00",
-        "close": "24:00"
-      },
-      {
-        "dow": 3,
-        "open": "06:00",
-        "close": "24:00"
-      },
-      {
-        "dow": 4,
-        "open": "06:00",
-        "close": "24:00"
-      },
-      {
-        "dow": 5,
-        "open": "06:00",
-        "close": "24:00"
-      },
-      {
-        "dow": 6,
-        "open": "06:00",
-        "close": "24:00"
-      },
-      {
-        "dow": 0,
-        "open": "06:00",
-        "close": "24:00"
-      }
-    ],
-    "instructions": [],
-    "verified": false,
-    "confidence": 0.55,
-    "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-06-09"
-  },
-  {
-    "slug": "badberget-sollentuna",
-    "name": "Badberget",
-    "type": "spa",
-    "tagline": "Spa and bath with sauna in Sollentuna.",
-    "description": "Badberget is a spa and bath with sauna in Sollentuna. On site you'll find swimming. Check current opening hours, prices and booking directly with Badberget.",
-    "address": "Sollentuna",
-    "city": "Sollentuna",
-    "region": "Stockholms län",
-    "country": "Sweden",
-    "lat": 59.4366814,
-    "lng": 17.9678434,
-    "website": "https://www.sollentuna.se/uppleva--gora/idrott-motion-och-friluftsliv/badplatser/Edsviken-badberget/",
-    "bookable": false,
-    "bookingMethod": "drop-in",
-    "priceModel": "per-person",
-    "currency": "SEK",
-    "amenities": {
-      "bathing": true,
-      "wheelchair": true,
-      "freeEntry": true
-    },
-    "openingHours": [
-      {
-        "days": "Alla dagar",
-        "hours": "Dygnet runt"
-      }
-    ],
-    "hours": [
-      {
-        "dow": 1,
-        "open": "00:00",
-        "close": "24:00"
-      },
-      {
-        "dow": 2,
-        "open": "00:00",
-        "close": "24:00"
-      },
-      {
-        "dow": 3,
-        "open": "00:00",
-        "close": "24:00"
-      },
-      {
-        "dow": 4,
-        "open": "00:00",
-        "close": "24:00"
-      },
-      {
-        "dow": 5,
-        "open": "00:00",
-        "close": "24:00"
-      },
-      {
-        "dow": 6,
-        "open": "00:00",
-        "close": "24:00"
-      },
-      {
-        "dow": 0,
-        "open": "00:00",
-        "close": "24:00"
-      }
-    ],
-    "instructions": [],
-    "photo": "https://www.sollentuna.se/globalassets/mediaflowpro/img_4754.jpg",
-    "photoCredit": "Photo: sollentuna.se",
-    "verified": false,
-    "confidence": 0.55,
-    "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-06-09"
+    "lastVerified": "2026-07-01"
   },
   {
     "slug": "centralbadet-stockholm",
@@ -733,32 +424,6 @@
     "verified": true
   },
   {
-    "slug": "isbjornarnas-bastuforening",
-    "name": "Isbjörnarnas bastuförening",
-    "type": "allman",
-    "tagline": "Public sauna in Stockholms.",
-    "description": "Isbjörnarnas bastuförening is a public sauna in Stockholms. Check current opening hours, prices and booking directly with Isbjörnarnas bastuförening.",
-    "address": "Stockholms",
-    "city": "Stockholms",
-    "region": "Stockholms län",
-    "country": "Sweden",
-    "lat": 59.3486209,
-    "lng": 17.8585533,
-    "website": "https://www.isbjornarnabromma.se/",
-    "bookable": true,
-    "bookingMethod": "online",
-    "bookingUrl": "http://www.isbjornarnabromma.se/boka-ditt-bastubad/",
-    "priceModel": "per-person",
-    "currency": "SEK",
-    "amenities": {},
-    "openingHours": [],
-    "instructions": [],
-    "verified": false,
-    "confidence": 0.55,
-    "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-06-09"
-  },
-  {
     "slug": "bastuflotten-relaxa",
     "name": "Bastuflotten ReLaxa",
     "type": "flytande",
@@ -827,154 +492,7 @@
     "verified": false,
     "confidence": 0.65,
     "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-06-09"
-  },
-  {
-    "slug": "stromstad-badanstalt",
-    "name": "Strömstad Badanstalt",
-    "type": "spa",
-    "tagline": "Spa and bath with sauna in Strömstad.",
-    "description": "Strömstad Badanstalt is a spa and bath with sauna in Strömstad. Check current opening hours, prices and booking directly with Strömstad Badanstalt.",
-    "address": "Strömstad",
-    "city": "Strömstad",
-    "region": "Västra Götalands län",
-    "country": "Sweden",
-    "lat": 58.9379522,
-    "lng": 11.1705657,
-    "website": "https://www.stromstad-bad.se/",
-    "bookable": true,
-    "bookingMethod": "online",
-    "bookingUrl": "https://stromstadsbadanstalt.goactivebooking.com/",
-    "priceModel": "per-person",
-    "priceFrom": 60,
-    "currency": "SEK",
-    "amenities": {},
-    "openingHours": [],
-    "instructions": [],
-    "photo": "https://www.stromstad-bad.se/wp-content/uploads/2026/06/StdBadanstalt25-11-scaled.jpg",
-    "photoCredit": "Photo: stromstad-bad.se",
-    "verified": false,
-    "confidence": 0.55,
-    "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-06-09"
-  },
-  {
-    "slug": "stromstad-kallbadhus",
-    "name": "Strömstad Kallbadhus",
-    "type": "kallbadhus",
-    "tagline": "Cold bath house with sauna in Strömstad.",
-    "description": "Strömstad Kallbadhus is a cold bath house with sauna in Strömstad. On site you'll find a cold plunge. Check current opening hours, prices and booking directly with Strömstad Kallbadhus.",
-    "address": "Strömstad",
-    "city": "Strömstad",
-    "region": "Västra Götalands län",
-    "country": "Sweden",
-    "lat": 58.9374634,
-    "lng": 11.1664464,
-    "website": "https://www.stromstad-bad.se/Bad/Kallbadhus.aspx",
-    "bookable": true,
-    "bookingMethod": "online",
-    "bookingUrl": "https://stromstadsbadanstalt.goactivebooking.com/",
-    "priceModel": "per-person",
-    "priceFrom": 249,
-    "currency": "SEK",
-    "amenities": {
-      "coldPlunge": true
-    },
-    "openingHours": [],
-    "instructions": [],
-    "photo": "https://www.stromstad-bad.se/wp-content/uploads/2026/06/StdBadanstalt25-11-scaled.jpg",
-    "photoCredit": "Photo: stromstad-bad.se",
-    "verified": false,
-    "confidence": 0.55,
-    "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-06-09"
-  },
-  {
-    "slug": "dyrons-bastu",
-    "name": "Dyröns bastu",
-    "type": "allman",
-    "tagline": "Public sauna in Tjörns.",
-    "description": "Dyröns bastu is a public sauna in Tjörns. Check current opening hours, prices and booking directly with Dyröns bastu.",
-    "address": "Tjörns",
-    "city": "Tjörns",
-    "region": "Västra Götalands län",
-    "country": "Sweden",
-    "lat": 57.9236418,
-    "lng": 11.610681,
-    "website": "https://www.dyron.se/boka-bastu/",
-    "bookable": true,
-    "bookingMethod": "online",
-    "bookingUrl": "https://www.dyron.se/boka-bastu/",
-    "priceModel": "per-person",
-    "priceFrom": 130,
-    "currency": "SEK",
-    "amenities": {},
-    "openingHours": [],
-    "instructions": [],
-    "photo": "https://www.dyron.se/wp-content/uploads/2021/08/dyron_bastu_header.jpg",
-    "photoCredit": "Photo: dyron.se",
-    "verified": false,
-    "confidence": 0.55,
-    "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-06-09"
-  },
-  {
-    "slug": "fjordbastun",
-    "name": "Fjordbastun",
-    "type": "kallbadhus",
-    "tagline": "Cold bath house with sauna in Uddevalla.",
-    "description": "Fjordbastun is a cold bath house with sauna in Uddevalla. On site you'll find a cold plunge. Check current opening hours, prices and booking directly with Fjordbastun.",
-    "address": "Uddevalla",
-    "city": "Uddevalla",
-    "region": "Västra Götalands län",
-    "country": "Sweden",
-    "lat": 58.3410323,
-    "lng": 11.9064236,
-    "website": "https://kallbadare.bokamera.se/",
-    "bookable": false,
-    "bookingMethod": "drop-in",
-    "priceModel": "per-person",
-    "priceFrom": 600,
-    "currency": "SEK",
-    "amenities": {
-      "coldPlunge": true
-    },
-    "openingHours": [],
-    "instructions": [],
-    "photo": "https://bmstorageproduction.blob.core.windows.net/upload/Homepage%2F7733864a-e15a-464f-8235-c2fe0653ff49%2FHomepage%2FHomepage_20241021141210.jpg%3Fwidth%3D1024%26height%3D768",
-    "photoCredit": "Photo: kallbadare.bokamera.se",
-    "verified": false,
-    "confidence": 0.45,
-    "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-06-09"
-  },
-  {
-    "slug": "kallbad",
-    "name": "Kallbad",
-    "type": "kallbadhus",
-    "tagline": "Cold bath house with sauna in Umeå.",
-    "description": "Kallbad is a cold bath house with sauna in Umeå. On site you'll find a cold plunge. Check current opening hours, prices and booking directly with Kallbad.",
-    "address": "Umeå",
-    "city": "Umeå",
-    "region": "Västerbottens län",
-    "country": "Sweden",
-    "lat": 63.8261586,
-    "lng": 20.2251847,
-    "website": "https://www.umeakallbad.se",
-    "bookable": true,
-    "bookingMethod": "online",
-    "bookingUrl": "https://umeakallbad.se/book",
-    "priceModel": "per-person",
-    "currency": "SEK",
-    "amenities": {
-      "coldPlunge": true
-    },
-    "openingHours": [],
-    "instructions": [],
-    "verified": false,
-    "confidence": 0.55,
-    "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-06-09"
+    "lastVerified": "2026-07-01"
   },
   {
     "slug": "jarnevid-friluftsbad",
@@ -1042,97 +560,11 @@
       }
     ],
     "instructions": [],
-    "photo": "http://www.vadstena.se/wp-content/uploads/2021/10/badplatser-scaled.jpg",
+    "photo": "https://www.vadstena.se/wp-content/uploads/2021/10/badplatser-scaled.jpg",
     "photoCredit": "Photo: vadstena.se",
     "verified": false,
     "confidence": 0.55,
     "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-06-09"
-  },
-  {
-    "slug": "toftesta-holme",
-    "name": "Toftesta Holme",
-    "type": "spa",
-    "tagline": "Spa and bath with sauna in Vallentuna.",
-    "description": "Toftesta Holme is a spa and bath with sauna in Vallentuna. On site you'll find swimming. Check current opening hours, prices and booking directly with Toftesta Holme.",
-    "address": "Vallentuna",
-    "city": "Vallentuna",
-    "region": "Stockholms län",
-    "country": "Sweden",
-    "lat": 59.5588763,
-    "lng": 18.2608708,
-    "website": "https://www.vallentuna.se/fritid-och-kultur/friluftsliv-och-natur/badplatser-och-sjoar/",
-    "bookable": true,
-    "bookingMethod": "online",
-    "bookingUrl": "https://www.vallentuna.se/fritid-och-kultur/boka-lokal-eller-anlaggning/",
-    "priceModel": "per-person",
-    "priceFrom": 30,
-    "currency": "SEK",
-    "amenities": {
-      "bathing": true,
-      "freeEntry": true
-    },
-    "openingHours": [],
-    "instructions": [],
-    "verified": false,
-    "confidence": 0.55,
-    "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-06-09"
-  },
-  {
-    "slug": "kallvikens-bastu",
-    "name": "Källvikens bastu",
-    "type": "allman",
-    "tagline": "Public sauna in Värmdö.",
-    "description": "Källvikens bastu is a public sauna in Värmdö. Check current opening hours, prices and booking directly with Källvikens bastu.",
-    "address": "Värmdö",
-    "city": "Värmdö",
-    "region": "Stockholms län",
-    "country": "Sweden",
-    "lat": 59.4125251,
-    "lng": 18.5567827,
-    "bookable": false,
-    "bookingMethod": "drop-in",
-    "priceModel": "per-person",
-    "currency": "SEK",
-    "amenities": {
-      "wheelchair": true
-    },
-    "openingHours": [],
-    "instructions": [],
-    "verified": false,
-    "confidence": 0.65,
-    "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-06-09"
-  },
-  {
-    "slug": "garnvikensbadet",
-    "name": "Garnvikensbadet",
-    "type": "spa",
-    "tagline": "Spa and bath with sauna in Åkersberga.",
-    "description": "Garnvikensbadet is a spa and bath with sauna in Åkersberga. On site you'll find swimming. Check current opening hours, prices and booking directly with Garnvikensbadet.",
-    "address": "Åkersberga",
-    "city": "Åkersberga",
-    "region": "Stockholms län",
-    "country": "Sweden",
-    "lat": 59.5138617,
-    "lng": 18.2678171,
-    "website": "https://www.osteraker.se/upplevagora/idrottmotionochfriluftsliv/friluftslivochmotion/badplatser.4.367d658917909e8fc2b985.html",
-    "bookable": true,
-    "bookingMethod": "online",
-    "bookingUrl": "https://www.osteraker.se/upplevagora/idrottmotionochfriluftsliv/bokaidrottshallochidrottsanlaggning.4.367d658917909e8fc2ba3d.html",
-    "priceModel": "per-person",
-    "currency": "SEK",
-    "amenities": {
-      "bathing": true
-    },
-    "openingHours": [],
-    "instructions": [],
-    "photo": "https://www.osteraker.se/images/18.40523b741958b6adf7414400/1750173950952/ima129013%20bada%20960px.jpg",
-    "photoCredit": "Photo: osteraker.se",
-    "verified": false,
-    "confidence": 0.55,
-    "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-06-09"
+    "lastVerified": "2026-07-01"
   }
 ]
