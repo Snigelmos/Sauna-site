@@ -166,7 +166,7 @@
     "verified": false,
     "confidence": 0.65,
     "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-07-01"
+    "lastVerified": "2026-08-01"
   },
   {
     "slug": "landskrona-kallbadhus",
@@ -243,7 +243,7 @@
     "verified": false,
     "confidence": 0.55,
     "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-07-01"
+    "lastVerified": "2026-08-01"
   },
   {
     "slug": "ribersborgs-kallbadhus-malmo",
@@ -317,12 +317,10 @@
     },
     "openingHours": [],
     "instructions": [],
-    "photo": "http://static1.squarespace.com/static/61fce49867f86e24f19c8f01/t/61ffdb2acc856f210233553e/1644157738922/logga-kallis-org-vektor-sv.png?format=1500w",
-    "photoCredit": "Photo: ribersborgskallbadhus.se",
     "verified": false,
     "confidence": 0.45,
     "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-07-01"
+    "lastVerified": "2026-08-01"
   },
   {
     "slug": "centralbadet-stockholm",
@@ -492,7 +490,35 @@
     "verified": false,
     "confidence": 0.65,
     "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-07-01"
+    "lastVerified": "2026-08-01"
+  },
+  {
+    "slug": "kallbadhuset-sauna",
+    "name": "Kallbadhuset / Sauna",
+    "type": "kallbadhus",
+    "tagline": "Cold bath house with sauna in Ulricehamn.",
+    "description": "Kallbadhuset / Sauna is a cold bath house with sauna in Ulricehamn. On site you'll find a cold plunge. Check current opening hours, prices and booking directly with Kallbadhuset / Sauna.",
+    "address": "Ågatan 12",
+    "city": "Ulricehamn",
+    "region": "",
+    "country": "Sweden",
+    "lat": 57.7963508,
+    "lng": 13.4081141,
+    "website": "https://www.ulricehamnskallbad.se/bad/",
+    "bookable": false,
+    "bookingMethod": "drop-in",
+    "priceModel": "per-person",
+    "priceFrom": 1000,
+    "currency": "SEK",
+    "amenities": {
+      "coldPlunge": true
+    },
+    "openingHours": [],
+    "instructions": [],
+    "verified": false,
+    "confidence": 0.45,
+    "source": "Harvest: OpenStreetMap (ODbL)",
+    "lastVerified": "2026-08-01"
   },
   {
     "slug": "jarnevid-friluftsbad",
@@ -565,6 +591,6 @@
     "verified": false,
     "confidence": 0.55,
     "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-07-01"
+    "lastVerified": "2026-08-01"
   }
 ]
