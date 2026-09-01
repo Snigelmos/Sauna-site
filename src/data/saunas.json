@@ -166,7 +166,7 @@
     "verified": false,
     "confidence": 0.65,
     "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-08-01"
+    "lastVerified": "2026-09-01"
   },
   {
     "slug": "landskrona-kallbadhus",
@@ -243,7 +243,7 @@
     "verified": false,
     "confidence": 0.55,
     "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-08-01"
+    "lastVerified": "2026-09-01"
   },
   {
     "slug": "ribersborgs-kallbadhus-malmo",
@@ -305,10 +305,12 @@
     "lat": 55.6052288,
     "lng": 12.9653617,
     "website": "http://www.ribersborgskallbadhus.se/",
+    "phone": "+46 40 26 03 66",
+    "email": "info@ribersborgskallbadhus.se",
     "bookable": false,
     "bookingMethod": "drop-in",
     "priceModel": "per-person",
-    "priceFrom": 1725,
+    "priceFrom": 395,
     "currency": "SEK",
     "amenities": {
       "seaAccess": true,
@@ -318,9 +320,9 @@
     "openingHours": [],
     "instructions": [],
     "verified": false,
-    "confidence": 0.45,
+    "confidence": 0.55,
     "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-08-01"
+    "lastVerified": "2026-09-01"
   },
   {
     "slug": "centralbadet-stockholm",
@@ -490,7 +492,7 @@
     "verified": false,
     "confidence": 0.65,
     "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-08-01"
+    "lastVerified": "2026-09-01"
   },
   {
     "slug": "kallbadhuset-sauna",
@@ -518,7 +520,7 @@
     "verified": false,
     "confidence": 0.45,
     "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-08-01"
+    "lastVerified": "2026-09-01"
   },
   {
     "slug": "jarnevid-friluftsbad",
@@ -591,6 +593,6 @@
     "verified": false,
     "confidence": 0.55,
     "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-08-01"
+    "lastVerified": "2026-09-01"
   }
 ]
