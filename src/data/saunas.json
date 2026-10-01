@@ -166,7 +166,7 @@
     "verified": false,
     "confidence": 0.65,
     "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-09-01"
+    "lastVerified": "2026-10-01"
   },
   {
     "slug": "landskrona-kallbadhus",
@@ -243,7 +243,7 @@
     "verified": false,
     "confidence": 0.55,
     "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-09-01"
+    "lastVerified": "2026-10-01"
   },
   {
     "slug": "ribersborgs-kallbadhus-malmo",
@@ -310,7 +310,7 @@
     "bookable": false,
     "bookingMethod": "drop-in",
     "priceModel": "per-person",
-    "priceFrom": 395,
+    "priceFrom": 1725,
     "currency": "SEK",
     "amenities": {
       "seaAccess": true,
@@ -322,7 +322,7 @@
     "verified": false,
     "confidence": 0.55,
     "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-09-01"
+    "lastVerified": "2026-10-01"
   },
   {
     "slug": "centralbadet-stockholm",
@@ -492,7 +492,7 @@
     "verified": false,
     "confidence": 0.65,
     "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-09-01"
+    "lastVerified": "2026-10-01"
   },
   {
     "slug": "kallbadhuset-sauna",
@@ -520,7 +520,7 @@
     "verified": false,
     "confidence": 0.45,
     "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-09-01"
+    "lastVerified": "2026-10-01"
   },
   {
     "slug": "jarnevid-friluftsbad",
@@ -593,6 +593,6 @@
     "verified": false,
     "confidence": 0.55,
     "source": "Harvest: OpenStreetMap (ODbL)",
-    "lastVerified": "2026-09-01"
+    "lastVerified": "2026-10-01"
   }
 ]
